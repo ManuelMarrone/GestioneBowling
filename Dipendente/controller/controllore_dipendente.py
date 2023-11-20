@@ -7,5 +7,6 @@ class ControllerDipendente():
         self.model = Dipendente
 
     def modificaDipendente(self):
+        pass
 
 
