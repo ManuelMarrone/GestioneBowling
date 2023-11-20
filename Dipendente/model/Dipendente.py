@@ -10,3 +10,5 @@ class Dipendente():
         self.sesso = sesso
         self.telefono = telefono
 
+    def ricercaDipendenteCodiceFiscale(self, codiceFiscale):
+        pass
