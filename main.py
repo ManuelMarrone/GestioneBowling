@@ -1,10 +1,10 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from Home.VistaHome import VistaHome
+from Login.VistaLogin import VistaLogin
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    VistaHome = VistaHome()
-    VistaHome.show()
+    VistaLogin = VistaLogin()
+    VistaLogin.show()
     sys.exit(app.exec())
 
