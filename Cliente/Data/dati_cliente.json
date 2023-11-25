@@ -1,0 +1,22 @@
+[
+  {
+    "abbonato": true,
+    "codiceFiscale": "ABC123456789",
+    "cognome": "Rossi",
+    "email": "rossi@gmail.com",
+    "id": 1,
+    "nome": "Mario",
+    "sesso": "Maschio",
+    "tagliaScarpe": 42
+  },
+  {
+    "abbonato": false,
+    "codiceFiscale": "DEF987654321",
+    "cognome": "Bianchi",
+    "email": "bianchi@yahoo.it",
+    "id": 2,
+    "nome": "Laura",
+    "sesso": "Femmina",
+    "tagliaScarpe": 38
+  }
+]
