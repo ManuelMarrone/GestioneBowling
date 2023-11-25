@@ -1,36 +1,29 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 
-from ListaScarpe.view.vista_lista_scarpe import VistaListaScarpe
+from Amministratore.view.vista_amministratore import VistaAmministratore
 
 
 class VistaLogin(QWidget):
     def __init__(self, parent=None):
         super(VistaLogin, self).__init__(parent)
-        self.setGeometry(350, 80, 800, 600) #(x,y,larghezza,altezza) x,y left corner
-        self.setWindowTitle("Accesso")
-        self.layoutFinestra = QGridLayout()
-        self.setStyleSheet("background-color: #FCD19C")
+        uic.loadUi('Login/login.ui', self)
 
-        self.gruppoWidget = QGroupBox("Accedi")
-        self.gruppoWidget.setStyleSheet("background-color: #B0ABAB")
-        self.gruppoWidget.setStyleSheet("QGroupBox { border: 5px solid red;}")
-        self.layoutFinestra.addWidget(self.gruppoWidget)
+        self.loginButton.clicked.connect(self.go_accesso)  # definisce l'operazione al click del pulsante
 
-        self.layoutGruppo = QVBoxLayout()
+    # controllo validità email e password e mostra il pannello relativo al tipo di utente
 
-        self.emailLabel = QLabel("Email", self)
-        self.button1 = QPushButton('Test', self)
-        self.layoutGruppo.addWidget(self.emailLabel)
-        self.layoutGruppo.addWidget(self.button1)
+    def go_accesso(self):
 
-        self.gruppoWidget.setLayout(self.layoutGruppo)
-        self.button2 = QPushButton('Test', self)
-        self.layoutFinestra.addWidget(self.button2)
+        email = self.textEmail.text()
+        password = self.textPassword.text()
 
+        if email == "admin@email" and password == "passwordadmin":
+            self.vista_amministratore = VistaAmministratore()
+            self.vista_amministratore.show()
+        else:
+            pass
+            #verifica se il dipendente
+            #se esiste riconosci il tipo di dipendente e valida i dati inseriti
+            #manda al relativo pannello oppure segnala messaggio di errore
 
-        # self.servizi_button.clicked.connect(self.go_lista_scarpe) #definisce l'operazione al click del pulsante
-
-    def go_lista_scarpe(self):
-        self.vista_lista_scarpe = VistaListaScarpe()
-        self.vista_lista_scarpe.show()
