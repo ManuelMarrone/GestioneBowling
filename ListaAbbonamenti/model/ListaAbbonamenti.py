@@ -3,36 +3,33 @@ import pickle
 import os.path
 
 from Abbonamento.model.Abbonamento import Abbonamento
-
-#FINIRE DI MODIFICARE E CAPIRE
-class ListaServizi():
-
+class ListaAbbonamenti():
     def __init__(self):
-        self.lista_servizi = []
-        if os.path.isfile('listaservizi/data/lista_servizi_salvata.pickle'):
-            with open('listaservizi/data/lista_servizi_salvata.pickle', 'rb') as f:
-                self.lista_servizi = pickle.load(f)
+        self.lista_abbonamenti = []
+        if os.path.isfile('ListaAbbonamenti/data/lista_abbonamenti_salvata.pickle'):
+            with open('ListaAbbonamenti/data/lista_abbonamenti_salvata.pickle', 'rb') as f:
+                self.lista_abbonamenti = pickle.load(f)
         else:
-            with open('listaservizi/data/lista_servizi_iniziali.json', 'r') as f:
-                lista_servizi_iniziali = json.load(f)
-                for servizio_iniziale in lista_servizi_iniziali:
-                    self.aggiungi_servizio(
-                        Servizio(servizio_iniziale["id"],
-                                 servizio_iniziale["nome"],
-                                 servizio_iniziale["tipo"],
-                                 servizio_iniziale["posizione"],
-                                 servizio_iniziale["prezzo"])
+            with open('ListaAbbonamenti/data/lista_abbonamenti_iniziali.json', 'r') as f:
+                lista_abbonamenti_iniziali = json.load(f)
+                for abbonamento_iniziale in lista_abbonamenti_iniziali:
+                    self.aggiungi_abbonamento(
+                        Abbonamento(abbonamento_iniziale["dataFine"],
+                                    abbonamento_iniziale["dataValidazione"],
+                                    abbonamento_iniziale["id"],
+                                    abbonamento_iniziale["pagamentoRidotto"],
+                                    abbonamento_iniziale["partiteGratuite"])
                     )
 
-    def aggiungi_servizio(self, servizio):
-        self.lista_servizi.append(servizio)
+    def aggiungiAbbonamento(self, abbonamento):
+        self.lista_abbonamenti.append(abbonamento)
 
-    def get_servizio_by_index(self, index):
-        return self.lista_servizi[index]
+    def getAbbonamentoByIndex(self, index):
+        return self.lista_abbonamenti[index]
 
-    def get_lista_servizi(self):
-        return self.lista_servizi
+    def getListaAbbonamenti(self):
+        return self.lista_abbonamenti
 
-    def save_data(self):
-        with open('listaservizi/data/lista_servizi_salvata.pickle', 'wb') as handle:
-            pickle.dump(self.lista_servizi, handle, pickle.HIGHEST_PROTOCOL)
+    def saveData(self):
+        with open('ListaAbbonamenti/data/lista_abbonamenti_salvata.pickle', 'wb') as handle:
+            pickle.dump(self.lista_abbonamenti, handle, pickle.HIGHEST_PROTOCOL)
