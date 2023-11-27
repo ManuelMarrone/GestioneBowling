@@ -8,7 +8,7 @@ class ControllerCliente():
         self.model = Cliente
 
     def carica_clienti_da_file(self, file_path):
-        with open(file_path, 'r') as file:
+        with open(file_path, 'rb') as file:
             dati_clienti = json.load(file)
 
         clienti = []

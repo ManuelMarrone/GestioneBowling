@@ -1,4 +1,3 @@
-
 class Cliente():
     def __init__(self, abbonato, codiceFiscale, cognome, email, id, nome, sesso, tagliaScarpe):
         self.abbonato = abbonato
