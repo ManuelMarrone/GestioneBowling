@@ -11,9 +11,9 @@ class ListaAbbonamenti():
                 self.lista_abbonamenti = pickle.load(f)
         else:
             with open('ListaAbbonamenti/data/lista_abbonamenti_iniziali.json', 'r') as f:
-                lista_abbonamenti_iniziali = json.load(f)
-                for abbonamento_iniziale in lista_abbonamenti_iniziali:
-                    self.aggiungi_abbonamento(
+                lista_abbonamenti_iniziali = json.load(f) #vengono caricati gli abbonamenti INIZIALI trovati nel json in una lista di abbonamenti iniziali
+                for abbonamento_iniziale in lista_abbonamenti_iniziali: #per ogni elemento presente quindi nel json esso viene aggiunto alla lista degli abbonamenti totoli tramite il metodo AggiungiAbbonamento
+                    self.aggiungiAbbonamento(
                         Abbonamento(abbonamento_iniziale["dataFine"],
                                     abbonamento_iniziale["dataValidazione"],
                                     abbonamento_iniziale["id"],

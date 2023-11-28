@@ -6,8 +6,11 @@ class Cliente():
         self.email = email
         self.id = id
         self.nome = nome
-        self.sesso = sesso;
-        self.tagliaScarpe =tagliaScarpe
+        self.sesso = sesso
+        self.tagliaScarpe = tagliaScarpe
+
+    def isAbbbonato(self):
+        return self.abbonato
 
 
 
