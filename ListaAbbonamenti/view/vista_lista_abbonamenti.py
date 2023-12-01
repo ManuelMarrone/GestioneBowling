@@ -48,6 +48,6 @@ def main():
     window.show() #Mostra la finestra principale. Questo metodo rende visibile la finestra sullo schermo
     app.exec() #Avvia l'esecuzione dell'applicazione e attende che vengano gestiti gli eventi
 
-if __name__ == "__main__":  #Questo blocco assicura che il codice all'interno di main()venga eseguito solo se il file Python
+"""if __name__ == "__main__":  #Questo blocco assicura che il codice all'interno di main()venga eseguito solo se il file Python
     main()                  #viene eseguito direttamente dall'interprete Python. Se il file viene importato da un altro script,
-                            #il codice all'interno del blocco ifnon verrà eseguito automaticamente
+                            #il codice all'interno del blocco ifnon verrà eseguito automaticamente"""

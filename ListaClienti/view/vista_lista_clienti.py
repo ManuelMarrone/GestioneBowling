@@ -13,8 +13,13 @@ class VistaListaClienti(QWidget):
         list_widget = self.findChild(QListWidget, "listWidget") #Trova la QListWidget all'interno del file .ui
 
         for cliente in self.controller.getListaClienti():
-            list_item = QListWidgetItem(cliente)
-            list_widget.addItem(list_item)
+            item = QListWidgetItem()
+            item.setText(cliente.nome)
+            for i in range(len(cliente)):
+                item.setData(i, cliente.)
+
+            list_widget.addItem(item)
+
 
     def mimmo(self):
         pass
