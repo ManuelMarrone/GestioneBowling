@@ -14,6 +14,7 @@ class VistaLogin(QWidget):
     # controllo validità email e password e mostra il pannello relativo al tipo di utente
 
     def go_accesso(self):
+        VistaLogin.close(self)
 
         email = self.textEmail.text()
         password = self.textPassword.text()
