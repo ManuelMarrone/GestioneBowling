@@ -1,38 +1,23 @@
 from PyQt6 import uic
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QListWidget, QListWidgetItem
+from PyQt6.QtCore import QFile
 
 from ListaClienti.controller.controllore_lista_clienti import ControllerListaClienti
-#from servizio.view.vista_servizio import VistaServizio
-
 class VistaListaClienti(QWidget):
+    def __init__(self):
+        super().__init__()
 
-    def __init__(self, parent=None):
-        super(VistaListaClienti, self).__init__(parent)
-        uic.loadUi('ListaClienti/view/lista_clienti.ui', self)
-
+        uic.loadUi('ListaClienti/view/lista_clienti.ui', self) #Carica l'interfaccia utente dal file .ui
         self.controller = ControllerListaClienti()
-        #FINIRE DI CONTROLLARE LA LISTA
+        list_widget = self.findChild(QListWidget, "listWidget") #Trova la QListWidget all'interno del file .ui
 
-        self.listview_model = QStandardItemModel(self.list_view)
-        for servizio in self.controller.get_lista_servizi():
-            item = QStandardItem()
-            item.setText(servizio.nome)
-            item.setEditable(False)
-            font = item.font()
-            font.setPointSize(18)
-            item.setFont(font)
-            self.listview_model.appendRow(item)
-        self.list_view.setModel(self.listview_model)
+        for cliente in self.controller.getListaClienti():
+            list_item = QListWidgetItem(cliente)
+            list_widget.addItem(list_item)
 
-        self.open_button.clicked.connect(self.show_selected)
+    def mimmo(self):
+        pass
 
-    def closeEvent(self, event):
-        self.controller.save_data()
-        super(VistaListaServizi, self).closeEvent(event)
 
-    def show_selected(self):
-        selected = self.list_view.selectedIndexes()[0].row()
-        servizio_selezionato = self.controller.get_servizio_by_index(selected)
-        self.vista_servizio = VistaServizio(servizio_selezionato)
-        self.vista_servizio.show()
+
