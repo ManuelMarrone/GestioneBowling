@@ -13,8 +13,4 @@ class VistaAmministratore(QWidget):
 
     def go_dipendenti(self):
         VistaAmministratore.close(self)
-        self.vista_gestione_dipendenti = VistaGestioneDipendenti()
-        self.vista_gestione_dipendenti.show()
-
-
-
+        VistaGestioneDipendenti().show()

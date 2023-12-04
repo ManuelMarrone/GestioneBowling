@@ -62,20 +62,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QListView" name="dipendentiList">
-        <property name="minimumSize">
-         <size>
-          <width>618</width>
-          <height>450</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>618</width>
-          <height>450</height>
-         </size>
-        </property>
-       </widget>
+       <widget class="QListWidget" name="dipendentiList"/>
       </item>
      </layout>
     </item>

@@ -1,28 +1,30 @@
 import os
 import pickle
-import uuid
 
 
-class Dipendente():
+class Dipendente:
     idIncrementale = 1
 
     def __init__(self):
+        self.ruolo = ""
         self.codiceFiscale = ""
         self.cognome = ""
         self.dataNascita = None
         self.email = ""
+        self.nome = ""
         self.id = ""
         self.password = ""
         self.sesso = ""
         self.telefono = 0
 
-    def creaDipendente(self, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
+    def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
+        self.ruolo = ruolo
         self.codiceFiscale = codiceFiscale
         self.cognome = cognome
         self.dataNascita = dataNascita
         self.email = email
         self.nome = nome
-        self.id = self.creaId(self.nome, self.cognome)
+        self.id = self.creaId(nome, cognome)
         self.password = password
         self.sesso = sesso
         self.telefono = telefono
@@ -31,8 +33,9 @@ class Dipendente():
             with open('Dipendente/data/dipendenti.pickle', 'wb') as f:  # a serve per fare append in fondo al pickle
                 pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
 
-    def modificaDipendente(self, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
+    def modificaDipendente(self, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
                            nuovaPassword, nuovoSesso, nuovoTelefono):
+        self.ruolo = nuovoRuolo
         self.codiceFiscale = nuovoCodiceFiscale
         self.cognome = nuovoCognome
         self.dataNascita = nuovaDataNascita
@@ -45,6 +48,7 @@ class Dipendente():
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
                 dipendenti = dict(pickle.load(f))
+                dipendenti[self.id].ruolo = nuovoRuolo
                 dipendenti[self.id].codiceFiscale = nuovoCodiceFiscale
                 dipendenti[self.id].cognome = nuovoCognome
                 dipendenti[self.id].dataNascita = nuovaDataNascita
@@ -77,10 +81,9 @@ class Dipendente():
                 dipendenti = dict(pickle.load(f))
                 return dipendenti or None
 
-
     # creazione id univoco
-    def creaId(nome, cognome):
+    def creaId(self, nome, cognome):
         global idIncrementale
-        id = nome[0:2] + cognome[0:2] + idIncrementale
+        id = nome[0:2] + cognome[0:2] + str(idIncrementale)
         idIncrementale += 1
         return id

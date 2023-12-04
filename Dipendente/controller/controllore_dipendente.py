@@ -3,16 +3,17 @@ import pickle
 
 from Dipendente.model.Dipendente import Dipendente
 
-class ControlloreDipendente():
+class ControlloreDipendente:
     def __init__(self, dipendente):
         self.model = dipendente
 
-    def creaDipendente(self, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
+    def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
         dipendente = self.ricercaDipendenteCodiceFiscale(codiceFiscale)
         if isinstance(dipendente, Dipendente):  # se il magazziniere già esiste
             return False
         else:
             nuovoDipendente = self.model.creaDipendente(
+                ruolo=ruolo,
                 codiceFiscale=codiceFiscale,
                 cognome=cognome,
                 dataNascita=dataNascita,
@@ -25,7 +26,7 @@ class ControlloreDipendente():
 
         return nuovoDipendente
 
-    def modificaDipendente(self, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
+    def modificaDipendente(self,nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
         pass
 
     def rimuoviDipendente(self, idDipendente):

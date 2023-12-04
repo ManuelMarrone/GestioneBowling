@@ -53,7 +53,38 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox"/>
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>Clienti</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Abbonamenti</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dipendenti</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Ricevute</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Scarpe</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Partite</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </item>
