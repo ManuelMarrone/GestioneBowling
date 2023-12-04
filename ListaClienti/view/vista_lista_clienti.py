@@ -1,6 +1,6 @@
 from PyQt6 import uic
 from PyQt6.QtGui import QGuiApplication, QStandardItemModel, QStandardItem, QIcon, QPixmap
-from PyQt6.QtWidgets import QWidget, QTableWidgetItem
+from PyQt6.QtWidgets import QWidget, QTableWidget, QTableWidgetItem
 
 from ListaClienti.controller.controllore_lista_clienti import ControllerListaClienti
 class VistaListaClienti(QWidget):
@@ -12,7 +12,7 @@ class VistaListaClienti(QWidget):
         self.setWindowTitle("Lista clienti")
         self.resize_to_screen()
 
-        self.list = QStandardItemModel(self.tableView)
+        self.list = QTableWidget(tableView)
         col = 4
         self.list.setColumnCount(col)
         Header = ["ID", "NOME E COGNOME", None, None]
@@ -20,12 +20,13 @@ class VistaListaClienti(QWidget):
         path2 = "Data/icon/user.svg"
 
         self.list.setHorizontalHeaderLabels(Header)
-        for cliente, row in self.controller.getListaClienti():
-            item = QTableWidgetItem()
-            self.list.setItem(row, 0, cliente.id)
-            self.list.setItem(row, 1, cliente.nome)
-            self.list.setItem(row, 2, self.AddIcon(item.column(), path1))
-            self.list.setItem(row, 3, self.AddIcon(item.column(), path2))
+        for rowIndex, cliente in enumerate(self.controller.getListaClienti()):
+            item1 = QTableWidgetItem("hhv")
+            item2 = QTableWidgetItem("dhhb")
+            self.list.setItem(rowIndex, 0, item1)
+            self.list.setItem(rowIndex, 1, item2)
+            #self.list.setItem(row, 2, self.AddIcon(item1.column(), path1))
+            #self.list.setItem(row, 3, self.AddIcon(item2.column(), path2))
 
 
     def AddIcon(self, item, path):
