@@ -24,4 +24,5 @@ class VistaGestioneDipendenti(QWidget):
             self.dipendentiList.addItems(dipendente.__str__() for dipendente in self.listaDipendenti.values())
 
     def goCreaDipendente(self):
-        VistaRegistra.show()
+        self.vista_registra = VistaRegistra()
+        self.vista_registra.show()

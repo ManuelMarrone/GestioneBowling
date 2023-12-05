@@ -9,11 +9,11 @@ class VistaLogin(QWidget):
         super(VistaLogin, self).__init__(parent)
         uic.loadUi('Login/login.ui', self)
 
-        self.loginButton.clicked.connect(self.go_accesso)  # definisce l'operazione al click del pulsante
+        self.loginButton.clicked.connect(self.goAccesso)  # definisce l'operazione al click del pulsante
 
     # controllo validità email e password e mostra il pannello relativo al tipo di utente
 
-    def go_accesso(self):
+    def goAccesso(self):
         VistaLogin.close(self)
 
         email = self.textEmail.text()

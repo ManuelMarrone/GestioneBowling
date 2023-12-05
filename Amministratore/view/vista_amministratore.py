@@ -9,8 +9,9 @@ class VistaAmministratore(QWidget):
         super(VistaAmministratore, self).__init__(parent)
         uic.loadUi('Amministratore/view/amministratoreMain.ui', self)
 
-        self.gestioneDipendentiButton.clicked.connect(self.go_dipendenti)
+        self.gestioneDipendentiButton.clicked.connect(self.goDipendenti)
 
-    def go_dipendenti(self):
+    def goDipendenti(self):
         VistaAmministratore.close(self)
-        VistaGestioneDipendenti().show()
+        self.vista_gestione_dipendenti = VistaGestioneDipendenti()
+        self.vista_gestione_dipendenti.show()

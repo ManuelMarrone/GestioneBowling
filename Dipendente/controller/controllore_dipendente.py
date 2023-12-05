@@ -3,7 +3,7 @@ import pickle
 
 from Dipendente.model.Dipendente import Dipendente
 
-class ControlloreDipendente:
+class ControlloreDipendente():
     def __init__(self, dipendente):
         self.model = dipendente
 
