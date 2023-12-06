@@ -2,6 +2,7 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.uic.properties import QtCore
 
+
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente
 
 class VistaRegistra(QWidget):
@@ -10,7 +11,7 @@ class VistaRegistra(QWidget):
         uic.loadUi('Registra/registra.ui', self)
 
         self.registraButton.clicked.connect(self.creaAccount)
-        #self.annullaButton.clicked.connect(VistaRegistra.close())
+        self.annullaButton.clicked.connect(self.chiudiFinestra)
 
 
     def creaAccount(self):
@@ -24,7 +25,8 @@ class VistaRegistra(QWidget):
             sesso = self.comboBoxSesso.currentText()
             telefono = self.textTelefono.text().strip()
             password = self.textPassword.text().strip()
-            dipendente = self.ControlloreDipendente().creaDipendente(
+
+            dipendente = ControlloreDipendente().creaDipendente(
                 ruolo=ruolo,
                 codiceFiscale=codiceFiscale,
                 cognome=cognome,
@@ -38,13 +40,12 @@ class VistaRegistra(QWidget):
             if dipendente is None:
                 self.messaggio(tipo=0 , titolo="Creazione Account", mex='<p style=color:white> Errore! Account già esistente!')
             else:
-                self.messaggio(tipo=1, titolo="Creazione Account", mex='<p style=color:white> Registrato con successo,<br> con id: "{}" e password: "{}"</p>'.format(
-                        dipendente.id,
-                        dipendente.password))
+                self.messaggio(tipo=1, titolo="Creazione Account", mex='<p style=color:white> Registrato con successo')
 
             self.close()
 
     def controllaCampi(self):
+        simboliSpeciali = ['$', '@', '#', '%']
         #nome e cognome devono avere almeno un carattere
         if len(self.textNome.text()) < 1:
             self.messaggio(tipo = 0, titolo="Attenzione", mex="Il nome deve avere almeno un carattere")
@@ -60,8 +61,8 @@ class VistaRegistra(QWidget):
         elif len(self.textTelefono.text()) != 10 or not str(self.textTelefono.text()).isnumeric():
             self.messaggio(tipo=0, titolo="Attenzione", mex="Il numero di telefono deve contenere 10 cifre")
         #password minimo 8 caratteri
-        elif len(self.textPassword.text()) < 8:
-            self.messaggio(tipo=0, titolo="Attenzione", mex="La password deve avere almeno 8 caratteri")
+        elif len(self.textPassword.text()) < 8 or not any(char.isdigit() for char in self.textPassword.text()) or not any(char.isdigit() for char in self.textPassword.text()) or not any(char.isupper() for char in self.textPassword.text()) or not any(char in simboliSpeciali for char in self.textPassword.text()):
+            self.messaggio(tipo=0, titolo="Attenzione", mex="La password deve avere almeno 8 caratteri, un numero, una lettera maiuscola e uno dei simboli $@#%")
         else:
             return True
 
@@ -76,3 +77,5 @@ class VistaRegistra(QWidget):
         mexBox.setText(mex)
         mexBox.exec()
 
+    def chiudiFinestra(self):
+        self.close()

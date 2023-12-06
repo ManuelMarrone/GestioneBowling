@@ -1,8 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from Login.VistaLogin import VistaLogin
-from ListaClienti.view.vista_lista_clienti import VistaListaClienti
-
+from Login.view.VistaLogin import VistaLogin
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

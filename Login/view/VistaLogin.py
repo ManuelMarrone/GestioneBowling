@@ -4,10 +4,11 @@ from PyQt6.QtWidgets import *
 from Amministratore.view.vista_amministratore import VistaAmministratore
 
 
+
 class VistaLogin(QWidget):
     def __init__(self, parent=None):
         super(VistaLogin, self).__init__(parent)
-        uic.loadUi('Login/login.ui', self)
+        uic.loadUi('Login/view/login.ui', self)
 
         self.loginButton.clicked.connect(self.goAccesso)  # definisce l'operazione al click del pulsante
 
@@ -19,10 +20,13 @@ class VistaLogin(QWidget):
         email = self.textEmail.text()
         password = self.textPassword.text()
 
+        #ControlloreLogin.verificaCredenziali(email, password)
+
         if email == "admin@email" and password == "passwordadmin":
             self.vista_amministratore = VistaAmministratore()
             self.vista_amministratore.show()
         else:
+
             pass
             #verifica se il dipendente
             #se esiste riconosci il tipo di dipendente e valida i dati inseriti
