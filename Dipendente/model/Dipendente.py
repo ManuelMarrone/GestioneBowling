@@ -1,9 +1,9 @@
 import os
 import pickle
-
+idIncrementale = 0
 
 class Dipendente:
-    idIncrementale = 1
+
 
     def __init__(self):
         self.ruolo = ""
@@ -17,7 +17,19 @@ class Dipendente:
         self.sesso = ""
         self.telefono = 0
 
+    # creazione id univoco
+    def creaId(self, nome, cognome):
+        global idIncrementale
+        print("entrato nel crea id")
+        idIncrementale += 1
+        print("1")
+        idGenerato = nome[0:2] + cognome[0:2] + str(idIncrementale)
+        print("2")
+        print("3")
+        return idGenerato
+
     def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
+        print("ingresso nel model")
         self.ruolo = ruolo
         self.codiceFiscale = codiceFiscale
         self.cognome = cognome
@@ -28,10 +40,12 @@ class Dipendente:
         self.password = password
         self.sesso = sesso
         self.telefono = telefono
-
+        print("model")
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'wb') as f:  # a serve per fare append in fondo al pickle
                 pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+
+        return self
 
     def modificaDipendente(self, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
                            nuovaPassword, nuovoSesso, nuovoTelefono):
@@ -81,9 +95,3 @@ class Dipendente:
                 dipendenti = dict(pickle.load(f))
                 return dipendenti or None
 
-    # creazione id univoco
-    def creaId(self, nome, cognome):
-        global idIncrementale
-        id = nome[0:2] + cognome[0:2] + str(idIncrementale)
-        idIncrementale += 1
-        return id

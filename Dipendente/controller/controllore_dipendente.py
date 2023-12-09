@@ -7,25 +7,6 @@ class ControlloreDipendente():
     def __init__(self):
         pass
 
-    def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
-        dipendente = self.ricercaDipendenteCodiceFiscale(codiceFiscale)
-        if isinstance(dipendente, Dipendente):  # se il magazziniere già esiste
-            return None
-        else:
-            nuovoDipendente = Dipendente().creaDipendente(
-                ruolo=ruolo,
-                codiceFiscale=codiceFiscale,
-                cognome=cognome,
-                dataNascita=dataNascita,
-                email=email,
-                nome=nome,
-                password=password,
-                sesso=sesso,
-                telefono=telefono
-            )
-
-        return nuovoDipendente
-
     def modificaDipendente(self,nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
         pass
 
@@ -38,13 +19,19 @@ class ControlloreDipendente():
             return False
 
     def ricercaDipendenteCodiceFiscale(self, codiceFiscale):
+        print("ricerca")
         dipendenti = {}
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
+            print("1")
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
+                print("2")
                 dipendenti = dict(pickle.load(f))
-
+        print("mid")
+        print(dipendenti)
         if len(dipendenti) > 0:
+            print("mid1")
             for dipendente in dipendenti.values():
+                print("mid2")
                 if dipendente.codiceFiscale == codiceFiscale:
                     return dipendente
                 else:
@@ -99,3 +86,24 @@ class ControlloreDipendente():
 
     def visualizzaDipendenti(self):
         return Dipendente().getDipendenti()
+
+    def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
+        dipendente = self.ricercaDipendenteCodiceFiscale(codiceFiscale)
+        if isinstance(dipendente, Dipendente):  # se il magazziniere già esiste
+            return None
+        else:
+            print("controllore")
+            nuovoDipendente = Dipendente().creaDipendente(
+                    ruolo=ruolo,
+                    codiceFiscale=codiceFiscale,
+                    cognome=cognome,
+                    dataNascita=dataNascita,
+                    email=email,
+                    nome=nome,
+                    password=password,
+                    sesso=sesso,
+                    telefono=telefono
+            )
+
+        return nuovoDipendente
+

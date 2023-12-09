@@ -47,10 +47,10 @@ class VistaRegistra(QWidget):
     def controllaCampi(self):
         simboliSpeciali = ['$', '@', '#', '%']
         #nome e cognome devono avere almeno un carattere
-        if len(self.textNome.text()) < 1:
-            self.messaggio(tipo = 0, titolo="Attenzione", mex="Il nome deve avere almeno un carattere")
-        elif len(self.textCognome.text()) < 1:
-            self.messaggio(tipo=0, titolo="Attenzione", mex="Il cognome deve avere almeno un carattere")
+        if len(self.textNome.text()) < 2:
+            self.messaggio(tipo = 0, titolo="Attenzione", mex="Il nome deve avere almeno 2 caratteri")
+        elif len(self.textCognome.text()) < 2:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Il cognome deve avere almeno 2 caratteri")
         #cf di 16 caratteri e alfanumerico
         elif len(self.textCF.text()) != 16 or not self.textCF.text().isalnum():
             self.messaggio(tipo = 0, titolo="Attenzione", mex="Il codice fiscale deve contenere 16 caratteri")
