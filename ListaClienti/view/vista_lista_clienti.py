@@ -48,6 +48,8 @@ class VistaListaClienti(QMainWindow):
         main_widget.setLayout(layout)
         self.setCentralWidget(main_widget)
 
+        #RIDURRE LA GRANNDEZZA DELLA TABELLA E COLLEGARE LE ICONE
+
 
     def AddIcon(self, path):
         # Creazione di più icone e combinazione in un'unica icona
