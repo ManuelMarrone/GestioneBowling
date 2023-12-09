@@ -9,6 +9,7 @@ class ListaClienti():
         if os.path.isfile('ListaClienti/data/lista_clienti_salvata.pickle'):
             with open('ListaClienti/data/lista_clienti_salvata.pickle', 'rb') as f:
                 self.lista_clienti = pickle.load(f)
+
         else:
             with open('ListaClienti/data/dati_cliente.json', 'r') as f:
                 lista_clienti_iniziali = json.load(f)

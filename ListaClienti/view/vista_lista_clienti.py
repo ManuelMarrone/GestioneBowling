@@ -1,32 +1,33 @@
-from PyQt6 import uic
-from PyQt6.QtGui import QGuiApplication, QStandardItemModel, QStandardItem, QIcon, QPixmap
-from PyQt6.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QTableView
+#from PyQt6 import uic
+from PyQt6.QtGui import QGuiApplication, QIcon, QPixmap
+from PyQt6.QtWidgets import QMainWindow, QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout
 
 from ListaClienti.controller.controllore_lista_clienti import ControllerListaClienti
-class VistaListaClienti(QWidget):
+class VistaListaClienti(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        uic.loadUi('ListaClienti/view/lista_clienti.ui', self) #Carica l'interfaccia utente dal file .ui
+        #uic.loadUi('ListaClienti/view/lista_clienti.ui', self) #Carica l'interfaccia utente dal file .ui
         self.controller = ControllerListaClienti()
         self.setWindowTitle("Lista clienti")
         self.resize_to_screen()
 
-        self.list = QTableWidget(self.table) # Prelevo la tabella dal file.ui
+        #print(len(self.controller.getListaClienti()[0][1]))
+        self.ListaClienti = self.controller.getListaClienti()
 
-        col = 4 #Numero di colonne
-        self.list.setColumnCount(col)
-        Header = ["ID", "NOME E COGNOME", None, None] #Lista che contiene l'headre della mia tabella
+        self.list = QTableWidget()
+        self.list.setRowCount(len(self.ListaClienti))
+        self.list.setColumnCount(4)
+
+        Header = ["ID", "NOME E COGNOME", None, None] #Lista che contiene l'header della mia tabella
         path1 = "Data/icon/edit.svg"
         path2 = "Data/icon/user.svg"
         self.list.setHorizontalHeaderLabels(Header)
 
         for rowIndex, cliente in enumerate(self.controller.getListaClienti()):
-            print(cliente.nome)
-            print(rowIndex)
-            self.list.setItem(rowIndex, 0, QTableWidgetItem(str(cliente.id)))
-            print(QTableWidgetItem(cliente.id))
-            self.list.setItem(rowIndex, 1, QTableWidgetItem(str(cliente.nome)))
+            self.list.setItem(rowIndex, 0, QTableWidgetItem(cliente.cognome))
+            self.list.setItem(rowIndex, 1, QTableWidgetItem(cliente.nome))
+
             #Caricamento delle icone
             icon1 = self.AddIcon(path1)
             self.list.setItem(rowIndex, 2, icon1)
@@ -38,6 +39,14 @@ class VistaListaClienti(QWidget):
         self.list.resizeColumnsToContents()
         self.list.resizeRowsToContents()
 
+        # Layout principale
+        layout = QVBoxLayout()
+        layout.addWidget(self.list)
+
+        # Widget principale
+        main_widget = QWidget()
+        main_widget.setLayout(layout)
+        self.setCentralWidget(main_widget)
 
 
     def AddIcon(self, path):
@@ -57,6 +66,14 @@ class VistaListaClienti(QWidget):
     def resize_to_screen(self):
         screen_geometry = QGuiApplication.primaryScreen().availableGeometry() #Preleva la grandezza del desktop
         self.setGeometry(screen_geometry) #Imposta la finestra principale alla grandezza del desktop
+    """
+    print("id ", cliente.id)
+    print("cognome ", cliente.cognome)
+    print("sesso ", cliente.sesso)
+    print("nome ", cliente.nome)
+    print("email ", cliente.email)
+    print("tagliascarpe ", cliente.tagliaScarpe)
+    """
 
 
 
