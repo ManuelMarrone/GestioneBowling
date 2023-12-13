@@ -12,16 +12,13 @@ class VistaGestioneDipendenti(QWidget):
         uic.loadUi('Amministratore/view/gestioneDipendenti.ui', self)
 
         self.aggiungiButton.clicked.connect(self.goCreaDipendente)
-        # self.riempiListaDipendenti()
+        self.riempiListaDipendenti()
 
     def riempiListaDipendenti(self):
         self.dipendentiList.clear()
-        print("1")
         self.listaDipendenti = ControlloreDipendente.visualizzaDipendenti()
-        print("2")
         if self.listaDipendenti is not None:
-            print("3")
-            self.dipendentiList.addItems(dipendente.__str__() for dipendente in self.listaDipendenti.values())
+            self.dipendentiList.addItems(dipendente.__str__() for dipendente in self.listaDipendenti)
 
     def goCreaDipendente(self):
         self.vista_registra = VistaRegistra()

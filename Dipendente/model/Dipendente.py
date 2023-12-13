@@ -20,16 +20,11 @@ class Dipendente:
     # creazione id univoco
     def creaId(self, nome, cognome):
         global idIncrementale
-        print("entrato nel crea id")
         idIncrementale += 1
-        print("1")
         idGenerato = nome[0:2] + cognome[0:2] + str(idIncrementale)
-        print("2")
-        print("3")
         return idGenerato
 
     def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
-        print("ingresso nel model")
         self.ruolo = ruolo
         self.codiceFiscale = codiceFiscale
         self.cognome = cognome
@@ -40,11 +35,13 @@ class Dipendente:
         self.password = password
         self.sesso = sesso
         self.telefono = telefono
-        print("model")
+        dipendenti = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
-            with open('Dipendente/data/dipendenti.pickle', 'wb') as f:  # a serve per fare append in fondo al pickle
-                pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
-
+            with open('Dipendente/data/dipendenti.pickle', "rb") as f:
+                dipendenti = pickle.load(f)
+            dipendenti.append(self)
+            with open('Dipendente/data/dipendenti.pickle', "wb") as f:
+                pickle.dump(dipendenti, f, pickle.HIGHEST_PROTOCOL)
         return self
 
     def modificaDipendente(self, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
@@ -90,8 +87,20 @@ class Dipendente:
                 return dipendenti[self.id]
 
     def getDipendenti(self):
+        dipendenti = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = dict(pickle.load(f))
+                dipendenti = pickle.load(f)
                 return dipendenti or None
 
+    def __str__(self):
+        return "Ruolo: " +self.ruolo + "\n" + \
+                "Id: " + self.id + "\n" + \
+                "Nome: " + self.nome + "\n" + \
+                "Cognome: " + self.cognome + "\n" + \
+                "Codice Fiscale: " + self.codiceFiscale + "\n" + \
+                "Data di nascita: " + self.dataNascita + "\n" + \
+                "Email: " + self.email + "\n" + \
+                "Password: " + self.password + "\n" + \
+                "Sesso: " + self.sesso + "\n" + \
+                "Telefono: " + self.telefono

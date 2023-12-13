@@ -19,19 +19,12 @@ class ControlloreDipendente():
             return False
 
     def ricercaDipendenteCodiceFiscale(self, codiceFiscale):
-        print("ricerca")
-        dipendenti = {}
+        dipendenti = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
-            print("1")
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                print("2")
-                dipendenti = dict(pickle.load(f))
-        print("mid")
-        print(dipendenti)
+                dipendenti = pickle.load(f)
         if len(dipendenti) > 0:
-            print("mid1")
-            for dipendente in dipendenti.values():
-                print("mid2")
+            for dipendente in dipendenti:
                 if dipendente.codiceFiscale == codiceFiscale:
                     return dipendente
                 else:
@@ -40,12 +33,12 @@ class ControlloreDipendente():
             return None
 
     def ricercaDipendenteId(self, id):
+        dipendenti = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = dict(pickle.load(f))
-
+                dipendenti = pickle.load(f)
         if len(dipendenti) > 0:
-            for dipendente in dipendenti.values():
+            for dipendente in dipendenti:
                 if dipendente.id == id:
                     return dipendente
                 else:
@@ -54,12 +47,13 @@ class ControlloreDipendente():
             return None
 
     def ricercaDipendenteEmail(self, email):
+        dipendenti = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = dict(pickle.load(f))
+                dipendenti = pickle.load(f)
 
         if len(dipendenti) > 0:
-            for dipendente in dipendenti.values():
+            for dipendente in dipendenti:
                 if dipendente.email == email:
                     return dipendente
                 else:
@@ -68,12 +62,13 @@ class ControlloreDipendente():
             return None
 
     def ricercaDipendenteNomeCognome(self, nome, cognome):
+        dipendenti = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = dict(pickle.load(f))
+                dipendenti = pickle.load(f)
 
         if len(dipendenti) > 0:
-            for dipendente in dipendenti.values():
+            for dipendente in dipendenti:
                 if dipendente.nome == nome and dipendente.cognome == cognome:
                     return dipendente
                 else:
@@ -92,18 +87,17 @@ class ControlloreDipendente():
         if isinstance(dipendente, Dipendente):  # se il magazziniere già esiste
             return None
         else:
-            print("controllore")
             nuovoDipendente = Dipendente().creaDipendente(
-                    ruolo=ruolo,
-                    codiceFiscale=codiceFiscale,
-                    cognome=cognome,
-                    dataNascita=dataNascita,
-                    email=email,
-                    nome=nome,
-                    password=password,
-                    sesso=sesso,
-                    telefono=telefono
-            )
+              ruolo=ruolo,
+              codiceFiscale=codiceFiscale,
+              cognome=cognome,
+              dataNascita=dataNascita,
+              email=email,
+              nome=nome,
+              password=password,
+              sesso=sesso,
+              telefono=telefono
+             )
 
         return nuovoDipendente
 
