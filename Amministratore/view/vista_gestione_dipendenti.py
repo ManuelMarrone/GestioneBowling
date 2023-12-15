@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import *
 
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente
 from Registra.VistaRegistra import VistaRegistra
+from Dipendente.view.vista_dipendente import VistaDipendente
 
 
 class VistaGestioneDipendenti(QWidget):
@@ -13,12 +14,20 @@ class VistaGestioneDipendenti(QWidget):
 
         self.aggiungiButton.clicked.connect(self.goCreaDipendente)
         self.riempiListaDipendenti()
+        self.dipendentiList.itemClicked.connect()
 
     def riempiListaDipendenti(self):
+        listaDipendenti = []
         self.dipendentiList.clear()
-        self.listaDipendenti = ControlloreDipendente.visualizzaDipendenti()
-        if self.listaDipendenti is not None:
-            self.dipendentiList.addItems(dipendente.__str__() for dipendente in self.listaDipendenti)
+        listaDipendenti = ControlloreDipendente.visualizzaDipendenti(self)
+        if listaDipendenti is not None:
+            print(listaDipendenti)
+            for dipendente in listaDipendenti:
+                item = QListWidgetItem()
+                item.setText("nome: " + dipendente.nome + ", cognome: " +  dipendente.cognome + ", ruolo: " + dipendente.ruolo)
+                self.dipendentiList.addItem(item)
+
+
 
     def goCreaDipendente(self):
         self.vista_registra = VistaRegistra()

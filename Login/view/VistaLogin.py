@@ -22,7 +22,7 @@ class VistaLogin(QWidget):
 
         #ControlloreLogin.verificaCredenziali(email, password)
 
-        if email == "admin@email" and password == "passwordadmin":
+        if email == "a" and password == "b":
             self.vista_amministratore = VistaAmministratore()
             self.vista_amministratore.show()
         else:

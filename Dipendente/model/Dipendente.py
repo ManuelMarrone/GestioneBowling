@@ -91,7 +91,9 @@ class Dipendente:
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
                 dipendenti = pickle.load(f)
-                return dipendenti or None
+            return dipendenti
+        else:
+            return None
 
     def __str__(self):
         return "Ruolo: " +self.ruolo + "\n" + \
