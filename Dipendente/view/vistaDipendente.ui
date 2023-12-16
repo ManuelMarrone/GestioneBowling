@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Dipendente selezionato</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #FCD19C</string>
@@ -214,6 +214,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="indietroButton">
+        <property name="styleSheet">
+         <string notr="true">color: white;  background-color: #874B0F</string>
+        </property>
         <property name="text">
          <string>Ok</string>
         </property>

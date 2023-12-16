@@ -223,6 +223,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="annullaButton">
+        <property name="styleSheet">
+         <string notr="true">color: white;  background-color: #874B0F</string>
+        </property>
         <property name="text">
          <string>Annulla</string>
         </property>
@@ -246,6 +249,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="registraButton">
+        <property name="styleSheet">
+         <string notr="true">color: white;  background-color: #874B0F</string>
+        </property>
         <property name="text">
          <string>Registra</string>
         </property>

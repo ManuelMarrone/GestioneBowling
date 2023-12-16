@@ -1,11 +1,13 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.uic.properties import QtCore
+from PyQt6.QtCore import pyqtSignal
 
 
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente
 
 class VistaRegistra(QWidget):
+    closed = pyqtSignal()
     def __init__(self, parent=None):
         super(VistaRegistra, self).__init__(parent)
         uic.loadUi('Registra/registra.ui', self)
@@ -42,6 +44,7 @@ class VistaRegistra(QWidget):
             else:
                 self.messaggio(tipo=1, titolo="Creazione Account", mex='<p style=color:white> Registrato con successo')
 
+            self.closed.emit()
             self.close()
 
     def controllaCampi(self):

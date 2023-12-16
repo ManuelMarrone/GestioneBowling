@@ -4,16 +4,43 @@ import pickle
 from Dipendente.model.Dipendente import Dipendente
 
 class ControlloreDipendente():
-    def __init__(self):
-        pass
+
+    def __init__(self, dipendente=None):
+        self.model = dipendente
+
+    def getNome(self):
+        return self.model.nome
+
+    def getCognome(self):
+        return self.model.cognome
+
+    def getRuolo(self):
+        return self.model.ruolo
+
+    def getCF(self):
+        return self.model.codiceFiscale
+
+    def getDataNascita(self):
+        return (self.model.dataNascita).toString("dd-MM-yyyy")
+
+    def getEmail(self):
+        return self.model.email
+
+    def getSesso(self):
+        return self.model.sesso
+
+    def getTelefono(self):
+        return str(self.model.telefono)
+
+    def getPassword(self):
+        return self.model.password
 
     def modificaDipendente(self,nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
         pass
 
-    def rimuoviDipendente(self, idDipendente):
-        dipendente = self.ricercaDipendenteId(idDipendente)
+    def rimuoviDipendente(self, dipendente):
         if isinstance(dipendente, Dipendente):
-            Dipendente().rimuoviDipendente()
+            dipendente.rimuoviDipendente()
             return True
         else:
             return False
@@ -41,8 +68,6 @@ class ControlloreDipendente():
             for dipendente in dipendenti:
                 if dipendente.id == id:
                     return dipendente
-                else:
-                    return None
         else:
             return None
 
@@ -71,13 +96,11 @@ class ControlloreDipendente():
             for dipendente in dipendenti:
                 if dipendente.nome == nome and dipendente.cognome == cognome:
                     return dipendente
-                else:
-                    return None
         else:
             return None
 
     def getDipendente(self):
-        return Dipendente().getDipendente()
+        return self.model.getDipendente()
 
     def visualizzaDipendenti(self):
         return Dipendente().getDipendenti()

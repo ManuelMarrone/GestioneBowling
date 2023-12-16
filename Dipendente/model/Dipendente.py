@@ -3,8 +3,6 @@ import pickle
 idIncrementale = 0
 
 class Dipendente:
-
-
     def __init__(self):
         self.ruolo = ""
         self.codiceFiscale = ""
@@ -58,7 +56,7 @@ class Dipendente:
 
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = dict(pickle.load(f))
+                dipendenti = pickle.load(f)
                 dipendenti[self.id].ruolo = nuovoRuolo
                 dipendenti[self.id].codiceFiscale = nuovoCodiceFiscale
                 dipendenti[self.id].cognome = nuovoCognome
@@ -74,8 +72,9 @@ class Dipendente:
     def rimuoviDipendente(self):
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = dict(pickle.load(f))
-                del dipendenti[self.id]
+                dipendenti = pickle.load(f)
+                daRimuovere = next((dipendente for dipendente in dipendenti if dipendente.id == self.id), None)
+                dipendenti.remove(daRimuovere)
             with open('Dipendente/data/dipendenti.pickle', 'wb') as f:  # riscrive i cassieri sena l'eliminato
                 pickle.dump(dipendenti, f, pickle.HIGHEST_PROTOCOL)
         del self

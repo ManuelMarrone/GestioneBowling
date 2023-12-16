@@ -67,7 +67,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetFixedSize</enum>
       </property>
@@ -88,7 +88,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="aggiornaButton">
+       <widget class="QPushButton" name="modificaButton">
         <property name="minimumSize">
          <size>
           <width>150</width>
@@ -105,7 +105,29 @@
          <string notr="true">color: white;  background-color: #874B0F</string>
         </property>
         <property name="text">
-         <string>Aggiorna</string>
+         <string>Modifica</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="visualizzaButton">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: white;  background-color: #874B0F</string>
+        </property>
+        <property name="text">
+         <string>Visualizza</string>
         </property>
        </widget>
       </item>
