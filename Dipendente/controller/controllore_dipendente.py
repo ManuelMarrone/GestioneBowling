@@ -8,6 +8,9 @@ class ControlloreDipendente():
     def __init__(self, dipendente=None):
         self.model = dipendente
 
+    def getId(self):
+        return self.model.id
+
     def getNome(self):
         return self.model.nome
 
@@ -35,8 +38,19 @@ class ControlloreDipendente():
     def getPassword(self):
         return self.model.password
 
-    def modificaDipendente(self,nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
-        pass
+    def modificaDipendente(self,id, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
+        Dipendente().modificaDipendente(id = id,
+            nuovoRuolo=nuovoRuolo,
+            nuovoCodiceFiscale=nuovoCodiceFiscale,
+            nuovoCognome=nuovoCognome,
+            nuovaDataNascita=nuovaDataNascita,
+            nuovaEmail=nuovaEmail,
+            nuovoNome=nuovoNome,
+            nuovaPassword=nuovaPassword,
+            nuovoSesso=nuovoSesso,
+            nuovoTelefono=nuovoTelefono
+        )
+        return True
 
     def rimuoviDipendente(self, dipendente):
         if isinstance(dipendente, Dipendente):

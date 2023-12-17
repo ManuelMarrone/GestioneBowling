@@ -42,7 +42,7 @@ class Dipendente:
                 pickle.dump(dipendenti, f, pickle.HIGHEST_PROTOCOL)
         return self
 
-    def modificaDipendente(self, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
+    def modificaDipendente(self,id, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
                            nuovaPassword, nuovoSesso, nuovoTelefono):
         self.ruolo = nuovoRuolo
         self.codiceFiscale = nuovoCodiceFiscale
@@ -57,15 +57,16 @@ class Dipendente:
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
                 dipendenti = pickle.load(f)
-                dipendenti[self.id].ruolo = nuovoRuolo
-                dipendenti[self.id].codiceFiscale = nuovoCodiceFiscale
-                dipendenti[self.id].cognome = nuovoCognome
-                dipendenti[self.id].dataNascita = nuovaDataNascita
-                dipendenti[self.id].email = nuovaEmail
-                dipendenti[self.id].nome = nuovoNome
-                dipendenti[self.id].password = nuovaPassword
-                dipendenti[self.id].sesso = nuovoSesso
-                dipendenti[self.id].telefono = nuovoTelefono
+                dipendente = next((dipendente for dipendente in dipendenti if dipendente.id == id), None)
+                dipendente.ruolo = nuovoRuolo
+                dipendente.codiceFiscale = nuovoCodiceFiscale
+                dipendente.cognome = nuovoCognome
+                dipendente.dataNascita = nuovaDataNascita
+                dipendente.email = nuovaEmail
+                dipendente.nome = nuovoNome
+                dipendente.password = nuovaPassword
+                dipendente.sesso = nuovoSesso
+                dipendente.telefono = nuovoTelefono
             with open('Dipendente/data/dipendenti.pickle', 'wb') as f:  # se ti sovrascriverà cambia wb con ab
                 pickle.dump(dipendenti, f, pickle.HIGHEST_PROTOCOL)
 
@@ -82,7 +83,7 @@ class Dipendente:
     def getDipendente(self):
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = dict(pickle.load(f))
+                dipendenti = pickle.load(f)
                 return dipendenti[self.id]
 
     def getDipendenti(self):

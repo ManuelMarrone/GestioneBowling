@@ -93,8 +93,11 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: white;  background-color: #874B0F</string>
+       </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Accedi</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="textEmail">

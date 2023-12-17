@@ -81,4 +81,5 @@ class VistaRegistra(QWidget):
         mexBox.exec()
 
     def chiudiFinestra(self):
+        self.closed.emit()
         self.close()

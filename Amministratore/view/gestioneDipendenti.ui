@@ -43,9 +43,18 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="ricercaText">
           <property name="styleSheet">
            <string notr="true">background: lightgrey</string>
+          </property>
+          <property name="inputMask">
+           <string/>
+          </property>
+          <property name="text">
+           <string>inserire nome e cognome separati da uno spazio</string>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

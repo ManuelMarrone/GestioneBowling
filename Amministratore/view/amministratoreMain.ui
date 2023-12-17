@@ -374,7 +374,10 @@
          <string notr="true">color: white;  background-color: #757575</string>
         </property>
         <property name="text">
-         <string>Esci</string>
+         <string>Esci (hai eseguito l'accesso come Amministratore)</string>
+        </property>
+        <property name="shortcut">
+         <string>Backspace</string>
         </property>
        </widget>
       </item>

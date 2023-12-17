@@ -24,6 +24,7 @@ class VistaLogin(QWidget):
 
         if email == "a" and password == "b":
             self.vista_amministratore = VistaAmministratore()
+            self.vista_amministratore.closed.connect(self.show)
             self.vista_amministratore.show()
         else:
 
