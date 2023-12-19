@@ -51,10 +51,13 @@
            <string/>
           </property>
           <property name="text">
-           <string>inserire nome e cognome separati da uno spazio</string>
+           <string/>
           </property>
           <property name="frame">
            <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>inserire nome e cognome separati da uno spazio</string>
           </property>
          </widget>
         </item>
