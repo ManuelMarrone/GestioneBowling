@@ -68,8 +68,6 @@ class ControlloreDipendente():
             for dipendente in dipendenti:
                 if dipendente.codiceFiscale == codiceFiscale:
                     return dipendente
-                else:
-                    return None
         else:
             return None
 
@@ -95,8 +93,6 @@ class ControlloreDipendente():
             for dipendente in dipendenti:
                 if dipendente.email == email:
                     return dipendente
-                else:
-                    return None
         else:
             return None
 
@@ -137,4 +133,7 @@ class ControlloreDipendente():
              )
 
         return nuovoDipendente
+
+
+
 
