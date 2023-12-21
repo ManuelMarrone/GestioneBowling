@@ -4,7 +4,8 @@ from PyQt6.QtCore import pyqtSignal
 
 # ci sono degli import da fare
 from Cliente.controller.controllore_cliente import ControlloreCliente
-
+from ListaClienti.view.vista_lista_clienti import VistaListaClienti
+from Registra.VistaRegistra import VistaRegistra
 
 class VistaGestionePartite(QWidget):
     closed = pyqtSignal()
@@ -13,10 +14,17 @@ class VistaGestionePartite(QWidget):
         super(VistaGestionePartite, self).__init__(parent)
         uic.loadUi('Dipendente/view/gestionePartite.ui', self)
 
-        self.indietroButton.clicked.connect(self.chiudiFinestra)
-        self.cercaButton.clicked.connect(self.goCercaCliente)
+        self.idCliente = None
+        self.itemSelezionato = None
 
-    def goCercaCliente(self):
+        self.riempiListaClienti
+        self.clientiList.itemClicked.connect(self.clienteClicked)
+        self.indietroButton.clicked.connect(self.chiudiFinestra)
+        self.cercaButton.clicked.connect(self.goCerca)
+
+
+
+    def goCerca(self):
         controllo = self.ricercaText.text().split()
         if len(controllo) == 0:                                 #se il controllo è vero riempie la lista dei clienti
             self.riempiListaClienti()
@@ -33,8 +41,7 @@ class VistaGestionePartite(QWidget):
                     for cliente in listaClienti:
                         if cliente.nome == self.controller.getNome() and cliente.cognome == self.controller.getCognome():
                             item = QListWidgetItem()
-                            item.setText(
-                                "nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", ruolo: " + cliente.ruolo)
+                            item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome)
                             self.clientiList.addItem(item)
             else:
                 self.messaggio(tipo=1, titolo="Ricerca cliente", mex="Il cliente non è presente")
@@ -48,9 +55,22 @@ class VistaGestionePartite(QWidget):
         if listaClienti is not None:
             for cliente in listaClienti:
                 item = QListWidgetItem()
-                item.setText(
-                    "nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", ruolo: " + cliente.ruolo)
+                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome)
                 self.clientiList.addItem(item)
+
+
+    def goVisualizza(self):
+        if self.itemSelezionato is not None:
+            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
+            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+
+            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            self.vista_cliente = VistaListaClienti(clienteSelezionato)
+            self.vista_cliente.show()
+
+    def clienteClicked(self, item):
+        self.itemSelezionato = item.text()
+
 
     def chiudiFinestra(self):
         self.closed.emit()

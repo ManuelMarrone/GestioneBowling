@@ -1,4 +1,5 @@
-#from PyQt6 import uic
+from PyQt6 import uic
+from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QGuiApplication, QIcon, QPixmap
 from PyQt6.QtWidgets import QMainWindow, QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout
 
