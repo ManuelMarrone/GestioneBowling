@@ -2,7 +2,7 @@ import json
 import pickle
 import os.path
 
-from Cliente.model.Cliente import Cliente
+from ListaClienti.controller.Cliente import Cliente
 class ListaClienti():
     def __init__(self):
         self.lista_clienti = []
