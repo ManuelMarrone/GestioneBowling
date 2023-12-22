@@ -73,7 +73,7 @@ class VistaGestioneDipendenti(QWidget):
 
     def goVisualizza(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
+            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
 
             dipendenteSelezionato = ControlloreDipendente.ricercaDipendenteNomeCognome(self, nome, cognome)

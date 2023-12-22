@@ -3,7 +3,7 @@ import pickle
 
 from ListaClienti.controller.Cliente import Cliente
 class ControlloreCliente():
-    def __init__(self, cliente):
+    def __init__(self, cliente=None):
         self.model = cliente
 
     def getAbbonato(self):
@@ -30,7 +30,7 @@ class ControlloreCliente():
     def getTagliaScarpe(self):
         return self.model.TagliaScarpe
 
-    def getClienti(self):
+    def getCliente(self):
         return self.model.getCliente()
 
     def visualizzaClienti(self):

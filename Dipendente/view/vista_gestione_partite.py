@@ -17,7 +17,7 @@ class VistaGestionePartite(QWidget):
         self.idCliente = None
         self.itemSelezionato = None
 
-        self.riempiListaClienti
+        self.riempiListaClienti()
         self.clientiList.itemClicked.connect(self.clienteClicked)
         self.indietroButton.clicked.connect(self.chiudiFinestra)
         self.cercaButton.clicked.connect(self.goCerca)
