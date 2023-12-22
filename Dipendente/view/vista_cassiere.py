@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 
 from Dipendente.view.vista_gestione_partite import VistaGestionePartite
-from ListaClienti.view.vista_lista_clienti import VistaListaClienti
+from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
 
 class VistaCassiere(QWidget):
     closed = pyqtSignal()
@@ -17,7 +17,7 @@ class VistaCassiere(QWidget):
 
     def goGestioneClienti(self):
         VistaCassiere.close(self)
-        self.vista_gestione_clienti = VistaListaClienti()
+        self.vista_gestione_clienti = VistaGestioneClienti()
         self.vista_gestione_clienti.closed.connect(self.show)
         self.vista_gestione_clienti.show()
 

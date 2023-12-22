@@ -4,8 +4,8 @@ from PyQt6.QtCore import pyqtSignal
 
 # ci sono degli import da fare
 from Cliente.controller.controllore_cliente import ControlloreCliente
-from ListaClienti.view.vista_lista_clienti import VistaListaClienti
-from Registra.VistaRegistra import VistaRegistra
+#from Dipendente.view.vista_lista_clienti import VistaListaClienti
+
 
 class VistaGestionePartite(QWidget):
     closed = pyqtSignal()

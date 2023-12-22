@@ -1,5 +1,6 @@
 import os
 import pickle
+idIncrementale = 0
 class Cliente():
     def __init__(self):
         self.abbonato = ""
@@ -11,21 +12,27 @@ class Cliente():
         self.sesso = ""
         self.tagliaScarpe = ""
 
-    def creaCliente(self, abbonato, codiceFiscale, id, cognome, email, nome, sesso, tagliaScarpe):
+    def creaId(self, nome, cognome):
+        global idIncrementale
+        idIncrementale += 1
+        idGenerato = nome[0:2] + cognome[0:2] + str(idIncrementale)
+        return idGenerato
+
+    def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe):
         self.abbonato = abbonato
         self.codiceFiscale = codiceFiscale
-        self.id = id
+        self.id = self.creaId(nome, cognome)
         self.cognome = cognome
         self.email = email
         self.nome = nome
         self.sesso = sesso
         self.tagliaScarpe = tagliaScarpe
         clienti = []
-        if os.path.isfile('ListaClienti/data/ListaClienti.pickle'):
-            with open('ListaClienti/data/ListaClienti.pickle', "rb") as f:
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', "rb") as f:
                 clienti = pickle.load(f)
             clienti.append(self)
-            with open('ListaClienti/data/ListaClienti.pickle', "wb") as f:
+            with open('Cliente/data/ListaClienti.pickle', "wb") as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
         return self
 
@@ -33,15 +40,15 @@ class Cliente():
         return self.abbonato
 
     def getCliente(self):
-        if os.path.isfile('ListaClienti/data/ListaClienti.pickle'):
-            with open('ListaClienti/data/ListaClienti.pickle', 'rb') as f:
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
                 return clienti[self.id]
 
     def getClienti(self):
         clienti = []
-        if os.path.isfile('ListaClienti/data/ListaClienti.pickle'):
-            with open('ListaClienti/data/ListaClienti.pickle', 'rb') as f:
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                     clienti = pickle.load(f)
             return clienti
         else:
