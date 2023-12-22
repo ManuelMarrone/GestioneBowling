@@ -4,6 +4,8 @@ from PyQt6.QtWidgets import QApplication
 from Login.view.VistaLogin import VistaLogin
 from ListaClienti.view.vista_lista_clienti import VistaListaClienti
 
+"lll"
+
 
 
 if __name__ == "__main__":
