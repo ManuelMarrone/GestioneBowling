@@ -1,7 +1,4 @@
-import os
-import pickle
-
-from ListaClienti.controller.Cliente import Cliente
+from Cliente.model.Cliente import Cliente
 class ControlloreCliente():
     def __init__(self, cliente=None):
         self.model = cliente
