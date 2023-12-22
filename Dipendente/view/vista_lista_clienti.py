@@ -3,8 +3,8 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
-#from Registra.VistaRegistra import VistaRegistra
-#from Dipendente.view.vista_dipendente import VistaDipendente
+from Dipendente.view.vista_inserisci_cliente import VistaInserimento
+from Dipendente.view.vista_cliente import VistaCliente
 #from Dipendente.view.vista_modifica_dipendente import VistaModificaDipendente
 
 
@@ -16,15 +16,15 @@ class VistaGestioneClienti(QWidget):
 
         uic.loadUi('Dipendente/view/lista_clienti.ui', self)
 
-        #self.idDipendente = None
-        #self.itemSelezionato = None
+        self.idDipendente = None
+        self.itemSelezionato = None
 
-        #self.aggiungiButton.clicked.connect(self.goCreaDipendente)
+        self.aggiungiButton.clicked.connect(self.goCreaCliente)
         self.riempiListaClienti()
-        #self.dipendentiList.itemClicked.connect(self.dipendenteClicked)
+        self.clientiList.itemClicked.connect(self.clienteClicked)
         #self.eliminaButton.clicked.connect(self.goEliminaDipendente)
-        #self.visualizzaButton.clicked.connect(self.goVisualizza)
-        #self.indietroButton.clicked.connect(self.chiudiFinestra)
+        self.visualizzaButton.clicked.connect(self.goVisualizza)
+        self.indietroButton.clicked.connect(self.chiudiFinestra)
         #self.modificaButton.clicked.connect(self.goModifica)
         #self.cercaButton.clicked.connect(self.goCerca)
 
@@ -66,23 +66,24 @@ class VistaGestioneClienti(QWidget):
                     "nome: " + cliente.nome + ", cognome: " + cliente.cognome)
                 self.clientiList.addItem(item)
 
-    # def goCreaDipendente(self):
-    #     self.vista_registra = VistaRegistra()
-    #     self.vista_registra.closed.connect(self.riempiListaDipendenti)
-    #     self.vista_registra.show()
-    #
-    # def goVisualizza(self):
-    #     if self.itemSelezionato is not None:
-    #         nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
-    #         cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-    #
-    #         dipendenteSelezionato = ControlloreDipendente.ricercaDipendenteNomeCognome(self, nome, cognome)
-    #         self.vista_dipendente = VistaDipendente(dipendenteSelezionato)
-    #         self.vista_dipendente.show()
-    #
-    # def dipendenteClicked(self, item):
-    #     self.itemSelezionato = item.text()
-    #
+    def goCreaCliente(self):
+        self.vista_inserisci = VistaInserimento()
+        self.vista_inserisci.closed.connect(self.riempiListaClienti)
+        self.vista_inserisci.show()
+
+    def goVisualizza(self):
+        if self.itemSelezionato is not None:
+            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
+            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+
+            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            self.vista_cliente = VistaCliente(clienteSelezionato)
+            self.vista_cliente.show()
+
+    def clienteClicked(self, item):
+        print("Clicked")
+        self.itemSelezionato = item.text()
+
     # def goEliminaDipendente(self):
     #     if self.itemSelezionato is not None:
     #         nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
@@ -105,17 +106,17 @@ class VistaGestioneClienti(QWidget):
     #         self.vista_modifica.closed.connect(self.riempiListaDipendenti)
     #         self.vista_modifica.show()
     #
-    # def messaggio(self, tipo, titolo, mex):
-    #     mexBox = QMessageBox()
-    #     mexBox.setWindowTitle(titolo)
-    #     if tipo == 0:
-    #         mexBox.setIcon(QMessageBox.Icon.Warning)
-    #     elif tipo == 1:
-    #         mexBox.setIcon(QMessageBox.Icon.Information)
-    #     mexBox.setStyleSheet("background-color: rgb(54, 54, 54); color: white;")
-    #     mexBox.setText(mex)
-    #     mexBox.exec()
-    #
-    # def chiudiFinestra(self):
-    #     self.closed.emit()
-    #     self.close()
+    def messaggio(self, tipo, titolo, mex):
+        mexBox = QMessageBox()
+        mexBox.setWindowTitle(titolo)
+        if tipo == 0:
+            mexBox.setIcon(QMessageBox.Icon.Warning)
+        elif tipo == 1:
+            mexBox.setIcon(QMessageBox.Icon.Information)
+        mexBox.setStyleSheet("background-color: rgb(54, 54, 54); color: white;")
+        mexBox.setText(mex)
+        mexBox.exec()
+
+    def chiudiFinestra(self):
+        self.closed.emit()
+        self.close()

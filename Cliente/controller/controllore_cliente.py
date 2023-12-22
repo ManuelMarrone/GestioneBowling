@@ -6,35 +6,57 @@ class ControlloreCliente():
     def __init__(self, cliente=None):
         self.model = cliente
 
+
     def getAbbonato(self):
-        return self.model.Abbonato
+        return self.model.abbonato
+
+    def isAbbonato(self):
+        if self.model.abbonato is True:
+            return "Si"
+        else:
+            return "No"
 
     def getCodiceFiscale(self):
-        return self.model.CodiceFiscale
+        return self.model.codiceFiscale
 
     def getCognome(self):
-        return self.model.Cognome
+        return self.model.cognome
 
     def getEmail(self):
-        return self.model.Email
+        return self.model.email
 
     def getId(self):
-        return self.model.Id
+        return self.model.id
 
     def getNome(self):
-        return self.model.Nome
+        return self.model.nome
 
     def getSesso(self):
-        return self.model.Sesso
+        return self.model.sesso
 
     def getTagliaScarpe(self):
-        return self.model.TagliaScarpe
+        return self.model.tagliaScarpe
 
-    def getCliente(self):
-        return self.model.getCliente()
+    def modificaCliente(self,id, nuovoAbbonato, nuovoCodiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
+                        nuovoSesso, nuovaTagliaScarpe):
+        Cliente().modificaCliente(id = id,
+            nuovoAbbonato=nuovoAbbonato,
+            nuovoCodiceFiscale=nuovoCodiceFiscale,
+            nuovoCognome=nuovoCognome,
+            nuovaEmail=nuovaEmail,
+            nuovoNome=nuovoNome,
+            nuovoSesso=nuovoSesso,
+            nuovaTagliaScarpe=nuovaTagliaScarpe
+        )
+        return True
 
-    def visualizzaClienti(self):
-        return Cliente().getClienti()
+    def rimuoviCliente(self, cliente):
+        if isinstance(cliente, Cliente):
+            cliente.rimuoviCliente()
+            return True
+        else:
+            return False
+
 
     def ricercaClienteCodiceFiscale(self, codiceFiscale):
          clienti = []
@@ -47,6 +69,51 @@ class ControlloreCliente():
                      return cliente
          else:
             return None
+
+    def ricercaClienteId(self, id):
+        clienti = []
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
+                clienti = pickle.load(f)
+        if len(clienti) > 0:
+            for cliente in clienti:
+                if cliente.id == id:
+                    return cliente
+        else:
+            return None
+
+    def ricercaClienteEmail(self, email):
+        clienti = []
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
+                clienti = pickle.load(f)
+
+        if len(clienti) > 0:
+            for cliente in clienti:
+                if cliente.email == email:
+                    return cliente
+        else:
+            return None
+
+    def ricercaClienteNomeCognome(self, nome, cognome):
+        clienti = []
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
+                clienti = pickle.load(f)
+
+        if len(clienti) > 0:
+            for cliente in clienti:
+                if cliente.nome == nome and cliente.cognome == cognome:
+                    return cliente
+        else:
+            return None
+
+    def getCliente(self):
+        return self.model.getCliente()
+
+    def visualizzaClienti(self):
+        return Cliente().getClienti()
+
     def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe):
         cliente = self.ricercaClienteCodiceFiscale(codiceFiscale)
         if isinstance(cliente, Cliente):  # se il magazziniere già esiste
