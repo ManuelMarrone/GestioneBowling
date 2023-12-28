@@ -4,7 +4,7 @@ from PyQt6.QtCore import pyqtSignal
 
 # ci sono degli import da fare
 from Cliente.controller.controllore_cliente import ControlloreCliente
-#from Dipendente.view.vista_lista_clienti import VistaListaClienti
+from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
 
 
 class VistaGestionePartite(QWidget):
@@ -65,7 +65,7 @@ class VistaGestionePartite(QWidget):
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
 
             clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
-            self.vista_cliente = VistaListaClienti(clienteSelezionato)
+            self.vista_cliente = VistaGestioneClienti(clienteSelezionato)
             self.vista_cliente.show()
 
     def clienteClicked(self, item):

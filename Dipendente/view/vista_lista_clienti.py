@@ -62,8 +62,7 @@ class VistaGestioneClienti(QWidget):
         if listaClienti is not None:
             for cliente in listaClienti:
                 item = QListWidgetItem()
-                item.setText(
-                    "nome: " + cliente.nome + ", cognome: " + cliente.cognome)
+                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome)
                 self.clientiList.addItem(item)
 
     def goCreaCliente(self):
