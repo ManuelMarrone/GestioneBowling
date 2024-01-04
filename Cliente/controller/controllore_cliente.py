@@ -6,7 +6,6 @@ class ControlloreCliente():
     def __init__(self, cliente=None):
         self.model = cliente
 
-
     def getAbbonato(self):
         return self.model.abbonato
 

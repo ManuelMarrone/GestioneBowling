@@ -5,7 +5,7 @@ from PyQt6.QtCore import pyqtSignal
 # ci sono degli import da fare
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
-
+from Pista.controller.controllore_pista import ControllorePista
 
 class VistaGestionePartite(QWidget):
     closed = pyqtSignal()
@@ -17,6 +17,7 @@ class VistaGestionePartite(QWidget):
         self.idCliente = None
         self.itemSelezionato = None
 
+        self.riempiListaPiste()
         self.riempiListaClienti()
         self.clientiList.itemClicked.connect(self.clienteClicked)
         self.indietroButton.clicked.connect(self.chiudiFinestra)
@@ -26,11 +27,11 @@ class VistaGestionePartite(QWidget):
 
     def goCerca(self):
         controllo = self.ricercaText.text().split()
-        if len(controllo) == 0:                                 #se il controllo è vero riempie la lista dei clienti
+        if len(controllo) == 0:
             self.riempiListaClienti()
         elif len(controllo) == 2:
             nome, cognome = self.ricercaText.text().split()
-            nome = nome.capitalize().strip()                    #Trasforma il primo carattere in maiuscolo e separa le parole
+            nome = nome.capitalize().strip()
             cognome = cognome.capitalize().strip()
             clienteRicercato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
             if clienteRicercato is not None:                    #se il cliente è presente aggiorna la lista
@@ -58,6 +59,15 @@ class VistaGestionePartite(QWidget):
                 item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome)
                 self.clientiList.addItem(item)
 
+    def riempiListaPiste(self):
+        listaPiste = []
+        self.pisteList.clear()
+        listaPiste = ControllorePista.visualizzaPiste(self)
+        if listaPiste is not None:
+            for pista in listaPiste:
+                item = QListWidgetItem()
+                item.setText("id: " + pista.id + ", stato: " + pista.disponibilita)
+                self.pisteList.addItem(item)
 
     def goVisualizza(self):
         if self.itemSelezionato is not None:

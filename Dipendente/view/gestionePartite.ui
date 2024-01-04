@@ -292,7 +292,7 @@ background-color: rgb(135, 75, 15);</string>
        <enum>QLayout::SetFixedSize</enum>
       </property>
       <item>
-       <widget class="QComboBox" name="PisteBox"/>
+       <widget class="QComboBox" name="pisteList"/>
       </item>
       <item>
        <widget class="QPushButton" name="assegnaButton">
