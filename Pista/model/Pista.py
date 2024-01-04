@@ -4,10 +4,17 @@ import pickle
 
 class Pista():
 
-    def __init__(self, disponibilita, id):
+    def __init__(self, disponibilita=None, id=0):
         self.disponibilita = disponibilita
         self.id = id
 
+    # def creaPista(self, disponibilita, id):
+    #     self.disponibilita = disponibilita
+    #     self.id = id
+    #     piste = []
+    #     with open('Pista/data/piste.pickle', "wb") as f:
+    #         pickle.dump(piste, f, pickle.HIGHEST_PROTOCOL)
+    #     return self
 
     def getPista(self):
         piste = []
