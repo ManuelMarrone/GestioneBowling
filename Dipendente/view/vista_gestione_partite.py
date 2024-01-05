@@ -14,6 +14,9 @@ class VistaGestionePartite(QWidget):
         super(VistaGestionePartite, self).__init__(parent)
         uic.loadUi('Dipendente/view/gestionePartite.ui', self)
 
+        self.clientilist = QListWidget(self)
+        self.clientiList.setSelectionMode(QAbstractItemView.MultiSelection)
+
         self.idCliente = None
         self.itemSelezionato = None
 
@@ -23,6 +26,7 @@ class VistaGestionePartite(QWidget):
         self.indietroButton.clicked.connect(self.chiudiFinestra)
         self.cercaButton.clicked.connect(self.goCerca)
 
+        self.selezionaButton.clicked.connect(self.onSelezionaClick)
 
 
     def goCerca(self):
@@ -65,7 +69,7 @@ class VistaGestionePartite(QWidget):
         listaPiste = ControllorePista.visualizzaPiste(self)
         if listaPiste is not None:
             for pista in listaPiste:
-                item = QListWidgetItem()
+                item = QComboBox()
                 item.setText("id: " + pista.id + ", stato: " + pista.disponibilita)
                 self.pisteList.addItem(item)
 
@@ -86,5 +90,34 @@ class VistaGestionePartite(QWidget):
         self.closed.emit()
         self.close()
 
+    def messaggio(self, tipo, titolo, mex):
+        mexBox = QMessageBox()
+        mexBox.setWindowTitle(titolo)
+        if tipo == 0:
+            mexBox.setIcon(QMessageBox.Icon.Warning)
+        elif tipo == 1:
+            mexBox.setIcon(QMessageBox.Icon.Information)
+        mexBox.setStyleSheet("background-color: rgb(54, 54, 54); color: white;")
+        mexBox.setText(mex)
+        mexBox.exec()
 
+    def onSelezionaClick(self):
+        clienti_scelti = self.clientiList.selectedItems()
 
+        if not clienti_scelti:
+            self.messaggio(tipo = 0, titolo="Attenzione", mex="Nessun cliente selezionato.")
+            return
+
+        clienti_selezionati = []
+
+        for i in clienti_scelti:
+            cliente = i.text()
+            clienti_selezionati.append(cliente)
+
+        # Accorpa i clienti in liste di massimo 8 elementi
+
+        lista_accorpata = [clienti_selezionati[i:i+8] for i in range(0, len(clienti_selezionati), 8)]
+
+        print("Liste accorpolate:")
+        for lista in lista_accorpata:
+            print(lista)
