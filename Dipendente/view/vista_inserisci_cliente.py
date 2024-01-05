@@ -41,9 +41,9 @@ class VistaInserimento(QWidget):
                 tagliaScarpe=tagliaScarpe
             )
             if cliente is None:
-                self.messaggio(tipo=0 , titolo="Inserimeno cliente", mex='<p style=color:white> Errore! Cliente già esistente!')
+                self.messaggio(tipo=0 , titolo="Inserimeno cliente", mex='<p style=color:white> Cliente già esistente')
             else:
-                self.messaggio(tipo=1, titolo="Inserimento cliente", mex='<p style=color:white> Inserito con successo')
+                self.messaggio(tipo=1, titolo="Inserimento cliente", mex='<p style=color:white> Cliente inserito con successo')
 
             self.closed.emit()
             self.close()

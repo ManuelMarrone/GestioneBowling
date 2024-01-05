@@ -5,7 +5,7 @@ from PyQt6.QtCore import pyqtSignal
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Dipendente.view.vista_inserisci_cliente import VistaInserimento
 from Dipendente.view.vista_cliente import VistaCliente
-#from Dipendente.view.vista_modifica_dipendente import VistaModificaDipendente
+from Dipendente.view.vista_modifica_cliente import VistaModificaCliente
 
 
 class VistaGestioneClienti(QWidget):
@@ -22,10 +22,10 @@ class VistaGestioneClienti(QWidget):
         self.aggiungiButton.clicked.connect(self.goCreaCliente)
         self.riempiListaClienti()
         self.clientiList.itemClicked.connect(self.clienteClicked)
-        #self.eliminaButton.clicked.connect(self.goEliminaDipendente)
+        self.eliminaButton.clicked.connect(self.goEliminaCliente)
         self.visualizzaButton.clicked.connect(self.goVisualizza)
         self.indietroButton.clicked.connect(self.chiudiFinestra)
-        #self.modificaButton.clicked.connect(self.goModifica)
+        self.modificaButton.clicked.connect(self.goModifica)
         #self.cercaButton.clicked.connect(self.goCerca)
 
     # def goCerca(self):
@@ -83,28 +83,27 @@ class VistaGestioneClienti(QWidget):
         print("Clicked")
         self.itemSelezionato = item.text()
 
-    # def goEliminaDipendente(self):
-    #     if self.itemSelezionato is not None:
-    #         nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
-    #         cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-    #         dipendenteSelezionato = ControlloreDipendente.ricercaDipendenteNomeCognome(self, nome, cognome)
-    #         risultato = ControlloreDipendente.rimuoviDipendente(self, dipendenteSelezionato)
-    #         if risultato:
-    #             self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
-    #         else:
-    #             self.messaggio(tipo=0, titolo="Rimozione cliente",mex= "Errore nella rimozione del cliente!")
-    #     self.riempiListaDipendenti()
-    #
-    # def goModifica(self):
-    #     if self.itemSelezionato is not None:
-    #         nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
-    #         cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-    #
-    #         dipendenteSelezionato = ControlloreDipendente.ricercaDipendenteNomeCognome(self, nome, cognome)
-    #         self.vista_modifica = VistaModificaDipendente(dipendenteSelezionato)
-    #         self.vista_modifica.closed.connect(self.riempiListaDipendenti)
-    #         self.vista_modifica.show()
-    #
+    def goEliminaCliente(self):
+        if self.itemSelezionato is not None:
+            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
+            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            risultato = ControlloreCliente.rimuoviCliente(self, clienteSelezionato)
+            if risultato:
+                self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
+            else:
+                self.messaggio(tipo=0, titolo="Rimozione cliente",mex= "Errore nella rimozione del cliente!")
+        self.riempiListaClienti()
+
+    def goModifica(self):
+        if self.itemSelezionato is not None:
+            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
+            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            self.vista_modifica = VistaModificaCliente(clienteSelezionato)
+            self.vista_modifica.closed.connect(self.riempiListaClienti)
+            self.vista_modifica.show()
+
     def messaggio(self, tipo, titolo, mex):
         mexBox = QMessageBox()
         mexBox.setWindowTitle(titolo)
@@ -117,5 +116,5 @@ class VistaGestioneClienti(QWidget):
         mexBox.exec()
 
     def chiudiFinestra(self):
-        self.closed.emit()
-        self.close()
+            self.closed.emit()
+            self.close()
