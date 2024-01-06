@@ -14,8 +14,8 @@ class VistaGestionePartite(QWidget):
         super(VistaGestionePartite, self).__init__(parent)
         uic.loadUi('Dipendente/view/gestionePartite.ui', self)
 
-        self.clientilist = QListWidget(self)
-        self.clientiList.setSelectionMode(QAbstractItemView.MultiSelection)
+
+        self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
 
         self.idCliente = None
         self.itemSelezionato = None
@@ -26,7 +26,7 @@ class VistaGestionePartite(QWidget):
         self.indietroButton.clicked.connect(self.chiudiFinestra)
         self.cercaButton.clicked.connect(self.goCerca)
 
-        self.selezionaButton.clicked.connect(self.onSelezionaClick)
+        self.selezionaButton.clicked.connect(self.creaGruppoClienti)
 
 
     def goCerca(self):
@@ -101,7 +101,7 @@ class VistaGestionePartite(QWidget):
         mexBox.setText(mex)
         mexBox.exec()
 
-    def onSelezionaClick(self):
+    def creaGruppoClienti(self):
         clienti_scelti = self.clientiList.selectedItems()
 
         if not clienti_scelti:
@@ -114,10 +114,14 @@ class VistaGestionePartite(QWidget):
             cliente = i.text()
             clienti_selezionati.append(cliente)
 
-        # Accorpa i clienti in liste di massimo 8 elementi
+        if len(clienti_selezionati) > 8:
+            self.messaggio(tipo = 0, titolo="Attenzione", mex="Puoi selezionare massimo 8 clienti per gruppo")
+            return
 
-        lista_accorpata = [clienti_selezionati[i:i+8] for i in range(0, len(clienti_selezionati), 8)]
+        gruppo_clienti = []
+        for i in range(0, len(clienti_selezionati), 8):
+            gruppo_clienti = clienti_selezionati[i:i+8]
 
         print("Liste accorpolate:")
-        for lista in lista_accorpata:
-            print(lista)
+        for c in gruppo_clienti:
+            print(c)
