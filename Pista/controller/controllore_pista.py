@@ -35,25 +35,25 @@ class ControllorePista():
     def setDisponibilita(self, bool):
         self.model.setDisponibilita(bool)
 
-    # def creaPista(self, disponibilita, id):
-    #     pistetemp = []
-    #     pista = None
-    #     if os.path.isfile('Dipendente/data/dipendenti.pickle'):
-    #         with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-    #             pistetemp = pickle.load(f)
-    #     if len(pistetemp) > 0:
-    #         for pistatemp in pistetemp:
-    #             if pistatemp.id == id:
-    #                  pista = pistatemp
-    #     else:
-    #         pista = None
-    #
-    #     if isinstance(pista, Pista):  # se la pista già esiste
-    #         return None
-    #     else:
-    #         nuovaPista = Pista().creaPista(
-    #           disponibilita=disponibilita,
-    #           id=id
-    #          )
-    #
-    #     return nuovaPista
+    def creaPista(self, disponibilita, id):
+        pistetemp = []
+        pista = None
+        if os.path.isfile('Dipendente/data/dipendenti.pickle'):
+            with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
+                pistetemp = pickle.load(f)
+        if len(pistetemp) > 0:
+             for pistatemp in pistetemp:
+                 if pistatemp.id == id:
+                    pista = pistatemp
+        else:
+            pista = None
+
+        if isinstance(pista, Pista):  # se la pista già esiste
+            return None
+        else:
+            nuovaPista = Pista().creaPista(
+               disponibilita=disponibilita,
+               id=id
+            )
+
+        return nuovaPista

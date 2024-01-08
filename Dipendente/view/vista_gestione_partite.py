@@ -27,7 +27,7 @@ class VistaGestionePartite(QWidget):
         self.cercaButton.clicked.connect(self.goCerca)
 
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
-
+        self.assegnaButton.clicked.connect(self.assegnaPista)
 
     def goCerca(self):
         controllo = self.ricercaText.text().split()
@@ -70,8 +70,8 @@ class VistaGestionePartite(QWidget):
         if listaPiste is not None:
             for pista in listaPiste:
                 item = QComboBox()
-                item.setText("id: " + pista.id + ", stato: " + pista.disponibilita)
-                self.pisteList.addItem(item)
+                item.addItem("id: " + str(pista.id) + " disponibilità: " + str(pista.disponibilita))
+                self.pisteList.addItem(item.currentText())
 
     def goVisualizza(self):
         if self.itemSelezionato is not None:
@@ -122,6 +122,9 @@ class VistaGestionePartite(QWidget):
         for i in range(0, len(clienti_selezionati), 8):
             gruppo_clienti = clienti_selezionati[i:i+8]
 
-        print("Liste accorpolate:")
+        print("Clienti nel gruppo:")
         for c in gruppo_clienti:
             print(c)
+
+    def assegnaPista(self):
+        print("cavallo")
