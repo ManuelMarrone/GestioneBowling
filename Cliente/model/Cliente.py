@@ -12,6 +12,24 @@ class Cliente():
         self.sesso = ""
         self.tagliaScarpe = ""
 
+    class MyClass:
+        idIncrementale = 0
+        id_disponibili = set()
+
+        def __init__(self):
+            if MyClass.id_disponibili:  # Se ci sono ID disponibili nell'insieme
+                self.id = MyClass.id_disponibili.pop()  # Prendi un ID disponibile
+            else:
+                MyClass.idIncrementale += 1
+                self.id = MyClass.idIncrementale
+
+        def delete_instance(self):
+            MyClass.id_disponibili.add(self.id)  # Aggiungi l'ID dell'istanza eliminata agli ID disponibili
+            # Qui puoi fare altre operazioni necessarie per eliminare l'istanza
+
+        def get_id(self):
+            return self.id
+
     def creaId(self, nome, cognome):
         global idIncrementale
         idIncrementale += 1
