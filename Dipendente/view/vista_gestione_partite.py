@@ -2,6 +2,8 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 
+import time
+
 # ci sono degli import da fare
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
@@ -16,6 +18,8 @@ class VistaGestionePartite(QWidget):
 
 
         self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
+        self.pisteList.setEditable(True)
+
 
         self.idCliente = None
         self.itemSelezionato = None
@@ -28,6 +32,10 @@ class VistaGestionePartite(QWidget):
 
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
         self.assegnaButton.clicked.connect(self.assegnaPista)
+
+        tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
+        if "True" not in tutte_le_piste:
+            self.messaggioTempo.setText("Tutte le piste sono occupate")
 
     def goCerca(self):
         controllo = self.ricercaText.text().split()
@@ -85,7 +93,6 @@ class VistaGestionePartite(QWidget):
     def clienteClicked(self, item):
         self.itemSelezionato = item.text()
 
-
     def chiudiFinestra(self):
         self.closed.emit()
         self.close()
@@ -127,4 +134,14 @@ class VistaGestionePartite(QWidget):
             print(c)
 
     def assegnaPista(self):
-        print("cavallo")
+        tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
+        pista_scelta = self.pisteList.currentText()
+
+        if "True" not in tutte_le_piste:
+            self.messaggioTempo.setText("La prossima pista sarà libera tra 20 minuti")
+
+
+        if "False" in pista_scelta:
+            self.messaggio(tipo = 0, titolo="Attenzione", mex="La pista selezionata non è disponibile")
+        else:
+            print(tutte_le_piste)

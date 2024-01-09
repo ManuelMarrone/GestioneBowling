@@ -478,7 +478,7 @@ background-color: rgb(135, 75, 15);</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="messaggioTempo">
         <property name="minimumSize">
          <size>
           <width>150</width>
