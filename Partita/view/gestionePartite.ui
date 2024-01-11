@@ -81,6 +81,18 @@
       </item>
       <item>
        <widget class="QPushButton" name="selezionaButton">
+        <property name="minimumSize">
+         <size>
+          <width>468</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>468</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="palette">
          <palette>
           <active>
@@ -292,10 +304,41 @@ background-color: rgb(135, 75, 15);</string>
        <enum>QLayout::SetFixedSize</enum>
       </property>
       <item>
-       <widget class="QComboBox" name="pisteList"/>
+       <widget class="QComboBox" name="pisteList">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>300</width>
+          <height>20</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="assegnaButton">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="palette">
          <palette>
           <active>
@@ -481,13 +524,13 @@ background-color: rgb(135, 75, 15);</string>
        <widget class="QLabel" name="messaggioTempo">
         <property name="minimumSize">
          <size>
-          <width>150</width>
+          <width>300</width>
           <height>50</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>350</width>
+          <width>300</width>
           <height>50</height>
          </size>
         </property>
@@ -501,6 +544,18 @@ background-color: rgb(135, 75, 15);</string>
       </item>
       <item>
        <widget class="QPushButton" name="inviaButton">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>35</height>
+         </size>
+        </property>
         <property name="palette">
          <palette>
           <active>
