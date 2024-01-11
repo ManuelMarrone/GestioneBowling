@@ -8,13 +8,15 @@ import time
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
+from GruppoClienti.model.GruppoClienti import GruppoClienti
+
 
 class VistaGestionePartite(QWidget):
     closed = pyqtSignal()
 
     def __init__(self, parent=None):
         super(VistaGestionePartite, self).__init__(parent)
-        uic.loadUi('Dipendente/view/gestionePartite.ui', self)
+        uic.loadUi('Partita/view/gestionePartite.ui', self)
 
 
         self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
@@ -68,7 +70,7 @@ class VistaGestionePartite(QWidget):
         if listaClienti is not None:
             for cliente in listaClienti:
                 item = QListWidgetItem()
-                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome)
+                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", id: " + cliente.id)
                 self.clientiList.addItem(item)
 
     def riempiListaPiste(self):
@@ -125,13 +127,27 @@ class VistaGestionePartite(QWidget):
             self.messaggio(tipo = 0, titolo="Attenzione", mex="Puoi selezionare massimo 8 clienti per gruppo")
             return
 
+        if len(clienti_selezionati) < 2:
+            self.messaggio(tipo = 0, titolo="Attenzione", mex="Devi selezionare almeno 2 clienti per gruppo")
+            return
+
         gruppo_clienti = []
         for i in range(0, len(clienti_selezionati), 8):
             gruppo_clienti = clienti_selezionati[i:i+8]
 
+
         print("Clienti nel gruppo:")
         for c in gruppo_clienti:
             print(c)
+
+
+        numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
+        while numero_partite <= 0 :
+            self.messaggio(tipo = 0, titolo = "Attenzione", mex = "un gruppo deve effettuare almeno una partita")
+            numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
+
+
+        GruppoClienti.creaGruppoClienti(self,1 , gruppo_clienti, numero_partite)
 
     def assegnaPista(self):
         tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
