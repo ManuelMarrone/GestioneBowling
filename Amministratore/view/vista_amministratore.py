@@ -3,6 +3,7 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import *
 
 from Amministratore.view.vista_gestione_dipendenti import VistaGestioneDipendenti
+from Statistiche.controller.controllore_statistiche import ControlloreStatistiche
 
 
 class VistaAmministratore(QWidget):
@@ -13,6 +14,12 @@ class VistaAmministratore(QWidget):
 
         self.gestioneDipendentiButton.clicked.connect(self.goDipendenti)
         self.esciButton.clicked.connect(self.chiudiFinestra)
+        self.statComboBox.activated.connect(self.statistiche)
+
+    def statistiche(self):
+        selezione = self.statComboBox.currentText()
+        if selezione == "Dipendenti":
+            ControlloreStatistiche.statisticheDipendenti()
 
     def goDipendenti(self):
         VistaAmministratore.close(self)

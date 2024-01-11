@@ -5,8 +5,17 @@ from Scarpa.model.Scarpa import Scarpa
 
 
 class ControlloreScarpa():
-    def __init__(self, scarpa):
+    def __init__(self, scarpa=None):
         self.model = scarpa
+
+    # def creaScarpa(self, disponibilita, id, taglia):
+    #     nuovaScarpa = Scarpa().creaScarpa(
+    #         disponibilita=disponibilita,
+    #         id=id,
+    #         taglia=taglia,
+    #          )
+    #
+    #     return nuovaScarpa
 
     def getIdScarpa(self):
         return self.model.id
@@ -29,6 +38,18 @@ class ControlloreScarpa():
         else:
             return None
 
+    def ricercaScarpaId(self, id):
+        scarpe = []
+        if os.path.isfile('Scarpa/data/scarpe.pickle'):
+            with open('Scarpa/data/scarpe.pickle', 'rb') as f:
+                scarpe = pickle.load(f)
+        if len(scarpe) > 0:
+            for scarpa in scarpe:
+                if scarpa.id == id:
+                    return scarpa
+        else:
+            return None
+
     def getScarpa(self):
         return self.model.getScarpa()
 
@@ -37,3 +58,11 @@ class ControlloreScarpa():
 
     def setDisponibilitaScarpa(self, bool):
         self.model.setDisponibilitaScarpa(bool)
+
+    def assegnaScarpa(self, cliente):
+        self.model.setDisponibilitaScarpa(False) #rendiamo la scarpa non più disponibile
+        #far scorrere i gruppi di clienti e cercare al loro interno i clienti partecipanti
+        #appena trovo corrispondenza con cliente
+        #associa dentro data di gruppiClienti l'id della scarpa al gruppo trovato
+        #quando si andrà ad eliminare il gruppo di Clienti si fa una ricerca della scarpa
+        #in base all'id per poter settare nuovamente la disponibilità a True

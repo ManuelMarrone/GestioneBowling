@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QApplication
 from Login.view.VistaLogin import VistaLogin
 #from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
+from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 
 if __name__ == "__main__":
 
@@ -38,6 +39,7 @@ if __name__ == "__main__":
         piste_caricate = pickle.load(file_pickle)
 
     pprint.pprint(piste_caricate)"""
+
 
     app = QApplication(sys.argv)
     VistaLogin = VistaLogin()
