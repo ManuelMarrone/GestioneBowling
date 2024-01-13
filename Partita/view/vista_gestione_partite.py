@@ -140,13 +140,21 @@ class VistaGestionePartite(QWidget):
         for c in gruppo_clienti:
             print(c)
 
+        "elimina i clienti nel gruppo da queli assegnabili"
+        for i in range(self.clientiList.count()):
+            ele = self.clientiList.item(i)
+            elemento = ele.text()
+            for j in gruppo_clienti:
+                if j == elemento:
+                    self.clientiList.item(i).setHidden(True)
 
+        "verifica che un gruppo giochi almeno una partita"
         numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
         while numero_partite <= 0 :
             self.messaggio(tipo = 0, titolo = "Attenzione", mex = "un gruppo deve effettuare almeno una partita")
             numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
 
-
+        
         GruppoClienti.creaGruppoClienti(self,1 , gruppo_clienti, numero_partite)
 
     def assegnaPista(self):
