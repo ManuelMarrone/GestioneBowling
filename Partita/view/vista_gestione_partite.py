@@ -33,7 +33,7 @@ class VistaGestionePartite(QWidget):
         self.cercaButton.clicked.connect(self.goCerca)
 
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
-        self.assegnaButton.clicked.connect(self.assegnaPista)
+        #self.assegnaButton.clicked.connect(self.assegnaPista)
 
         tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
         if "True" not in tutte_le_piste:
