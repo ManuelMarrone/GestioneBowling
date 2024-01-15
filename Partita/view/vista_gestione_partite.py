@@ -149,13 +149,23 @@ class VistaGestionePartite(QWidget):
                     self.clientiList.item(i).setHidden(True)
 
         "verifica che un gruppo giochi almeno una partita"
-        numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
+        numero_partite, ok = QInputDialog.getInt(self, 'Numero Partite', 'quante partite intende effettuare il gruppo?')
         while numero_partite <= 0 :
             self.messaggio(tipo = 0, titolo = "Attenzione", mex = "un gruppo deve effettuare almeno una partita")
             numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
 
-        
-        GruppoClienti.creaGruppoClienti(self,1 , gruppo_clienti, numero_partite)
+
+
+        if str(self.messaggioTempo.text()) == "Tutte le piste sono occupate":
+            self.messaggio(tipo = 0, titolo = "Attenzione", mex = "Devi aspettare che una pista si liberi")
+            return
+        else:
+            pista_occupata = self.pisteList.currentText()
+            id_pista_occupata = pista_occupata[4]
+            print(id_pista_occupata + "   " + str(self.messaggioTempo.text()))
+
+
+        GruppoClienti.creaGruppoClienti(self,1 , gruppo_clienti, numero_partite, id_pista_occupata )
 
     def assegnaPista(self):
         tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]

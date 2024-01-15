@@ -7,17 +7,20 @@ class GruppoClienti:
         self.id = ""
         self.membri = ""
         self.numeroPartite = 0
+        self.pistaOccupata = ""
 
 
 
-    def creaGruppoClienti(self, id, membri, numeroPartite):
+    def creaGruppoClienti(self, id, membri, numeroPartite, pistaOccupata):
         self.id = id
         self.membri = membri
         self.numeroPartite = numeroPartite
+        self.pistaOccupata = pistaOccupata
         gruppi = []
         gruppi.append(self.id)
         gruppi.append(self.membri)
         gruppi.append(self.numeroPartite)
+        gruppi.append(self.pistaOccupata)
         with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as file_pickle:
             pickle.dump(gruppi, file_pickle)
         with open('GruppoClienti/data/GruppoClienti.pickle', 'rb') as file_pickle:
@@ -36,5 +39,5 @@ class GruppoClienti:
     def __str__(self):
         return "Id: " + self.id + "\n" + \
                 "Membri : " + self.membri + "\n" + \
-                "Numero Partite: " + self.numeroPartite
-
+                "Numero Partite: " + self.numeroPartite + "\n" + \
+                "Pista occupata: " + self.pistaOccupata
