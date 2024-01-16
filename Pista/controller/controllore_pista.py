@@ -33,7 +33,7 @@ class ControllorePista():
         return Pista().getPiste()
 
     def setDisponibilita(self, bool):
-        self.model.setDisponibilita(bool)
+         self.model.setDisponibilita(bool)
 
     def creaPista(self, disponibilita, id):
         pistetemp = []

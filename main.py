@@ -16,7 +16,7 @@ if __name__ == "__main__":
          id=1
     )
     pista2 = ControllorePista().creaPista(
-         disponibilita=False,
+         disponibilita=True,
          id=2
     )
     pista3 = ControllorePista().creaPista(
@@ -24,7 +24,7 @@ if __name__ == "__main__":
          id=3
     )
     pista4 = ControllorePista().creaPista(
-         disponibilita=False,
+         disponibilita=True,
          id=4
     )
     pista5 = ControllorePista().creaPista(

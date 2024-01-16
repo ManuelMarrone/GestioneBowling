@@ -18,10 +18,8 @@ class VistaGestionePartite(QWidget):
         super(VistaGestionePartite, self).__init__(parent)
         uic.loadUi('Partita/view/gestionePartite.ui', self)
 
-
         self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
         self.pisteList.setEditable(True)
-
 
         self.idCliente = None
         self.itemSelezionato = None
@@ -35,9 +33,13 @@ class VistaGestionePartite(QWidget):
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
         #self.assegnaButton.clicked.connect(self.assegnaPista)
 
+        contatore_piste_libere = 0
         tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
-        if "True" not in tutte_le_piste:
-            self.messaggioTempo.setText("Tutte le piste sono occupate")
+        for i in tutte_le_piste:
+            if "True" in i:
+                contatore_piste_libere = contatore_piste_libere + 1
+
+        self.messaggioPiste(contatore_piste_libere)
 
     def goCerca(self):
         controllo = self.ricercaText.text().split()
@@ -114,7 +116,7 @@ class VistaGestionePartite(QWidget):
         clienti_scelti = self.clientiList.selectedItems()
 
         if not clienti_scelti:
-            self.messaggio(tipo = 0, titolo="Attenzione", mex="Nessun cliente selezionato.")
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Nessun cliente selezionato.")
             return
 
         clienti_selezionati = []
@@ -124,21 +126,49 @@ class VistaGestionePartite(QWidget):
             clienti_selezionati.append(cliente)
 
         if len(clienti_selezionati) > 8:
-            self.messaggio(tipo = 0, titolo="Attenzione", mex="Puoi selezionare massimo 8 clienti per gruppo")
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Puoi selezionare massimo 8 clienti per gruppo")
             return
 
         if len(clienti_selezionati) < 2:
-            self.messaggio(tipo = 0, titolo="Attenzione", mex="Devi selezionare almeno 2 clienti per gruppo")
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Devi selezionare almeno 2 clienti per gruppo")
             return
 
         gruppo_clienti = []
         for i in range(0, len(clienti_selezionati), 8):
             gruppo_clienti = clienti_selezionati[i:i+8]
-
-
         print("Clienti nel gruppo:")
         for c in gruppo_clienti:
             print(c)
+
+        "controlla che ci siano piste libere"
+        if str(self.messaggioTempo.text()) == "Tutte le piste sono occupate":
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Devi aspettare che una pista si liberi")
+            return
+        else:
+            if "True" not in self.pisteList.currentText():
+                self.messaggio(tipo=0, titolo="Attenzione pista già occupata", mex="Devi selezionare una pista libera")
+                return
+            pista_occupata = self.pisteList.currentText()
+            id_pista_occupata = pista_occupata[4]
+            print("pre: " + self.pisteList.currentText())
+
+            indice = self.pisteList.currentIndex()
+            testo = self.pisteList.currentText()
+
+            nuovo_testo = testo.replace("True", "False")
+
+            self.pisteList.setItemText(indice, nuovo_testo)
+
+            print("post: " + self.pisteList.currentText())
+
+            contatore_piste_libere = 0
+            tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
+            for i in tutte_le_piste:
+                if "True" in i:
+                    contatore_piste_libere = contatore_piste_libere + 1
+            self.messaggioPiste(contatore_piste_libere)
+
+            print(id_pista_occupata + "   " + str(self.messaggioTempo.text()))
 
         "elimina i clienti nel gruppo da queli assegnabili"
         for i in range(self.clientiList.count()):
@@ -150,24 +180,21 @@ class VistaGestionePartite(QWidget):
 
         "verifica che un gruppo giochi almeno una partita"
         numero_partite, ok = QInputDialog.getInt(self, 'Numero Partite', 'quante partite intende effettuare il gruppo?')
-        while numero_partite <= 0 :
-            self.messaggio(tipo = 0, titolo = "Attenzione", mex = "un gruppo deve effettuare almeno una partita")
+        while numero_partite <= 0:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="un gruppo deve effettuare almeno una partita")
             numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
-
-
-
-        if str(self.messaggioTempo.text()) == "Tutte le piste sono occupate":
-            self.messaggio(tipo = 0, titolo = "Attenzione", mex = "Devi aspettare che una pista si liberi")
-            return
-        else:
-            pista_occupata = self.pisteList.currentText()
-            id_pista_occupata = pista_occupata[4]
-            print(id_pista_occupata + "   " + str(self.messaggioTempo.text()))
-
 
         GruppoClienti.creaGruppoClienti(self,1 , gruppo_clienti, numero_partite, id_pista_occupata )
 
-    def assegnaPista(self):
+        self.clientiList.clearSelection()
+
+    def messaggioPiste(self, contatore_piste_libere):
+        if contatore_piste_libere > 0:
+            self.messaggioTempo.setText("Ci sono " + str(contatore_piste_libere) + " piste libere")
+        else:
+            self.messaggioTempo.setText("Tutte le piste sono occupate")
+
+    """def assegnaPista(self):
         tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
         pista_scelta = self.pisteList.currentText()
 
@@ -178,4 +205,4 @@ class VistaGestionePartite(QWidget):
         if "False" in pista_scelta:
             self.messaggio(tipo = 0, titolo="Attenzione", mex="La pista selezionata non è disponibile")
         else:
-            print(tutte_le_piste)
+            print(tutte_le_piste)"""
