@@ -184,7 +184,7 @@ class VistaGestionePartite(QWidget):
             self.messaggio(tipo=0, titolo="Attenzione", mex="un gruppo deve effettuare almeno una partita")
             numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
 
-        GruppoClienti.creaGruppoClienti(self,1 , gruppo_clienti, numero_partite, id_pista_occupata )
+        GruppoClienti().creaGruppoClienti(1 , gruppo_clienti, numero_partite, id_pista_occupata )
 
         self.clientiList.clearSelection()
 

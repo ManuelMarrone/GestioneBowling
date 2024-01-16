@@ -44,18 +44,24 @@
        <widget class="QLabel" name="logo">
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>100</height>
+          <width>150</width>
+          <height>150</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
-          <height>100</height>
+          <width>150</width>
+          <height>150</height>
          </size>
         </property>
         <property name="text">
          <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>../../Logo_bowling.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

@@ -46,7 +46,6 @@ if __name__ == "__main__":
     VistaLogin.show()
     sys.exit(app.exec())
 
-
     # app = QApplication(sys.argv)
     # vistaclienti = VistaGestioneClienti()
     # vistaclienti.show()

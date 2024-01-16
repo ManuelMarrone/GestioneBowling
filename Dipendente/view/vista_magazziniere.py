@@ -4,7 +4,7 @@ from PyQt6.QtCore import pyqtSignal
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
-
+from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 
 class VistaMagazziniere(QWidget):
     closed = pyqtSignal()
@@ -18,6 +18,7 @@ class VistaMagazziniere(QWidget):
         self.itemClienteSelezionato = None
 
         self.riempiListaScarpe()
+        self.riempiBoxGruppi()
         self.scarpeList.itemClicked.connect(self.scarpaClicked)
         self.esciButton.clicked.connect(self.chiudiFinestra)
         self.assegnaButton.clicked.connect(self.assegnaScarpa)
@@ -41,6 +42,14 @@ class VistaMagazziniere(QWidget):
                     item.setText(
                         "Scarpa " + str(scarpa.taglia) + ", id: " + str(scarpa.id))
                     self.scarpeList.addItem(item)
+
+    def riempiBoxGruppi(self):
+        gruppi = []
+        self.gruppiComboBox.clear()
+        gruppi = ControlloreGruppoClienti().visualizzaGruppi()
+        if gruppi is not None:
+            for gruppo in gruppi:
+                self.gruppiComboBox.addItem(str(gruppo.id)+" " + str(gruppo.membri))
 
     def assegnaScarpa(self):
         if self.itemSelezionato is not None and self.itemClienteSelezionato is not None:
