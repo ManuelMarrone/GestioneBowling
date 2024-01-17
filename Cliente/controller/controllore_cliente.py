@@ -36,6 +36,10 @@ class ControlloreCliente():
     def getTagliaScarpe(self):
         return self.model.tagliaScarpe
 
+    def setAssegnato(self, x, id):
+        self.model.setAssegnato(x, id)
+
+
     def modificaCliente(self,id, nuovoAbbonato, nuovoCodiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
                         nuovoSesso, nuovaTagliaScarpe):
         Cliente().modificaCliente(id = id,
@@ -113,7 +117,7 @@ class ControlloreCliente():
     def visualizzaClienti(self):
         return Cliente().getClienti()
 
-    def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe):
+    def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato=False):
         cliente = self.ricercaClienteCodiceFiscale(codiceFiscale)
         if isinstance(cliente, Cliente):  # se il magazziniere già esiste
             return None
@@ -125,7 +129,8 @@ class ControlloreCliente():
               email=email,
               nome=nome,
               sesso=sesso,
-              tagliaScarpe=tagliaScarpe
+              tagliaScarpe=tagliaScarpe,
+              assegnato=assegnato
              )
 
         return nuovoCliente

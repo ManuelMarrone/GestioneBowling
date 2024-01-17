@@ -9,7 +9,7 @@ from Cliente.controller.controllore_cliente import ControlloreCliente
 from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
 from GruppoClienti.model.GruppoClienti import GruppoClienti
-
+from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 
 class VistaGestionePartite(QWidget):
     closed = pyqtSignal()
@@ -26,12 +26,14 @@ class VistaGestionePartite(QWidget):
 
         self.riempiListaPiste()
         self.riempiListaClienti()
+
         self.clientiList.itemClicked.connect(self.clienteClicked)
         self.indietroButton.clicked.connect(self.chiudiFinestra)
         self.cercaButton.clicked.connect(self.goCerca)
-
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
         #self.assegnaButton.clicked.connect(self.assegnaPista)
+        self.inviaButton.clicked.connect(self.goInvia)
+
 
         contatore_piste_libere = 0
         tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
@@ -71,9 +73,11 @@ class VistaGestionePartite(QWidget):
         listaClienti = ControlloreCliente.visualizzaClienti(self)
         if listaClienti is not None:
             for cliente in listaClienti:
-                item = QListWidgetItem()
-                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", id: " + cliente.id)
-                self.clientiList.addItem(item)
+                if cliente.assegnato is False:
+                    item = QListWidgetItem()
+                    item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", id: " + cliente.id)
+                    self.clientiList.addItem(item)
+                    print(str(cliente.assegnato))
 
     def riempiListaPiste(self):
         listaPiste = []
@@ -177,6 +181,10 @@ class VistaGestionePartite(QWidget):
             for j in gruppo_clienti:
                 if j == elemento:
                     self.clientiList.item(i).setHidden(True)
+                    for cliente in ControlloreCliente().visualizzaClienti():
+                        if cliente.id == j[-5:]:
+                            self.controller = ControlloreCliente(cliente)
+                            self.controller.setAssegnato(True, cliente.id)
 
         "verifica che un gruppo giochi almeno una partita"
         numero_partite, ok = QInputDialog.getInt(self, 'Numero Partite', 'quante partite intende effettuare il gruppo?')
@@ -194,15 +202,8 @@ class VistaGestionePartite(QWidget):
         else:
             self.messaggioTempo.setText("Tutte le piste sono occupate")
 
-    """def assegnaPista(self):
-        tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
-        pista_scelta = self.pisteList.currentText()
-
-        if "True" not in tutte_le_piste:
-            self.messaggioTempo.setText("La prossima pista sarà libera tra 20 minuti")
-
-
-        if "False" in pista_scelta:
-            self.messaggio(tipo = 0, titolo="Attenzione", mex="La pista selezionata non è disponibile")
-        else:
-            print(tutte_le_piste)"""
+    def goInvia(self):
+        "time.sleep(x)"
+        x = ControlloreGruppoClienti.visualizzaGruppi(self)
+        for i in range(len(x)):
+            print("numero partite " + str(x[i].numeroPartite) + " del gruppo: " + str(x[i].id))
