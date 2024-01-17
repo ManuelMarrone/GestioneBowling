@@ -55,7 +55,8 @@ class VistaMagazziniere(QWidget):
                 cognome = cliente.split("cognome:")[1].split(",")[0].strip()
                 istanza = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
                 taglia = ControlloreCliente(istanza).getTagliaScarpe()
-                if taglia != 0:
+                IdScarpa = ControlloreCliente(istanza).getIdScarpa()
+                if taglia != "0" and IdScarpa == "":
                     item = QListWidgetItem()
                     item.setText(
                         nome + " " + cognome+ " taglia:" + taglia)
@@ -72,17 +73,20 @@ class VistaMagazziniere(QWidget):
     def assegnaScarpa(self):
         if self.itemSelezionato is not None and self.itemClienteSelezionato is not None:
             taglia = self.itemSelezionato.split("Scarpa")[1].split(",")[0].strip()
-            id = self.itemSelezionato.split("id:")[1]
+            idScarpa = self.itemSelezionato.split("id:")[1].strip()
 
             nome, cognome = self.itemClienteSelezionato.split()[:2]
 
-            scarpaSelezionata = ControlloreScarpa().ricercaScarpaId(taglia)
+            scarpaSelezionata = ControlloreScarpa().ricercaScarpaId(idScarpa)
             clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
 
             idSelezionato = self.gruppiComboBox.currentText()
             gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
 
-            ControlloreScarpa(scarpaSelezionata).assegnaScarpa(gruppoSelezionato, clienteSelezionato, id)
+            scarpa = ControlloreScarpa(scarpaSelezionata)
+            scarpa.assegnaScarpa(gruppoSelezionato, clienteSelezionato, idScarpa)
+            self.riempiListaScarpe()
+            self.riempiListaClienti()
         else:
             self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Selezionare un cliente e una scarpa")
 

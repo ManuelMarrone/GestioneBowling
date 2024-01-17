@@ -12,6 +12,7 @@ class Cliente():
         self.sesso = ""
         self.tagliaScarpe = ""
         self.assegnato = False
+        self.idScarpa = ""
 
     class MyClass:
         idIncrementale = 0
@@ -37,7 +38,7 @@ class Cliente():
         idGenerato = nome[0:2] + cognome[0:2] + str(idIncrementale)
         return idGenerato
 
-    def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato):
+    def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato, idScarpa):
         self.abbonato = abbonato
         self.codiceFiscale = codiceFiscale
         self.id = self.creaId(nome, cognome)
@@ -47,6 +48,7 @@ class Cliente():
         self.sesso = sesso
         self.tagliaScarpe = tagliaScarpe
         self.assegnato = assegnato
+        self.idScarpa = idScarpa
         clienti = []
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', "rb") as f:
@@ -97,6 +99,21 @@ class Cliente():
         return self.cognome
     def getNome(self):
         return self.nome
+
+    def getIdScarpa(self):
+        return self.idScarpa
+
+    def getId(self):
+        return self.id
+
+    def setIdScarpa(self, idS, idCliente):
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
+                clienti = pickle.load(f)
+                cliente = next((cliente for cliente in clienti if str(cliente.id) == idCliente), None)
+                cliente.idScarpa = idS
+            with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
+                pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
 
     def getCliente(self):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):

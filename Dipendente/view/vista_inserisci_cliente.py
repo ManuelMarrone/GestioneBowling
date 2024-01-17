@@ -38,7 +38,9 @@ class VistaInserimento(QWidget):
                 email=email,
                 nome=nome,
                 sesso=sesso,
-                tagliaScarpe=tagliaScarpe
+                tagliaScarpe=tagliaScarpe,
+                assegnato=False,
+                idScarpa=""
             )
             if cliente is None:
                 self.messaggio(tipo=0 , titolo="Inserimeno cliente", mex='<p style=color:white> Cliente già esistente')

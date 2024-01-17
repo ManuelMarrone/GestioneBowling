@@ -47,8 +47,9 @@ class ControlloreScarpa():
                 scarpe = pickle.load(f)
         if len(scarpe) > 0:
             for scarpa in scarpe:
-                if scarpa.getIdScarpa() == id:
+                if str(scarpa.getIdScarpa()) == id:
                     return scarpa
+            return None
         else:
             return None
 
@@ -61,17 +62,20 @@ class ControlloreScarpa():
     def setDisponibilitaScarpa(self, bool, id):
         self.model.setDisponibilitaScarpa(bool, id)
 
-    def assegnaScarpa(self,gruppoSelezionato, cliente, id):
-        self.model.setDisponibilitaScarpa(False, id) #rendiamo la scarpa non più disponibile
+    def assegnaScarpa(self,gruppoSelezionato, clienteSelezionato, idScarpa):
+        self.setDisponibilitaScarpa(False, idScarpa) #rendiamo la scarpa non più disponibile
         #far scorrere i gruppi di clienti e cercare al loro interno i clienti partecipanti
         if gruppoSelezionato is not None:
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
                 nome = cliente.split("nome: ")[1].split(",")[0].strip()
                 cognome = cliente.split("cognome:")[1].split(",")[0].strip()
-                if nome == cliente.getNome() and cognome == cliente.getCognome():
+                if nome == clienteSelezionato.getNome() and cognome == clienteSelezionato.getCognome():
                     # appena trovo corrispondenza con cliente
-                    # associa dentro data di gruppiClienti l'id della scarpa al gruppo trovato
-                    pass#parte da rivedere, meglio associare un attributo
+                    # associa dentro l'attributo del cliente l'id della scarpa
+                    clienteIstanza = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+                    idCliente = ControlloreCliente(clienteIstanza).getId()
+                    ControlloreCliente(clienteIstanza).setIdScarpa(idScarpa, idCliente)
+                    print("scarpa assegnata a" + idCliente + " : " + idScarpa)
 
         #quando si andrà ad eliminare il gruppo di Clienti si fa una ricerca della scarpa
         #in base all'id per poter settare nuovamente la disponibilità a True

@@ -25,7 +25,7 @@ class ControlloreCliente():
         return self.model.email
 
     def getId(self):
-        return self.model.id
+        return self.model.getId()
 
     def getNome(self):
         return self.model.getNome()
@@ -114,10 +114,16 @@ class ControlloreCliente():
     def getCliente(self):
         return self.model.getCliente()
 
+    def getIdScarpa(self):
+        return self.model.getIdScarpa()
+
+    def setIdScarpa(self, idS, idCliente):
+        self.model.setIdScarpa(idS, idCliente)
+
     def visualizzaClienti(self):
         return Cliente().getClienti()
 
-    def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato=False):
+    def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato, idScarpa):
         cliente = self.ricercaClienteCodiceFiscale(codiceFiscale)
         if isinstance(cliente, Cliente):  # se il magazziniere già esiste
             return None
@@ -130,7 +136,8 @@ class ControlloreCliente():
               nome=nome,
               sesso=sesso,
               tagliaScarpe=tagliaScarpe,
-              assegnato=assegnato
+              assegnato=assegnato,
+              idScarpa=idScarpa
              )
 
         return nuovoCliente

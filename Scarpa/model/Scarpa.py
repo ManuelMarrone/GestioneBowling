@@ -37,11 +37,10 @@ class Scarpa():
             return None
 
     def setDisponibilitaScarpa(self, bool, id):
-        self.disponibilita = bool
         if os.path.isfile('Scarpa/data/scarpe.pickle'):
             with open('Scarpa/data/scarpe.pickle', 'rb') as f:
                 scarpe = pickle.load(f)
-                scarpa = next((scarpa for scarpa in scarpe if scarpa.id == id), None)
+                scarpa = next((scarpa for scarpa in scarpe if str(scarpa.id) == id), None)
                 scarpa.disponibilita = bool
             with open('Scarpa/data/scarpe.pickle', 'wb') as f:
                 pickle.dump(scarpe, f, pickle.HIGHEST_PROTOCOL)
