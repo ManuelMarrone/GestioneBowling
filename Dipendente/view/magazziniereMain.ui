@@ -143,16 +143,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="selezionaButton">
-          <property name="styleSheet">
-           <string notr="true">color: white;  background-color: #874B0F</string>
-          </property>
-          <property name="text">
-           <string>Seleziona</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="verticalSpacer_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>

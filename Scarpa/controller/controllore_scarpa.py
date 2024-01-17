@@ -58,6 +58,7 @@ class ControlloreScarpa():
 
     def setDisponibilitaScarpa(self, bool):
         self.model.setDisponibilitaScarpa(bool)
+        #aggiungi modifica nel pickle
 
     def assegnaScarpa(self, cliente):
         self.model.setDisponibilitaScarpa(False) #rendiamo la scarpa non più disponibile

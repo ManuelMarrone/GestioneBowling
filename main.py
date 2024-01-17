@@ -46,6 +46,9 @@ if __name__ == "__main__":
     VistaLogin.show()
     sys.exit(app.exec())
 
+    # with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
+    #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
+
     # app = QApplication(sys.argv)
     # vistaclienti = VistaGestioneClienti()
     # vistaclienti.show()

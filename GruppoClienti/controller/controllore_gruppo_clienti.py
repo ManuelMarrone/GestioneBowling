@@ -2,23 +2,30 @@ import os
 import pickle
 
 from GruppoClienti.model.GruppoClienti import GruppoClienti
+
+
 class ControlloreGruppoClienti:
-    def __init__(self, gruppoClienti = None):
+    def __init__(self, gruppoClienti=None):
         self.model = gruppoClienti
+
     def getId(self):
         return self.model.id
+
     def getMembri(self):
-        return self.model.membri
+        return self.model.getMembri()
+
     def getNumeroPartite(self):
         return self.model.numeroPartite
+
     def getPistaOccupata(self):
         return self.model.pistaOccupata
-    def modificaGruppoClienti(self,id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata):
-        GruppoClienti().modificaGruppoClienti(id = id,
-            nuovoMembri=nuovoMembri,
-            nuovoNumeroPartite=nuovoNumeroPartite,
-            nuovoPistaOccupata=nuovoPistaOccupata
-        )
+
+    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata):
+        GruppoClienti().modificaGruppoClienti(id=id,
+                                              nuovoMembri=nuovoMembri,
+                                              nuovoNumeroPartite=nuovoNumeroPartite,
+                                              nuovoPistaOccupata=nuovoPistaOccupata
+                                              )
         return True
 
     def rimuoviGruppo(self, gruppo):
@@ -41,8 +48,9 @@ class ControlloreGruppoClienti:
                 gruppi = pickle.load(f)
         if len(gruppi) > 0:
             for gruppo in gruppi:
-                if gruppo.id == id:
+                if str(gruppo.id) == id:
                     return gruppo
+            return None
         else:
             return None
 
@@ -52,9 +60,9 @@ class ControlloreGruppoClienti:
             return None
         else:
             nuovoGruppoclienti = GruppoClienti().creaGruppoClienti(
-              membri=membri,
-              numeroPartite=numeroPartite,
-              pistaOccupata=pistaOccupata
-             )
+                membri=membri,
+                numeroPartite=numeroPartite,
+                pistaOccupata=pistaOccupata
+            )
 
         return nuovoGruppoclienti

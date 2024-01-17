@@ -9,8 +9,10 @@ class GruppoClienti:
         self.numeroPartite = 0
         self.pistaOccupata = ""
 
+    def getMembri(self):
+        return self.membri
 
-    def modificaGruppoClienti(self,id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata,):
+    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata, ):
         self.nuovoMembri = nuovoMembri
         self.nuovoNumeroPartite = nuovoNumeroPartite
         self.nuovoPistaOccupata = nuovoPistaOccupata
@@ -60,8 +62,8 @@ class GruppoClienti:
                 pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
         del self
 
-    def __str__(self):
-        return "Id: " + self.id + "\n" + \
-                "Membri : " + self.membri + "\n" + \
-                "Numero Partite: " + self.numeroPartite + "\n" + \
-                "Pista occupata: " + self.pistaOccupata
+    # def __str__(self):
+    #     return "Id: " + str(self.id) + "\n" + \
+    #             "Membri : " + str(self.membri) + "\n" + \
+    #             "Numero Partite: " + str(self.numeroPartite) + "\n" + \
+    #             "Pista occupata: " + str(self.pistaOccupata)

@@ -38,3 +38,4 @@ class Scarpa():
 
     def setDisponibilitaScarpa(self, bool):
         self.disponibilita = bool
+        #pickle

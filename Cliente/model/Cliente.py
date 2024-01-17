@@ -93,6 +93,9 @@ class Cliente():
     def isAbbbonato(self):
         return self.abbonato
 
+    def getNome(self):
+        return self.nome
+
     def getCliente(self):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:

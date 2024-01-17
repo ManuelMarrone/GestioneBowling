@@ -28,7 +28,7 @@ class ControlloreCliente():
         return self.model.id
 
     def getNome(self):
-        return self.model.nome
+        return self.model.getNome()
 
     def getSesso(self):
         return self.model.sesso
