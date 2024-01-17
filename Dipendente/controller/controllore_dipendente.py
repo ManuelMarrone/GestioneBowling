@@ -9,34 +9,34 @@ class ControlloreDipendente():
         self.model = dipendente
 
     def getId(self):
-        return self.model.id
+        return self.model.getId()
 
     def getNome(self):
-        return self.model.nome
+        return self.model.getNome()
 
     def getCognome(self):
-        return self.model.cognome
+        return self.model.getCognome()
 
     def getRuolo(self):
-        return self.model.ruolo
+        return self.model.getRuolo()
 
     def getCF(self):
-        return self.model.codiceFiscale
+        return self.model.getCF()
 
     def getDataNascita(self):
-        return (self.model.dataNascita).toString("dd-MM-yyyy")
+        return self.model.getDataNascita()
 
     def getEmail(self):
-        return self.model.email
+        return self.model.getEmail()
 
     def getSesso(self):
-        return self.model.sesso
+        return self.model.getSesso()
 
     def getTelefono(self):
-        return str(self.model.telefono)
+        return self.model.getTelefono()
 
     def getPassword(self):
-        return self.model.password
+        return self.model.getPassword()
 
     def modificaDipendente(self,id, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
         Dipendente().modificaDipendente(id = id,

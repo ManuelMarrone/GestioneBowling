@@ -1,7 +1,9 @@
 import os
 import pickle
 
+from Cliente.controller.controllore_cliente import ControlloreCliente
 from Scarpa.model.Scarpa import Scarpa
+from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 
 
 class ControlloreScarpa():
@@ -18,13 +20,13 @@ class ControlloreScarpa():
     #     return nuovaScarpa
 
     def getIdScarpa(self):
-        return self.model.id
+        return self.model.getIdScarpa()
 
     def getDisponibilitaScarpa(self):
-        return self.model.disponibilita
+        return self.model.getDisponibilitaScarpa()
 
     def getTagliaScarpa(self):
-        return self.model.taglia
+        return self.model.getTaglia()
 
     def ricercaScarpaTaglia(self, taglia):
         scarpe = []
@@ -33,7 +35,7 @@ class ControlloreScarpa():
                 scarpe = pickle.load(f)
         if len(scarpe) > 0:
             for scarpa in scarpe:
-                if scarpa.taglia == taglia:
+                if scarpa.getTagliaScarpa() == taglia:
                     return scarpa
         else:
             return None
@@ -45,7 +47,7 @@ class ControlloreScarpa():
                 scarpe = pickle.load(f)
         if len(scarpe) > 0:
             for scarpa in scarpe:
-                if scarpa.id == id:
+                if scarpa.getIdScarpa() == id:
                     return scarpa
         else:
             return None
@@ -56,14 +58,20 @@ class ControlloreScarpa():
     def visualizzaScarpe(self):
         return Scarpa().getScarpe()
 
-    def setDisponibilitaScarpa(self, bool):
-        self.model.setDisponibilitaScarpa(bool)
-        #aggiungi modifica nel pickle
+    def setDisponibilitaScarpa(self, bool, id):
+        self.model.setDisponibilitaScarpa(bool, id)
 
-    def assegnaScarpa(self, cliente):
-        self.model.setDisponibilitaScarpa(False) #rendiamo la scarpa non più disponibile
+    def assegnaScarpa(self,gruppoSelezionato, cliente, id):
+        self.model.setDisponibilitaScarpa(False, id) #rendiamo la scarpa non più disponibile
         #far scorrere i gruppi di clienti e cercare al loro interno i clienti partecipanti
-        #appena trovo corrispondenza con cliente
-        #associa dentro data di gruppiClienti l'id della scarpa al gruppo trovato
+        if gruppoSelezionato is not None:
+            for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
+                nome = cliente.split("nome: ")[1].split(",")[0].strip()
+                cognome = cliente.split("cognome:")[1].split(",")[0].strip()
+                if nome == cliente.getNome() and cognome == cliente.getCognome():
+                    # appena trovo corrispondenza con cliente
+                    # associa dentro data di gruppiClienti l'id della scarpa al gruppo trovato
+                    pass#parte da rivedere, meglio associare un attributo
+
         #quando si andrà ad eliminare il gruppo di Clienti si fa una ricerca della scarpa
         #in base all'id per poter settare nuovamente la disponibilità a True

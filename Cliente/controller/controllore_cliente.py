@@ -19,7 +19,7 @@ class ControlloreCliente():
         return self.model.codiceFiscale
 
     def getCognome(self):
-        return self.model.cognome
+        return self.model.getCognome()
 
     def getEmail(self):
         return self.model.email

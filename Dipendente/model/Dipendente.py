@@ -15,6 +15,36 @@ class Dipendente:
         self.sesso = ""
         self.telefono = 0
 
+    def getNome(self):
+        return self.nome
+
+    def getCognome(self):
+        return self.cognome
+
+    def getId(self):
+        return self.id
+
+    def getRuolo(self):
+        return self.ruolo
+
+    def getCF(self):
+        return self.codiceFiscale
+
+    def getDataNascita(self):
+        return (self.dataNascita).toString("dd-MM-yyyy")
+
+    def getEmail(self):
+        return self.email
+
+    def getSesso(self):
+        return self.sesso
+
+    def getTelefono(self):
+        return str(self.telefono)
+
+    def getPassword(self):
+        return self.password
+
     # creazione id univoco
     def creaId(self, nome, cognome):
         global idIncrementale

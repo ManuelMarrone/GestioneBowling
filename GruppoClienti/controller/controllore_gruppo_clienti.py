@@ -9,7 +9,7 @@ class ControlloreGruppoClienti:
         self.model = gruppoClienti
 
     def getId(self):
-        return self.model.id
+        return self.model.getId()
 
     def getMembri(self):
         return self.model.getMembri()

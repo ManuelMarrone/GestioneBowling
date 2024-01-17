@@ -12,6 +12,9 @@ class GruppoClienti:
     def getMembri(self):
         return self.membri
 
+    def getId(self):
+        return self.id
+
     def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata, ):
         self.nuovoMembri = nuovoMembri
         self.nuovoNumeroPartite = nuovoNumeroPartite

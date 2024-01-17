@@ -39,17 +39,16 @@ class VistaMagazziniere(QWidget):
         listaScarpe = ControlloreScarpa().visualizzaScarpe()
         if listaScarpe is not None:
             for scarpa in listaScarpe:
-                if scarpa.disponibilita is True:
+                if scarpa.getDisponibilitaScarpa() is True:
                     item = QListWidgetItem()
                     item.setText(
-                        "Scarpa " + str(scarpa.taglia) + ", id: " + str(scarpa.id))
+                        "Scarpa " + str(scarpa.getTagliaScarpa()) + ", id: " + str(scarpa.getIdScarpa()))
                     self.scarpeList.addItem(item)
 
     def riempiListaClienti(self):
         self.clientiList.clear()
         idSelezionato = self.gruppiComboBox.currentText()
         gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
-        print(gruppoSelezionato)
         if gruppoSelezionato is not None:
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
                 nome = cliente.split("nome: ")[1].split(",")[0].strip()
@@ -68,7 +67,7 @@ class VistaMagazziniere(QWidget):
         gruppi = ControlloreGruppoClienti().visualizzaGruppi()
         if gruppi is not None:
             for gruppo in gruppi:
-                self.gruppiComboBox.addItem(str(gruppo.id))
+                self.gruppiComboBox.addItem(str(gruppo.getId()))
 
     def assegnaScarpa(self):
         if self.itemSelezionato is not None and self.itemClienteSelezionato is not None:
@@ -77,10 +76,13 @@ class VistaMagazziniere(QWidget):
 
             nome, cognome = self.itemClienteSelezionato.split()[:2]
 
-            #da finire, mancano i gruppi di clienti
-            # scarpaSelezionata = ControlloreScarpa.ricercaScarpaId(self, taglia)
-            # clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
-            # ControlloreScarpa(scarpaSelezionata).assegnaScarpa(self, clienteSelezionato)
+            scarpaSelezionata = ControlloreScarpa().ricercaScarpaId(taglia)
+            clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+
+            idSelezionato = self.gruppiComboBox.currentText()
+            gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
+
+            ControlloreScarpa(scarpaSelezionata).assegnaScarpa(gruppoSelezionato, clienteSelezionato, id)
         else:
             self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Selezionare un cliente e una scarpa")
 
