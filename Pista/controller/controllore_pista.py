@@ -9,7 +9,7 @@ class ControllorePista():
         self.model = pista
 
     def getId(self):
-        return self.model.id
+        return self.model.getId()
 
     def getDisponibilita(self):
         return self.model.disponibilita
@@ -19,7 +19,6 @@ class ControllorePista():
         if os.path.isfile('Pista/data/piste.pickle'):
             with open('Pista/data/piste.pickle', 'rb') as f:
                 piste = pickle.load(f)
-                print(piste)
         if len(piste) > 0:
             for pista in piste:
                 if str(pista.id) == id:
@@ -37,7 +36,7 @@ class ControllorePista():
          self.model.setDisponibilita(bool, id)
 
     def creaPista(self, disponibilita, id):
-         nuovaPista = Pista().creaPista(
+        nuovaPista = Pista().creaPista(
             disponibilita=disponibilita,
             id=id)
-         return nuovaPista
+        return nuovaPista

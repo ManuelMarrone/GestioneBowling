@@ -58,7 +58,7 @@ class VistaGestioneClienti(QWidget):
     def riempiListaClienti(self):
         listaClienti = []
         self.clientiList.clear()
-        listaClienti = ControlloreCliente.visualizzaClienti(self)
+        listaClienti = ControlloreCliente().visualizzaClienti()
         if listaClienti is not None:
             for cliente in listaClienti:
                 item = QListWidgetItem()

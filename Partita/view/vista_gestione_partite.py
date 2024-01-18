@@ -55,7 +55,7 @@ class VistaGestionePartite(QWidget):
             if clienteRicercato is not None:                    #se il cliente è presente aggiorna la lista
                 self.clientiList.clear()
                 self.controller = ControlloreCliente(clienteRicercato)
-                listaClienti = ControlloreCliente.visualizzaClienti(self)
+                listaClienti = ControlloreCliente().visualizzaClienti()
                 if listaClienti is not None:
                     for cliente in listaClienti:
                         if cliente.nome == self.controller.getNome() and cliente.cognome == self.controller.getCognome():
@@ -70,7 +70,7 @@ class VistaGestionePartite(QWidget):
     def riempiListaClienti(self):
         listaClienti = []
         self.clientiList.clear()
-        listaClienti = ControlloreCliente.visualizzaClienti(self)
+        listaClienti = ControlloreCliente().visualizzaClienti()
         if listaClienti is not None:
             for cliente in listaClienti:
                 if cliente.assegnato is False:
@@ -186,13 +186,33 @@ class VistaGestionePartite(QWidget):
                             self.controller = ControlloreCliente(cliente)
                             self.controller.setAssegnato(True, cliente.id)
 
-        "verifica che un gruppo giochi almeno una partita"
+        "chiede il n° partite e verifica che un gruppo giochi almeno una partita"
         numero_partite, ok = QInputDialog.getInt(self, 'Numero Partite', 'quante partite intende effettuare il gruppo?')
         while numero_partite <= 0:
             self.messaggio(tipo=0, titolo="Attenzione", mex="un gruppo deve effettuare almeno una partita")
-            numero_partite, ok = QInputDialog.getInt(self, 'Numero Partte', 'quante partite intende effettuare il gruppo?')
+            numero_partite, ok = QInputDialog.getInt(self, 'Numero Partite', 'quante partite intende effettuare il gruppo?')
 
-        GruppoClienti().creaGruppoClienti(1 , gruppo_clienti, numero_partite, id_pista_occupata )
+        "chiede e assegna l'id al gruppo"
+        gruppi = ControlloreGruppoClienti().visualizzaGruppi()
+        id_gruppo, ok = QInputDialog.getText(self, 'Id gruppo', 'che id si intende associare al gruppo?')
+        while len(id_gruppo) != 4:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="L'id associato al gruppo dev'essere di 4 elementi")
+            id_gruppo, ok = QInputDialog.getText(self, 'Id gruppo', 'che id si intende associare al gruppo?')
+
+        for i in gruppi:
+            if str(i.getId()) == str(id_gruppo):
+                while str(i.getId()) == str(id_gruppo):
+                    self.messaggio(tipo=0, titolo="Attenzione", mex="Id già esistente, sceglierne uno nuovo")
+                    id_gruppo, ok = QInputDialog.getText(self, 'Id gruppo', 'che id si intende associare al gruppo?')
+
+        GruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, id_pista_occupata)
+
+        "cambia lo stato della pista nel pickle"
+        lista_piste = ControllorePista().visualizzaPiste()
+        for pista in lista_piste:
+            if str(pista.getId()) == str(id_pista_occupata):
+                ControllorePista(pista).setDisponibilita(False, id_pista_occupata)
+
 
         self.clientiList.clearSelection()
 
@@ -204,6 +224,6 @@ class VistaGestionePartite(QWidget):
 
     def goInvia(self):
         "time.sleep(x)"
-        x = ControlloreGruppoClienti.visualizzaGruppi(self)
+        x = ControlloreGruppoClienti().visualizzaGruppi()
         for i in range(len(x)):
             print("numero partite " + str(x[i].numeroPartite) + " del gruppo: " + str(x[i].id))
