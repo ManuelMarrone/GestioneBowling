@@ -14,11 +14,17 @@ class ControlloreGruppoClienti:
     def getMembri(self):
         return self.model.getMembri()
 
+    def getCounterPartito(self):
+        return self.model.getCounterPartito()
+
+    def setCounterPartito(self, id, bool):
+        self.model.setCounterPartito(id, bool)
+
     def getNumeroPartite(self):
         return self.model.numeroPartite
 
     def getPistaOccupata(self):
-        return self.model.pistaOccupata
+        return self.model.getPistaOccupata()
 
     def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata):
         GruppoClienti().modificaGruppoClienti(id=id,
@@ -28,9 +34,9 @@ class ControlloreGruppoClienti:
                                               )
         return True
 
-    def rimuoviGruppo(self, gruppo):
-        if isinstance(gruppo, GruppoClienti):
-            gruppo.rimuoviGruppoClienti()
+    def rimuoviGruppo(self, id):
+        if isinstance(self.model, GruppoClienti):
+            self.model.rimuoviGruppoClienti(id)
             return True
         else:
             return False
@@ -54,7 +60,7 @@ class ControlloreGruppoClienti:
         else:
             return None
 
-    def creaGruppoClienti(self, membri, numeroPartite, pistaOccupata):
+    def creaGruppoClienti(self, membri, numeroPartite, pistaOccupata,counterPartito=False):
         gruppo = self.ricercaGruppoId(id)
         if isinstance(gruppo, GruppoClienti):
             return None
@@ -62,7 +68,8 @@ class ControlloreGruppoClienti:
             nuovoGruppoclienti = GruppoClienti().creaGruppoClienti(
                 membri=membri,
                 numeroPartite=numeroPartite,
-                pistaOccupata=pistaOccupata
+                pistaOccupata=pistaOccupata,
+                counterPartito=counterPartito
             )
 
         return nuovoGruppoclienti

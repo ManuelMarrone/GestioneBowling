@@ -40,14 +40,24 @@ if __name__ == "__main__":
         piste_caricate = pickle.load(file_pickle)
 
     pprint.pprint(piste_caricate)"""
-
+    #
     app = QApplication(sys.argv)
     VistaLogin = VistaLogin()
     VistaLogin.show()
     sys.exit(app.exec())
-
+    #
     # with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
+
+
+
+    # with open('Scarpa/data/scarpe.pickle', 'rb') as f:
+    #     scarpe = pickle.load(f)
+    #     for scarpa in scarpe:
+    #         scarpa.disponibilita=True
+    #
+    # with open('Scarpa/data/scarpe.pickle', 'wb') as f:
+    #      pickle.dump(scarpe,f,pickle.HIGHEST_PROTOCOL)
 
     # app = QApplication(sys.argv)
     # vistaclienti = VistaGestioneClienti()

@@ -8,14 +8,30 @@ class GruppoClienti:
         self.membri = ""
         self.numeroPartite = 0
         self.pistaOccupata = ""
+        self.counterPartito = False
 
     def getMembri(self):
         return self.membri
 
+    def getCounterPartito(self):
+        return self.counterPartito
+
+    def setCounterPartito(self, id, bool):
+        if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
+            with open('GruppoClienti/data/GruppoClienti.pickle', 'rb') as f:
+                gruppi = pickle.load(f)
+                gruppo = next((gruppo for gruppo in gruppi if str(gruppo.id) == id), None)
+                gruppo.counterPartito = bool
+            with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
+                pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
+
     def getId(self):
         return self.id
 
-    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata, ):
+    def getPistaOccupata(self):
+        return self.pistaOccupata
+
+    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata ):
         self.nuovoMembri = nuovoMembri
         self.nuovoNumeroPartite = nuovoNumeroPartite
         self.nuovoPistaOccupata = nuovoPistaOccupata
@@ -31,11 +47,12 @@ class GruppoClienti:
             with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
                 pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
 
-    def creaGruppoClienti(self, id, membri, numeroPartite, pistaOccupata):
+    def creaGruppoClienti(self, id, membri, numeroPartite, pistaOccupata, counterPartito = False):
         self.id = id
         self.membri = membri
         self.numeroPartite = numeroPartite
         self.pistaOccupata = pistaOccupata
+        self.counterPartito = counterPartito
         gruppi = []
         if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
             with open('GruppoClienti/data/GruppoClienti.pickle', "rb") as f:
@@ -55,11 +72,11 @@ class GruppoClienti:
         else:
             return None
 
-    def rimuoviGruppoClienti(self):
+    def rimuoviGruppoClienti(self, id):
         if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
             with open('GruppoClienti/data/GruppoClienti.pickle', 'rb') as f:
                 gruppi = pickle.load(f)
-                daRimuovere = next((gruppo for gruppo in gruppi if gruppo.id == self.id), None)
+                daRimuovere = next((gruppo for gruppo in gruppi if str(gruppo.id) == str(id)), None)
                 gruppi.remove(daRimuovere)
             with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
                 pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)

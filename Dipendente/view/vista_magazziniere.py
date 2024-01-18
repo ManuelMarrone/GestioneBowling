@@ -1,8 +1,12 @@
+import threading
+import time
+
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
+from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 
@@ -25,6 +29,7 @@ class VistaMagazziniere(QWidget):
         self.assegnaButton.clicked.connect(self.assegnaScarpa)
         self.clientiList.itemClicked.connect(self.clienteClicked)
         self.gruppiComboBox.activated.connect(self.riempiListaClienti)
+
 
 
     def scarpaClicked(self, item):
@@ -68,7 +73,8 @@ class VistaMagazziniere(QWidget):
         gruppi = ControlloreGruppoClienti().visualizzaGruppi()
         if gruppi is not None:
             for gruppo in gruppi:
-                self.gruppiComboBox.addItem(str(gruppo.getId()))
+                if gruppo.getCounterPartito() is False:
+                    self.gruppiComboBox.addItem(str(gruppo.getId()))
 
     def assegnaScarpa(self):
         if self.itemSelezionato is not None and self.itemClienteSelezionato is not None:
@@ -87,8 +93,56 @@ class VistaMagazziniere(QWidget):
             scarpa.assegnaScarpa(gruppoSelezionato, clienteSelezionato, idScarpa)
             self.riempiListaScarpe()
             self.riempiListaClienti()
+            self.iniziaCounter()
         else:
             self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Selezionare un cliente e una scarpa")
+
+    def iniziaCounter(self):
+        if self.clientiList.count() == 0:
+            if self.gruppiComboBox.count() > 0:
+                # Ottenere l'indice dell'elemento corrente
+                currentIndex = self.gruppiComboBox.currentIndex()
+
+                idSelezionato = self.gruppiComboBox.currentText()
+                gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
+
+                # Rimuovere l'elemento corrente dalla QComboBox
+                self.gruppiComboBox.removeItem(currentIndex)
+                gruppoSelezionato.setCounterPartito(idSelezionato, True)
+                print(gruppoSelezionato.getCounterPartito())
+                self.riempiBoxGruppi()
+
+                # Avvia un thread per liberare la pista dopo un certo tempo
+
+                idPistaOccupata = gruppoSelezionato.getPistaOccupata()
+                threading.Thread(target=self.liberaPista, args=(idPistaOccupata, gruppoSelezionato)).start()
+
+
+    def liberaPista(self, idPistaOccupata, gruppoSelezionato):
+        tempo_di_attesa = 10  # Tempo di attesa in secondi
+        print("inizia attesa")
+        time.sleep(tempo_di_attesa)
+        print("fine attesa")
+
+        pista = ControllorePista().ricercaPistaId(idPistaOccupata)
+        pista.setDisponibilita(True)
+
+        membri = gruppoSelezionato.getMembri()
+        for membro in membri:
+            nome = membro.split("nome:")[1].split(",")[0].strip()
+            cognome = membro.split("cognome:")[1].split(",")[0].strip()
+            id = membro.split("id:")[1].strip()
+            print(nome)
+            print(cognome)
+            clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+            clienteSelezionato.setAssegnato(False, id)
+            clienteSelezionato.setIdScarpa("", id )
+
+        idGruppo = gruppoSelezionato.getId()
+        ControlloreGruppoClienti(gruppoSelezionato).rimuoviGruppo(idGruppo)
+        print("rimozione")
+
+
 
     def chiudiFinestra(self):
         self.closed.emit()
