@@ -82,7 +82,7 @@ class VistaGestionePartite(QWidget):
     def riempiListaPiste(self):
         listaPiste = []
         self.pisteList.clear()
-        listaPiste = ControllorePista.visualizzaPiste(self)
+        listaPiste = ControllorePista().visualizzaPiste()
         if listaPiste is not None:
             for pista in listaPiste:
                 item = QComboBox()

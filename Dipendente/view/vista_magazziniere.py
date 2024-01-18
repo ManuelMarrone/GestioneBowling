@@ -125,7 +125,7 @@ class VistaMagazziniere(QWidget):
         print("fine attesa")
 
         pista = ControllorePista().ricercaPistaId(idPistaOccupata)
-        pista.setDisponibilita(True)
+        pista.setDisponibilita(True, idPistaOccupata)
 
         membri = gruppoSelezionato.getMembri()
         for membro in membri:
@@ -136,7 +136,10 @@ class VistaMagazziniere(QWidget):
             print(cognome)
             clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
             clienteSelezionato.setAssegnato(False, id)
-            clienteSelezionato.setIdScarpa("", id )
+            idScarpa = clienteSelezionato.getIdScarpa()
+            print(idScarpa)
+            scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
+            scarpa.setDisponibilitaScarpa(True, idScarpa)
 
         idGruppo = gruppoSelezionato.getId()
         ControlloreGruppoClienti(gruppoSelezionato).rimuoviGruppo(idGruppo)

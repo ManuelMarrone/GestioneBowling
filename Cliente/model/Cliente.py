@@ -103,6 +103,9 @@ class Cliente():
     def getIdScarpa(self):
         return self.idScarpa
 
+    def getTagliaScarpe(self):
+        return self.tagliaScarpe
+
     def getId(self):
         return self.id
 

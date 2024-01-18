@@ -19,6 +19,7 @@ class ControllorePista():
         if os.path.isfile('Pista/data/piste.pickle'):
             with open('Pista/data/piste.pickle', 'rb') as f:
                 piste = pickle.load(f)
+                print(piste)
         if len(piste) > 0:
             for pista in piste:
                 if str(pista.id) == id:
@@ -32,28 +33,11 @@ class ControllorePista():
     def visualizzaPiste(self):
         return Pista().getPiste()
 
-    def setDisponibilita(self, bool):
-         self.model.setDisponibilita(bool)
+    def setDisponibilita(self, bool, id):
+         self.model.setDisponibilita(bool, id)
 
     def creaPista(self, disponibilita, id):
-        pistetemp = []
-        pista = None
-        if os.path.isfile('Dipendente/data/dipendenti.pickle'):
-            with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                pistetemp = pickle.load(f)
-        if len(pistetemp) > 0:
-             for pistatemp in pistetemp:
-                 if pistatemp.id == id:
-                    pista = pistatemp
-        else:
-            pista = None
-
-        if isinstance(pista, Pista):  # se la pista già esiste
-            return None
-        else:
-            nuovaPista = Pista().creaPista(
-               disponibilita=disponibilita,
-               id=id
-            )
-
-        return nuovaPista
+         nuovaPista = Pista().creaPista(
+            disponibilita=disponibilita,
+            id=id)
+         return nuovaPista

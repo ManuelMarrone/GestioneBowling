@@ -34,7 +34,7 @@ class ControlloreCliente():
         return self.model.sesso
 
     def getTagliaScarpe(self):
-        return self.model.tagliaScarpe
+        return self.model.getTagliaScarpe()
 
     def setAssegnato(self, x, id):
         self.model.setAssegnato(x, id)
@@ -106,7 +106,9 @@ class ControlloreCliente():
 
         if len(clienti) > 0:
             for cliente in clienti:
+                print(cliente.nome +" " + nome +" " + cliente.cognome + " " +cognome )
                 if cliente.nome == nome and cliente.cognome == cognome:
+                    print("entra")
                     return cliente
         else:
             return None
