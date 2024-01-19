@@ -1,11 +1,19 @@
 import time
 import os
 import pickle
-idIncrementale = 0
 class Abbonamento():
 
     idIncrementale = 0
     id_disponibili = set()
+
+    # def __init__(self, Abbonamenti):
+    #     self.dataFine = Abbonamenti["dataFine"]
+    #     self.dataValidazione = Abbonamenti["dataValidazione"]
+    #     self.id = ""
+    #     self.pagamentoRidotto = ""
+    #     self.partiteGratuite = ""
+    #     self.idCliente = ""
+
     def __init__(self):
         self.dataFine = ""
         self.dataValidazione = ""
@@ -38,7 +46,6 @@ class Abbonamento():
             with open('Abbonamento/data/ListaAbbonamenti.pickle', "wb") as f:
                 pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
         return self
-#MODIFICARE QUI SOTTO I PATH
     def rimuoviAbbonamento(self):
         Abbonamento.id_disponibili.add(self.id)  # Aggiungi l'ID dell'istanza eliminata agli ID disponibili
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
@@ -49,16 +56,23 @@ class Abbonamento():
             with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
                 pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
         del self
-
-    def isPagamentoRidotto(self):
-        return
-    def isAbbonamentoScaduto(self):
-        timestamp = int(time.time())
-        return timestamp > self.dataFine
+    def getId(self):
+        return self.id
     def getPartiteGratuite(self):
         return self.partiteGratuite
+    # SE QUESTO METODO RITORNA FALSE ALLORA BISOGNA IMPOSTARE IL PAGAMENTO RIDOTTO A TRUE
+    def getDataFine(self):
+        return self.dataFine
+    def getDataValidazione(self):
+        return self.dataValidazione
+    def getPagamentoRidotto(self):
+        return self.pagamentoRidotto
+    def getIdCliente(self):
+        return self.idCliente
+    def isAbbonamentoScaduto(self):
+        timestamp = int(time.time())
+        return timestamp > self.getDataFine()
 
-    def get_id(self):
-        return self.id
-    #SE QUESTO METODO RITORNA FALSE ALLORA BISOGNA IMPOSTARE IL PAGAMENTO RIDOTTO A TRUE
+
+
 

@@ -124,7 +124,7 @@ class ControlloreCliente():
 
     def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato, idScarpa):
         cliente = self.ricercaClienteCodiceFiscale(codiceFiscale)
-        if isinstance(cliente, Cliente):  # se il magazziniere già esiste
+        if isinstance(cliente, Cliente):  # se il cliente già esiste
             return None
         else:
             nuovoCliente = Cliente().creaCliente(
