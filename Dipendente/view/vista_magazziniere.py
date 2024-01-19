@@ -56,12 +56,15 @@ class VistaMagazziniere(QWidget):
         gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
         if gruppoSelezionato is not None:
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
-                nome = cliente.split("nome: ")[1].split(",")[0].strip()
+                nome = cliente.split("nome:")[1].split(",")[0].strip()
                 cognome = cliente.split("cognome:")[1].split(",")[0].strip()
-                istanza = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+                id = cliente.split("id:")[1].strip()
+                istanza = ControlloreCliente().ricercaClienteId(id)
                 taglia = ControlloreCliente(istanza).getTagliaScarpe()
-                IdScarpa = ControlloreCliente(istanza).getIdScarpa()
-                if taglia != "0" and IdScarpa == "":
+                print(taglia)
+                idScarpa = ControlloreCliente(istanza).getIdScarpa()
+                print(idScarpa)
+                if taglia != "0" and idScarpa == "":
                     item = QListWidgetItem()
                     item.setText(
                         nome + " " + cognome+ " taglia:" + taglia)
@@ -77,75 +80,106 @@ class VistaMagazziniere(QWidget):
                     self.gruppiComboBox.addItem(str(gruppo.getId()))
 
     def assegnaScarpa(self):
+        #se sono stati selezionati una scarpa e un cliente allora procede
         if self.itemSelezionato is not None and self.itemClienteSelezionato is not None:
+            #preleva taglia e id della scarpa selezionata
             taglia = self.itemSelezionato.split("Scarpa")[1].split(",")[0].strip()
             idScarpa = self.itemSelezionato.split("id:")[1].strip()
 
+            #preleva nome e cognome del cliente selezionato
             nome, cognome = self.itemClienteSelezionato.split()[:2]
 
+            #preleva l'oggetto della scarpa selezionata
             scarpaSelezionata = ControlloreScarpa().ricercaScarpaId(idScarpa)
+            #preleva l'oggetto del cliente selezionato
             clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
 
+            #preleva l'id del gruppo a cui si sta facendo riferimento
             idSelezionato = self.gruppiComboBox.currentText()
+            #preleva l'oggetto relativo a quel gruppo
             gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
 
             scarpa = ControlloreScarpa(scarpaSelezionata)
-            scarpa.assegnaScarpa(gruppoSelezionato, clienteSelezionato, idScarpa)
-            self.riempiListaScarpe()
-            self.riempiListaClienti()
-            self.iniziaCounter()
+            if scarpa.assegnaScarpa(gruppoSelezionato, clienteSelezionato, idScarpa) is True:
+                self.riempiListaScarpe()
+                self.riempiListaClienti()
+                self.iniziaCounter()
+            else:
+                self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Assegnamento non andato a buon fine")
         else:
             self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Selezionare un cliente e una scarpa")
 
     def iniziaCounter(self):
+        #se la lista dei clienti partecipanti al gruppo è vuota
+        #vuol dire o che nessun cliente richiede scarpe o che ogni cliente richiedente è stato soddisfatto
         if self.clientiList.count() == 0:
+            #se ci sono gruppi esistenti
             if self.gruppiComboBox.count() > 0:
-                # Ottenere l'indice dell'elemento corrente
+                #estraggo l'indice all'interno della comboBox del gruppo soddisfatto
                 currentIndex = self.gruppiComboBox.currentIndex()
 
+                #estraggo l'id del gruppo soddisfatto
                 idSelezionato = self.gruppiComboBox.currentText()
+                #prelevo l'oggetto del gruppo
                 gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
 
-                # Rimuovere l'elemento corrente dalla QComboBox
+                #rimuove l'elemento corrente dalla QComboBox
                 self.gruppiComboBox.removeItem(currentIndex)
+                #d'ora in poi non comparirà più il gruppo nella vista del magazziniere
                 gruppoSelezionato.setCounterPartito(idSelezionato, True)
-                print(gruppoSelezionato.getCounterPartito())
+                #aggiorna i gruppi da soddisfare
                 self.riempiBoxGruppi()
 
-                # Avvia un thread per liberare la pista dopo un certo tempo
-
+                #preleva l'id della pista occupata dal gruppo
                 idPistaOccupata = gruppoSelezionato.getPistaOccupata()
+                # avvia un thread per liberare la pista dopo un certo tempo
                 threading.Thread(target=self.liberaPista, args=(idPistaOccupata, gruppoSelezionato)).start()
 
 
     def liberaPista(self, idPistaOccupata, gruppoSelezionato):
-        tempo_di_attesa = 10  # Tempo di attesa in secondi
-        print("inizia attesa")
+        #preleva numero partite del gruppo
+        numPartite  = gruppoSelezionato.getNumeroPartite()
+        tempo_di_attesa = 10 * numPartite  # Tempo di attesa in secondi
+        print("inizia attesa" + str(tempo_di_attesa))
         time.sleep(tempo_di_attesa)
         print("fine attesa")
-
+        #preleva l'oggetto della pista occupta
         pista = ControllorePista().ricercaPistaId(idPistaOccupata)
+        #rende nuovamente disponibile la pista
         pista.setDisponibilita(True, idPistaOccupata)
 
         membri = gruppoSelezionato.getMembri()
-        for membro in membri:
-            nome = membro.split("nome:")[1].split(",")[0].strip()
-            cognome = membro.split("cognome:")[1].split(",")[0].strip()
-            id = membro.split("id:")[1].strip()
-            print(nome)
-            print(cognome)
-            clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
-            clienteSelezionato.setAssegnato(False, id)
-            idScarpa = clienteSelezionato.getIdScarpa()
-            print(idScarpa)
-            scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
-            scarpa.setDisponibilitaScarpa(True, idScarpa)
+        if membri is not None:
+            for membro in membri:
+                #preleva dati cliente
+                nome = membro.split("nome:")[1].split(",")[0].strip()
+                cognome = membro.split("cognome:")[1].split(",")[0].strip()
+                idCliente = membro.split("id:")[1].strip()
+                #preleva oggetto cliente
+                clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+                #preleva idScarpa della scarpa assegnata al cliente
+                idScarpa = clienteSelezionato.getIdScarpa()
+                #preleva l'oggetto della relativa scarpa
+                scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
+                #scarpa nuovamente disponibile per altri clienti
+                scarpa.setDisponibilitaScarpa(True, idScarpa)
 
+
+                #ripristino della disponibilita per giocare in altri gruppi
+                clienteSelezionato.setAssegnato(False, idCliente)
+                #ripristino idScarpa del cliente a nessuna scarpa aseegnata
+                clienteSelezionato.setIdScarpa("",idCliente)
+
+        else:
+            self.messaggio(tipo=0, titolo="Ripristino disponibilità clienti e scarpe", mex="Errore nel ripristino delle disponibilita")
+
+        #preleva id del gruppo da eliminare
         idGruppo = gruppoSelezionato.getId()
+        #rimozione gruppo
         ControlloreGruppoClienti(gruppoSelezionato).rimuoviGruppo(idGruppo)
         print("rimozione")
-
-
+        self.riempiListaScarpe()
+        self.riempiListaClienti()
 
     def chiudiFinestra(self):
         self.closed.emit()

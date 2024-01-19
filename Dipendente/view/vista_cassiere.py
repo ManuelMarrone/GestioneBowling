@@ -14,6 +14,7 @@ class VistaCassiere(QWidget):
 
         self.clientiButton.clicked.connect(self.goGestioneClienti)
         self.partiteButton.clicked.connect(self.goGestionePartite)
+        self.esciButton.clicked.connect(self.chiudiFinestra)
 
     def goGestioneClienti(self):
         VistaCassiere.close(self)
@@ -26,3 +27,7 @@ class VistaCassiere(QWidget):
         self.VistaGestionePartite = VistaGestionePartite()
         self.VistaGestionePartite.closed.connect(self.show)
         self.VistaGestionePartite.show()
+
+    def chiudiFinestra(self):
+        self.closed.emit()
+        self.close()

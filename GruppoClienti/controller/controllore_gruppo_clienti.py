@@ -21,7 +21,7 @@ class ControlloreGruppoClienti:
         self.model.setCounterPartito(id, bool)
 
     def getNumeroPartite(self):
-        return self.model.numeroPartite
+        return self.model.getNumeroPartite()
 
     def getPistaOccupata(self):
         return self.model.getPistaOccupata()

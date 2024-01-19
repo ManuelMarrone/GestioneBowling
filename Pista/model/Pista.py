@@ -37,6 +37,9 @@ class Pista():
         else:
             return None
 
+    def getId(self):
+        return self.id
+
     def setDisponibilita(self, bool, id):
         if os.path.isfile('Pista/data/piste.pickle'):
             with open('Pista/data/piste.pickle', 'rb') as f:

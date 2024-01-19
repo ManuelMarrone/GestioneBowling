@@ -13,6 +13,9 @@ class GruppoClienti:
     def getMembri(self):
         return self.membri
 
+    def getNumeroPartite(self):
+        return self.numeroPartite
+
     def getCounterPartito(self):
         return self.counterPartito
 
