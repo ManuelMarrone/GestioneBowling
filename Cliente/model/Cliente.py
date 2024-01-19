@@ -14,24 +14,6 @@ class Cliente():
         self.assegnato = False
         self.idScarpa = ""
 
-    class MyClass:
-        idIncrementale = 0
-        id_disponibili = set()
-
-        def __init__(self):
-            if MyClass.id_disponibili:  # Se ci sono ID disponibili nell'insieme
-                self.id = MyClass.id_disponibili.pop()  # Prendi un ID disponibile
-            else:
-                MyClass.idIncrementale += 1
-                self.id = MyClass.idIncrementale
-
-        def delete_instance(self):
-            MyClass.id_disponibili.add(self.id)  # Aggiungi l'ID dell'istanza eliminata agli ID disponibili
-            # Qui puoi fare altre operazioni necessarie per eliminare l'istanza
-
-        def get_id(self):
-            return self.id
-
     def creaId(self, nome, cognome):
         global idIncrementale
         idIncrementale += 1
@@ -92,14 +74,19 @@ class Cliente():
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
         del self
 
-    def isAbbbonato(self):
+    def isAbbonato(self):
         return self.abbonato
 
     def getCognome(self):
         return self.cognome
     def getNome(self):
         return self.nome
-
+    def getCodiceFiscale(self):
+        return self.codiceFiscale
+    def getEmail(self):
+        return self.email
+    def getSesso(self):
+        return self.sesso
     def getIdScarpa(self):
         return self.idScarpa
 

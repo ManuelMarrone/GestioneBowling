@@ -12,9 +12,7 @@ class Abbonamento():
         self.id = ""
         self.pagamentoRidotto = ""
         self.partiteGratuite = ""
-
-    def get_id(self):
-        return self.id
+        self.idCliente = ""
 
     def creaId(self):
         # Riutilizzo degli id delle istanze cancellate
@@ -25,12 +23,13 @@ class Abbonamento():
             self.id = Abbonamento.idIncrementale
 
         return self.id
-    def creaAbbonamento(self, dataFine, dataValidazione, id, pagamentoRidotto, partiteGratuite):
+    def creaAbbonamento(self, dataFine, dataValidazione, id, pagamentoRidotto, partiteGratuite, idCliente):
         self.dataFine = dataFine
         self.dataValidazione = dataValidazione
         self.id = self.creaId()
         self.pagamentoRidotto = False
         self.partiteGratuite = 15
+        self.idCliente = idCliente
         abbonamenti = []
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
             with open('Abbonamento/data/ListaAbbonamenti.pickle', "rb") as f:
@@ -42,21 +41,24 @@ class Abbonamento():
 #MODIFICARE QUI SOTTO I PATH
     def rimuoviAbbonamento(self):
         Abbonamento.id_disponibili.add(self.id)  # Aggiungi l'ID dell'istanza eliminata agli ID disponibili
-        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
-            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
-                clienti = pickle.load(f)
-                daRimuovere = next((cliente for cliente in clienti if cliente.id == self.id), None)
-                clienti.remove(daRimuovere)
-            with open('Cliente/data/ListaClienti.pickle', 'wb') as f:  # riscrive i cassieri sena l'eliminato
-                pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
+        if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                abbonamenti = pickle.load(f)
+                daRimuovere = next((abbonamento for abbonamento in abbonamenti if abbonamento.id == self.id), None)
+                abbonamenti.remove(daRimuovere)
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
+                pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
         del self
 
-    def is_PagamentoRidotto(self):
-        return self.pagamentoRidotto
-    def scadenzaAbbonamento(self):
+    def isPagamentoRidotto(self):
+        return
+    def isAbbonamentoScaduto(self):
         timestamp = int(time.time())
         return timestamp > self.dataFine
-    def verificaPartiteMassime(self):
-        return self.partiteGratuite > 0
+    def getPartiteGratuite(self):
+        return self.partiteGratuite
+
+    def get_id(self):
+        return self.id
     #SE QUESTO METODO RITORNA FALSE ALLORA BISOGNA IMPOSTARE IL PAGAMENTO RIDOTTO A TRUE
 

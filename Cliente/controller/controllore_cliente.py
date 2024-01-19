@@ -6,23 +6,20 @@ class ControlloreCliente():
     def __init__(self, cliente=None):
         self.model = cliente
 
-    def getAbbonato(self):
-        return self.model.abbonato
-
     def isAbbonato(self):
-        if self.model.abbonato is True:
+        if self.model.isAbbonato is True:
             return "Si"
         else:
             return "No"
 
     def getCodiceFiscale(self):
-        return self.model.codiceFiscale
+        return self.model.getCodiceFiscale
 
     def getCognome(self):
         return self.model.getCognome()
 
     def getEmail(self):
-        return self.model.email
+        return self.model.getEmail()
 
     def getId(self):
         return self.model.getId()
@@ -31,7 +28,7 @@ class ControlloreCliente():
         return self.model.getNome()
 
     def getSesso(self):
-        return self.model.sesso
+        return self.model.getSesso()
 
     def getTagliaScarpe(self):
         return self.model.getTagliaScarpe()

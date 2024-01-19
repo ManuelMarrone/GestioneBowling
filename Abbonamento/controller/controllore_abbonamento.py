@@ -2,7 +2,7 @@ class controllereAbbonamento():
     def __init__(self, abbonamento):
         self.model = abbonamento
     def getDataFine(self):
-        return self.model.dataFine
+        return self.model.getDataFine
     def getDataValidazione(self):
         return self.model.dataValidazione
     def getId(self):
