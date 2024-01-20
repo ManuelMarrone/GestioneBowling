@@ -26,6 +26,7 @@ class ControlloreDipendente():
     def getDataNascita(self):
         return self.model.getDataNascita()
 
+
     def getEmail(self):
         return self.model.getEmail()
 

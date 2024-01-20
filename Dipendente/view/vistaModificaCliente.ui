@@ -164,11 +164,16 @@
           <bool>false</bool>
          </property>
          <property name="currentText">
-          <string>38</string>
+          <string>0</string>
          </property>
          <property name="currentIndex">
           <number>0</number>
          </property>
+         <item>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </item>
          <item>
           <property name="text">
            <string>38</string>
@@ -207,16 +212,6 @@
          <item>
           <property name="text">
            <string>45</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>46</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>47</string>
           </property>
          </item>
         </widget>

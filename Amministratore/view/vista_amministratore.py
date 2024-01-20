@@ -13,8 +13,17 @@ class VistaAmministratore(QWidget):
         super(VistaAmministratore, self).__init__(parent)
         uic.loadUi('Amministratore/view/amministratoreMain.ui', self)
 
+        # Ottieni le dimensioni dello schermo principale
+        desktop = QApplication.primaryScreen().geometry()
+
+        # Imposta il posizionamento al centro dello schermo
+        x = (desktop.width() - self.width()) // 2
+        y = (desktop.height() - self.height()) // 2-50
+        self.move(x, y)
+
         self.gestioneDipendentiButton.clicked.connect(self.goDipendenti)
         self.esciButton.clicked.connect(self.chiudiFinestra)
+
         self.resetComboBox()
         self.statComboBox.activated.connect(self.statistiche)
 

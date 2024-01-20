@@ -17,10 +17,6 @@ class VistaMagazziniere(QWidget):
         super(VistaMagazziniere, self).__init__(parent)
         uic.loadUi('Dipendente/view/magazziniereMain.ui', self)
 
-        self.idDipendente = None
-        self.itemSelezionato = None
-        self.itemClienteSelezionato = None
-
         self.riempiListaScarpe()
         self.riempiBoxGruppi()
         self.riempiListaClienti()
@@ -29,7 +25,7 @@ class VistaMagazziniere(QWidget):
         self.assegnaButton.clicked.connect(self.assegnaScarpa)
         self.clientiList.itemClicked.connect(self.clienteClicked)
         self.gruppiComboBox.activated.connect(self.riempiListaClienti)
-
+        self.gruppiComboBox.activated.connect(self.iniziaCounter)
 
 
     def scarpaClicked(self, item):
@@ -104,8 +100,6 @@ class VistaMagazziniere(QWidget):
                 self.riempiListaScarpe()
                 self.riempiListaClienti()
                 self.iniziaCounter()
-            else:
-                self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Assegnamento non andato a buon fine")
         else:
             self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Selezionare un cliente e una scarpa")
 
@@ -161,8 +155,9 @@ class VistaMagazziniere(QWidget):
                 idScarpa = clienteSelezionato.getIdScarpa()
                 #preleva l'oggetto della relativa scarpa
                 scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
-                #scarpa nuovamente disponibile per altri clienti
-                scarpa.setDisponibilitaScarpa(True, idScarpa)
+                if scarpa is not None:
+                    #scarpa nuovamente disponibile per altri clienti
+                    scarpa.setDisponibilitaScarpa(True, idScarpa)
 
 
                 #ripristino della disponibilita per giocare in altri gruppi

@@ -16,6 +16,16 @@ class VistaGestioneDipendenti(QWidget):
 
         uic.loadUi('Amministratore/view/gestioneDipendenti.ui', self)
 
+        # Ottieni le dimensioni dello schermo principale
+        desktop = QApplication.primaryScreen().geometry()
+
+        # Imposta il posizionamento al centro dello schermo
+        x = (desktop.width() - self.width()) // 2
+        y = (desktop.height() - self.height()) // 2 - 50
+        self.move(x, y)
+
+
+
         self.idDipendente = None
         self.itemSelezionato = None
 

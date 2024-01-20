@@ -16,6 +16,14 @@ class VistaGestioneClienti(QWidget):
 
         uic.loadUi('Dipendente/view/lista_clienti.ui', self)
 
+        # Ottieni le dimensioni dello schermo principale
+        desktop = QApplication.primaryScreen().geometry()
+
+        # Imposta il posizionamento al centro dello schermo
+        x = (desktop.width() - self.width()) // 2
+        y = (desktop.height() - self.height()) // 2 - 50
+        self.move(x, y)
+
         self.idDipendente = None
         self.itemSelezionato = None
 
@@ -87,12 +95,15 @@ class VistaGestioneClienti(QWidget):
         if self.itemSelezionato is not None:
             nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
-            risultato = ControlloreCliente.rimuoviCliente(self, clienteSelezionato)
-            if risultato:
-                self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
+            clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+            if clienteSelezionato.isAssegnato() is False:
+                risultato = ControlloreCliente().rimuoviCliente( clienteSelezionato)
+                if risultato:
+                    self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
+                else:
+                    self.messaggio(tipo=0, titolo="Rimozione cliente",mex= "Errore nella rimozione del cliente!")
             else:
-                self.messaggio(tipo=0, titolo="Rimozione cliente",mex= "Errore nella rimozione del cliente!")
+                self.messaggio(tipo=0, titolo="Rimozione cliente", mex="Non puoi rimuovere il cliente mentre è assegnato ad un gruppo")
         self.riempiListaClienti()
 
     def goModifica(self):
@@ -100,9 +111,13 @@ class VistaGestioneClienti(QWidget):
             nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
-            self.vista_modifica = VistaModificaCliente(clienteSelezionato)
-            self.vista_modifica.closed.connect(self.riempiListaClienti)
-            self.vista_modifica.show()
+            if clienteSelezionato.isAssegnato() is False:
+                self.vista_modifica = VistaModificaCliente(clienteSelezionato)
+                self.vista_modifica.closed.connect(self.riempiListaClienti)
+                self.vista_modifica.show()
+            else:
+                self.messaggio(tipo=0, titolo="Modifica cliente",
+                               mex="Non puoi modificare il cliente mentre è assegnato ad un gruppo")
 
     def messaggio(self, tipo, titolo, mex):
         mexBox = QMessageBox()

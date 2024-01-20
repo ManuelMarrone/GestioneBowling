@@ -18,6 +18,14 @@ class VistaGestionePartite(QWidget):
         super(VistaGestionePartite, self).__init__(parent)
         uic.loadUi('Partita/view/gestionePartite.ui', self)
 
+        # Ottieni le dimensioni dello schermo principale
+        desktop = QApplication.primaryScreen().geometry()
+
+        # Imposta il posizionamento al centro dello schermo
+        x = (desktop.width() - self.width()) // 2
+        y = (desktop.height() - self.height()) // 2 - 50
+        self.move(x, y)
+
         self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
         self.pisteList.setEditable(True)
 

@@ -13,7 +13,7 @@ class ControlloreCliente():
             return "No"
 
     def getCodiceFiscale(self):
-        return self.model.getCodiceFiscale
+        return self.model.getCodiceFiscale()
 
     def getCognome(self):
         return self.model.getCognome()
@@ -32,6 +32,9 @@ class ControlloreCliente():
 
     def getTagliaScarpe(self):
         return self.model.getTagliaScarpe()
+
+    def getAssegnato(self):
+        return self.model.isAssegnato()
 
     def setAssegnato(self, x, id):
         self.model.setAssegnato(x, id)

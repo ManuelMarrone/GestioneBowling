@@ -1,4 +1,5 @@
 from PyQt6 import uic, QtCore
+from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QWidget, QMessageBox
 
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente
@@ -14,6 +15,20 @@ class VistaModificaDipendente(QWidget):
 
         self.confermaButton.clicked.connect(self.goModificaAccount)
         self.annullaButton.clicked.connect(self.chiudiFinestra)
+        self.caricaDatiDipendente()
+
+    def caricaDatiDipendente(self):
+        self.textNome.setText(self.controller.getNome())
+        self.textCognome.setText(self.controller.getCognome())
+        self.comboBoxRuolo.setCurrentText(self.controller.getRuolo())
+        self.textCF.setText(self.controller.getCF())
+        data = QtCore.QDateTime.fromString(self.controller.getDataNascita(), "dd-MM-yyyy")
+        self.textNascita.setDateTime(data)
+        self.textEmail.setText(self.controller.getEmail())
+        self.comboBoxSesso.setCurrentText(self.controller.getSesso())
+        self.textTelefono.setText(self.controller.getTelefono())
+        self.textVecchiaPassword.setText(self.controller.getPassword())
+
 
     def goModificaAccount(self):
         if self.controllaCampi():

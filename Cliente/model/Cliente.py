@@ -76,6 +76,10 @@ class Cliente():
 
     def isAbbonato(self):
         return self.abbonato
+
+    def isAssegnato(self):
+        return self.assegnato
+
     def getCognome(self):
         return self.cognome
     def getNome(self):
