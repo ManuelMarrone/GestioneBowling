@@ -27,7 +27,7 @@ class VistaGestioneClienti(QWidget):
 
         self.idCliente = None
         self.itemSelezionato = None
-
+        self.abbona.clicked.connect(self.goCreaAbbonamento)
         self.abbonamentoButton.clicked.connect(self.goGestisciAbbonamento)
         self.aggiungiButton.clicked.connect(self.goCreaCliente)
         self.riempiListaClienti()
@@ -62,6 +62,14 @@ class VistaGestioneClienti(QWidget):
     #             self.messaggio(tipo=1, titolo="Ricerca dipendente", mex="Il dipendente non è presente")
     #     else:
     #         self.messaggio(tipo=0, titolo="Attenzione",mex="Ricerca non valida")
+    def goCreaAbbonamento(self):
+        if self.itemSelezionato is not None:
+            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
+            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            idCliente = ControlloreCliente.getId(clienteSelezionato) # Viene preso l'id del cliente selezionato
+
+            ControlloreAbbonamento.creaAbbonamento(idCliente=idCliente, )
 
     def goGestisciAbbonamento(self):
         if self.itemSelezionato is not None:
