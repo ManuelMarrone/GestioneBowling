@@ -62,21 +62,28 @@ class ControlloreScarpa():
     def setDisponibilitaScarpa(self, bool, id):
         self.model.setDisponibilitaScarpa(bool, id)
 
+    #torna False se la scarpa selezionata non corrisponde con la taglia richiesta dal cliente
     def assegnaScarpa(self,gruppoSelezionato, clienteSelezionato, idScarpa):
-        self.setDisponibilitaScarpa(False, idScarpa) #rendiamo la scarpa non più disponibile
 
         if gruppoSelezionato is not None:
             #scorre i membri del gruppo
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
                 nome = cliente.split("nome: ")[1].split(",")[0].strip()
                 cognome = cliente.split("cognome:")[1].split(",")[0].strip()
+                # se trovo corrispondenza con cliente al quale sto assegnando la scarpa
                 if nome == clienteSelezionato.getNome() and cognome == clienteSelezionato.getCognome():
-                    # appena trovo corrispondenza con cliente al quale sto assegnando la scarpa
+                    #se la taglia della scarpa coincide con la richiesta
+
+                    self.setDisponibilitaScarpa(False, idScarpa)  # rendiamo la scarpa non più disponibile
                     # associa dentro l'attributo del cliente l'id della scarpa
                     clienteIstanza = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
                     idCliente = ControlloreCliente(clienteIstanza).getId()
                     ControlloreCliente(clienteIstanza).setIdScarpa(idScarpa, idCliente)
                     return True
-
         return False
 
+    def controllaTaglia(self, taglia, clienteSelezionato):
+        if clienteSelezionato.getTagliaScarpe() == taglia:
+            return True
+        else:
+            return False

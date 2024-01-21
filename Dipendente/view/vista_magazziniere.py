@@ -9,6 +9,7 @@ from Cliente.controller.controllore_cliente import ControlloreCliente
 from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
+from CodaScarpe.controller.controllore_coda_scarpe import ControlloreCodaScarpe
 
 class VistaMagazziniere(QWidget):
     closed = pyqtSignal()
@@ -27,6 +28,8 @@ class VistaMagazziniere(QWidget):
         self.gruppiComboBox.activated.connect(self.riempiListaClienti)
         self.gruppiComboBox.activated.connect(self.iniziaCounter)
 
+        self.itemSelezionato = None
+        self.itemClienteSelezionato = None
 
     def scarpaClicked(self, item):
         self.itemSelezionato = item.text()
@@ -35,7 +38,6 @@ class VistaMagazziniere(QWidget):
         self.itemClienteSelezionato = item.text()
 
     def riempiListaScarpe(self):
-        listaScarpe = []
         self.scarpeList.clear()
         listaScarpe = ControlloreScarpa().visualizzaScarpe()
         if listaScarpe is not None:
@@ -57,13 +59,11 @@ class VistaMagazziniere(QWidget):
                 id = cliente.split("id:")[1].strip()
                 istanza = ControlloreCliente().ricercaClienteId(id)
                 taglia = ControlloreCliente(istanza).getTagliaScarpe()
-                print(taglia)
                 idScarpa = ControlloreCliente(istanza).getIdScarpa()
-                print(idScarpa)
                 if taglia != "0" and idScarpa == "":
                     item = QListWidgetItem()
                     item.setText(
-                        nome + " " + cognome+ " taglia:" + taglia)
+                        nome + " " + cognome+ " taglia:" + taglia+ " id: " + id)
                     self.clientiList.addItem(item)
 
     def riempiBoxGruppi(self):
@@ -83,12 +83,12 @@ class VistaMagazziniere(QWidget):
             idScarpa = self.itemSelezionato.split("id:")[1].strip()
 
             #preleva nome e cognome del cliente selezionato
-            nome, cognome = self.itemClienteSelezionato.split()[:2]
+            id = self.itemClienteSelezionato.split("id:")[1].strip()
 
             #preleva l'oggetto della scarpa selezionata
             scarpaSelezionata = ControlloreScarpa().ricercaScarpaId(idScarpa)
             #preleva l'oggetto del cliente selezionato
-            clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+            clienteSelezionato = ControlloreCliente().ricercaClienteId(id)
 
             #preleva l'id del gruppo a cui si sta facendo riferimento
             idSelezionato = self.gruppiComboBox.currentText()
@@ -96,12 +96,42 @@ class VistaMagazziniere(QWidget):
             gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
 
             scarpa = ControlloreScarpa(scarpaSelezionata)
-            if scarpa.assegnaScarpa(gruppoSelezionato, clienteSelezionato, idScarpa) is True:
-                self.riempiListaScarpe()
-                self.riempiListaClienti()
-                self.iniziaCounter()
+
+            self.itemSelezionato = None
+            self.itemClienteSelezionato = None
+
+            if scarpa.controllaTaglia(taglia, clienteSelezionato):
+                if scarpa.assegnaScarpa(gruppoSelezionato, clienteSelezionato, idScarpa) is True:
+                    self.riempiListaScarpe()
+                    self.riempiListaClienti()
+                    self.iniziaCounter()
+            else:
+                self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="La taglia della scarpa selezionata non corrisponde con quella richeista dal cliente")
+        elif self.itemClienteSelezionato is not None:
+            #self.codaScarpe()
+            pass
         else:
             self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Selezionare un cliente e una scarpa")
+
+
+    # def codaScarpe(self):
+    #     tagliaRichiesta = self.itemClienteSelezionato.split("taglia:")[1].strip().split()[0]
+    #     if self.verificaDiponibilitaTaglia(tagliaRichiesta) is False:
+    #         id = self.itemClienteSelezionato.split("id:")[1].strip()
+    #         cliente = ControlloreCliente().ricercaClienteId(id)
+    #         if ControlloreCodaScarpe().aggiungiInCoda(cliente) is False:
+    #             self.messaggio(tipo=0, titolo="Coda per scarpe",
+    #                            mex="Cliente già in coda")
+    #         self.messaggio(tipo=1, titolo="Assegnamento scarpa",
+    #                       mex="Taglia non disponibile per il cliente, inserimento in coda")
+
+
+    def verificaDiponibilitaTaglia(self, tagliaRichiesta):
+        scarpePresenti= [self.scarpeList.item(index).text() for index in range(self.scarpeList.count())]
+        for scarpa in scarpePresenti:
+            if tagliaRichiesta == scarpa.split("Scarpa")[1].split(",")[0].strip():
+                return True
+        return False
 
     def iniziaCounter(self):
         #se la lista dei clienti partecipanti al gruppo è vuota
@@ -146,11 +176,9 @@ class VistaMagazziniere(QWidget):
         if membri is not None:
             for membro in membri:
                 #preleva dati cliente
-                nome = membro.split("nome:")[1].split(",")[0].strip()
-                cognome = membro.split("cognome:")[1].split(",")[0].strip()
                 idCliente = membro.split("id:")[1].strip()
                 #preleva oggetto cliente
-                clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+                clienteSelezionato = ControlloreCliente().ricercaClienteId(idCliente)
                 #preleva idScarpa della scarpa assegnata al cliente
                 idScarpa = clienteSelezionato.getIdScarpa()
                 #preleva l'oggetto della relativa scarpa
@@ -172,7 +200,6 @@ class VistaMagazziniere(QWidget):
         idGruppo = gruppoSelezionato.getId()
         #rimozione gruppo
         ControlloreGruppoClienti(gruppoSelezionato).rimuoviGruppo(idGruppo)
-        print("rimozione")
         self.riempiListaScarpe()
         self.riempiListaClienti()
 

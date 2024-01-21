@@ -112,9 +112,7 @@ class ControlloreCliente():
 
         if len(clienti) > 0:
             for cliente in clienti:
-                print(cliente.nome +" " + nome +" " + cliente.cognome + " " +cognome )
                 if cliente.nome == nome and cliente.cognome == cognome:
-                    print("entra")
                     return cliente
         else:
             return None
