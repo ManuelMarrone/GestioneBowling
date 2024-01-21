@@ -31,12 +31,12 @@ class Abbonamento():
             self.id = Abbonamento.idIncrementale
 
         return self.id
-    def creaAbbonamento(self, dataFine, dataValidazione, idCliente):
+    def creaAbbonamento(self, dataFine, dataValidazione, pagamentoRidotto, partiteGratuite, idCliente):
         self.dataFine = dataFine
         self.dataValidazione = dataValidazione
         self.id = self.creaId()
-        self.pagamentoRidotto = False
-        self.partiteGratuite = 15
+        self.pagamentoRidotto = pagamentoRidotto
+        self.partiteGratuite = partiteGratuite
         self.idCliente = idCliente
         abbonamenti = []
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):

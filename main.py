@@ -4,7 +4,7 @@ import pickle
 import sys
 from PyQt6.QtWidgets import QApplication
 from Login.view.VistaLogin import VistaLogin
-#from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
+from Cliente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.model.GruppoClienti import GruppoClienti
@@ -39,16 +39,16 @@ if __name__ == "__main__":
     # with open('Pista/data/piste.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
 
-    # app = QApplication(sys.argv)
-    # vistaclienti = VistaGestioneClienti()
-    # vistaclienti.show()
-    # sys.exit(app.exec())
+    app = QApplication(sys.argv)
+    vistaclienti = VistaGestioneClienti()
+    vistaclienti.show()
+    sys.exit(app.exec())
 
     # #
-    app = QApplication(sys.argv)
-    VistaLogin = VistaLogin()
-    VistaLogin.show()
-    sys.exit(app.exec())
+    # app = QApplication(sys.argv)
+    # VistaLogin = VistaLogin()
+    # VistaLogin.show()
+    # sys.exit(app.exec())
 
     #RESET PICKLE DI CLIENTI E GRUPPO CLIENTI
 

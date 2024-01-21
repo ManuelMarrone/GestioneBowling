@@ -92,7 +92,6 @@ class Cliente():
         return self.sesso
     def getIdScarpa(self):
         return self.idScarpa
-
     def getTagliaScarpe(self):
         return self.tagliaScarpe
 
@@ -123,6 +122,14 @@ class Cliente():
         else:
             return None
 
+    def setAbbonato(self, idCliente):
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
+                clienti = pickle.load(f)
+                cliente = next((cliente for cliente in clienti if cliente.id == idCliente), None)
+                cliente.abbonato = True
+            with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
+                pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
 
     def setAssegnato(self, x, id):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):

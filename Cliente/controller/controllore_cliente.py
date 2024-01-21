@@ -6,6 +6,12 @@ class ControlloreCliente():
     def __init__(self, cliente=None):
         self.model = cliente
 
+    def getAbbonato(self):
+        return self.model.isAbbonato()
+
+    def setAbbonato(self, idCliente):
+        self.model.setAbbonato(idCliente)
+
     def isAbbonato(self):
         if self.model.isAbbonato is True:
             return "Si"

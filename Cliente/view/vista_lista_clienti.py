@@ -1,6 +1,7 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
+from datetime import datetime
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
@@ -27,7 +28,7 @@ class VistaGestioneClienti(QWidget):
 
         self.idCliente = None
         self.itemSelezionato = None
-        self.abbona.clicked.connect(self.goCreaAbbonamento)
+        self.abbonaButton.clicked.connect(self.goCreaAbbonamento)
         self.abbonamentoButton.clicked.connect(self.goGestisciAbbonamento)
         self.aggiungiButton.clicked.connect(self.goCreaCliente)
         self.riempiListaClienti()
@@ -67,9 +68,18 @@ class VistaGestioneClienti(QWidget):
             nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
-            idCliente = ControlloreCliente.getId(clienteSelezionato) # Viene preso l'id del cliente selezionato
-
-            ControlloreAbbonamento.creaAbbonamento(idCliente=idCliente, )
+            #MODIFICARE QUI
+            if clienteSelezionato.getAbbonato() == False:
+                idCliente = ControlloreCliente.getId(clienteSelezionato) # Viene preso l'id del cliente selezionato
+                ControlloreAbbonamento.creaAbbonamento(dataFine=datetime.now(),
+                                                       dataValidazione=None,
+                                                       partitaGratuita=15,
+                                                       pagmentoRidotto=False,
+                                                       idCliente=idCliente)
+                ControlloreCliente.setAbbonato(idCliente)
+                self.messaggio(tipo=1 , titolo="Abbonamento cliente", mex='<p style=color:white> Cliente abbonato con susccesso')
+            else:
+                self.messaggio(tipo=0, titolo="Abbonamento cliente", mex='<p style=color:white> Il cliente risulta gia abbonato')
 
     def goGestisciAbbonamento(self):
         if self.itemSelezionato is not None:

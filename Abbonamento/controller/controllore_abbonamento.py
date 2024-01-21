@@ -1,6 +1,5 @@
 import os
 import pickle
-from datetime import datetime
 from Abbonamento.model.Abbonamento import Abbonamento
 class ControlloreAbbonamento():
     def __init__(self, abbonamento):
@@ -15,16 +14,16 @@ class ControlloreAbbonamento():
         return self.model.getPartiteGratuite
     def getPagamentoRidotto(self):
         return self.model.getPagamentoRidotto
-    def creaAbbonamento(self, idCliente):
+    def creaAbbonamento(self, dataFine, dataValidazione, partitaGratuita, pagmentoRidotto, idCliente):
         abbonamento = self.ricercaAbbonamentoIdCliente(idCliente)
         if isinstance(abbonamento, Abbonamento):  # se l'abbonamento già esiste
             return None
         else:
             nuovoAbbonamento = Abbonamento().creaAbbonamento(
-              dataFine=datetime.now(),
-              dataValidazione=None,
-              partitaGratuita=15,
-              pagmentoRidotto=False,
+              dataFine=dataFine,
+              dataValidazione=dataValidazione,
+              partitaGratuita=partitaGratuita,
+              pagmentoRidotto=pagmentoRidotto,
               idCliente=idCliente
              )
 
