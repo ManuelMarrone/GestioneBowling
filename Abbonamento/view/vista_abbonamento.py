@@ -31,3 +31,4 @@ class VistaAbbonamento(QWidget):
         self.close()
     def eliminaAbbonamento(self):
         pass
+        # finire
