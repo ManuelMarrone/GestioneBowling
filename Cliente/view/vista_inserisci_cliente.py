@@ -10,7 +10,7 @@ class VistaInserimento(QWidget):
     closed = pyqtSignal()
     def __init__(self, parent=None):
         super(VistaInserimento, self).__init__(parent)
-        uic.loadUi('Dipendente/view/vistaInserimentoCliente.ui', self)
+        uic.loadUi('Cliente/view/vistaInserimentoCliente.ui', self)
 
         self.inserisciButton.clicked.connect(self.creaNuovoCliente)
         self.annullaButton.clicked.connect(self.chiudiFinestra)

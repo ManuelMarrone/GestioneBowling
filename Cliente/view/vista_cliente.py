@@ -8,7 +8,7 @@ class VistaCliente(QWidget):
     def __init__(self, cliente, parent=None):
         super(VistaCliente, self).__init__(parent)
 
-        uic.loadUi('Dipendente/view/vistaCliente.ui', self)
+        uic.loadUi('Cliente/view/vistaCliente.ui', self)
         self.controller = ControlloreCliente(cliente)
 
         self.nomeLabel.setText(self.controller.getNome())

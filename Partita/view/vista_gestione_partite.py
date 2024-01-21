@@ -2,11 +2,9 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 
-import time
-
 # ci sono degli import da fare
 from Cliente.controller.controllore_cliente import ControlloreCliente
-from Dipendente.view.vista_lista_clienti import VistaGestioneClienti
+from Cliente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
 from GruppoClienti.model.GruppoClienti import GruppoClienti
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti

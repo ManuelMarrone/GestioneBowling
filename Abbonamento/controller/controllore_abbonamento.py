@@ -1,7 +1,7 @@
 import os
 import pickle
 from Abbonamento.model.Abbonamento import Abbonamento
-class controlloreAbbonamento():
+class ControlloreAbbonamento():
     def __init__(self, abbonamento):
         self.model = abbonamento
     def getDataFine(self):

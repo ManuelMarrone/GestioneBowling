@@ -3,10 +3,11 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
-from Dipendente.view.vista_inserisci_cliente import VistaInserimento
-from Dipendente.view.vista_cliente import VistaCliente
-from Dipendente.view.vista_modifica_cliente import VistaModificaCliente
-
+from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
+from Cliente.view.vista_inserisci_cliente import VistaInserimento
+from Cliente.view.vista_cliente import VistaCliente
+from Cliente.view.vista_modifica_cliente import VistaModificaCliente
+from Abbonamento.view.vista_abbonamento import VistaAbbonamento
 
 class VistaGestioneClienti(QWidget):
     closed = pyqtSignal()
@@ -14,7 +15,7 @@ class VistaGestioneClienti(QWidget):
     def __init__(self, parent=None):
         super(VistaGestioneClienti, self).__init__(parent)
 
-        uic.loadUi('Dipendente/view/lista_clienti.ui', self)
+        uic.loadUi('Cliente/view/lista_clienti.ui', self)
 
         # Ottieni le dimensioni dello schermo principale
         desktop = QApplication.primaryScreen().geometry()
@@ -24,9 +25,10 @@ class VistaGestioneClienti(QWidget):
         y = (desktop.height() - self.height()) // 2 - 50
         self.move(x, y)
 
-        self.idDipendente = None
+        self.idCliente = None
         self.itemSelezionato = None
 
+        self.abbonamentoButton.clicked.connect(self.goGestisciAbbonamento)
         self.aggiungiButton.clicked.connect(self.goCreaCliente)
         self.riempiListaClienti()
         self.clientiList.itemClicked.connect(self.clienteClicked)
@@ -61,7 +63,16 @@ class VistaGestioneClienti(QWidget):
     #     else:
     #         self.messaggio(tipo=0, titolo="Attenzione",mex="Ricerca non valida")
 
+    def goGestisciAbbonamento(self):
+        if self.itemSelezionato is not None:
+            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
+            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
 
+            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
+            abbonamento = ControlloreAbbonamento.ricercaAbbonamentoIdCliente(ControlloreCliente.getId(clienteSelezionato))
+            self.vista_abbonamento = VistaAbbonamento(abbonamento, clienteSelezionato)
+            self.vista_abbonamento.show()
 
     def riempiListaClienti(self):
         listaClienti = []
@@ -97,7 +108,7 @@ class VistaGestioneClienti(QWidget):
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
             if clienteSelezionato.isAssegnato() is False:
-                risultato = ControlloreCliente().rimuoviCliente( clienteSelezionato)
+                risultato = ControlloreCliente().rimuoviCliente(clienteSelezionato)
                 if risultato:
                     self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
                 else:

@@ -7,10 +7,9 @@ from Cliente.controller.controllore_cliente import ControlloreCliente
 
 class VistaModificaCliente(QWidget):
     closed = QtCore.pyqtSignal()
-
     def __init__(self, clienteSelezionato=None, parent=None):
         super(VistaModificaCliente, self).__init__(parent)
-        uic.loadUi('Dipendente/view/vistaModificaCliente.ui', self)
+        uic.loadUi('Cliente/view/vistaModificaCliente.ui', self)
 
         icon = QIcon('Data/icon/user.svg')
         self.setWindowIcon(icon)

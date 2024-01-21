@@ -31,7 +31,7 @@ class Abbonamento():
             self.id = Abbonamento.idIncrementale
 
         return self.id
-    def creaAbbonamento(self, dataFine, dataValidazione, id, pagamentoRidotto, partiteGratuite, idCliente):
+    def creaAbbonamento(self, dataFine, dataValidazione, idCliente):
         self.dataFine = dataFine
         self.dataValidazione = dataValidazione
         self.id = self.creaId()
