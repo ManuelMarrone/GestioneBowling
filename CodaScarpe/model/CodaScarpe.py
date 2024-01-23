@@ -16,3 +16,6 @@ class CodaScarpe():
             return True
         else:
             return False
+
+    def visualizzaElementi(self):
+        return self.coda

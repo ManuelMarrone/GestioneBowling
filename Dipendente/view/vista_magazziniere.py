@@ -18,6 +18,8 @@ class VistaMagazziniere(QWidget):
         super(VistaMagazziniere, self).__init__(parent)
         uic.loadUi('Dipendente/view/magazziniereMain.ui', self)
 
+        self.controllerCoda = ControlloreCodaScarpe()
+
         self.riempiListaScarpe()
         self.riempiBoxGruppi()
         self.riempiListaClienti()
@@ -28,8 +30,10 @@ class VistaMagazziniere(QWidget):
         self.gruppiComboBox.activated.connect(self.riempiListaClienti)
         self.gruppiComboBox.activated.connect(self.iniziaCounter)
 
+
         self.itemSelezionato = None
         self.itemClienteSelezionato = None
+
 
     def scarpaClicked(self, item):
         self.itemSelezionato = item.text()
@@ -106,25 +110,25 @@ class VistaMagazziniere(QWidget):
                     self.riempiListaClienti()
                     self.iniziaCounter()
             else:
-                self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="La taglia della scarpa selezionata non corrisponde con quella richeista dal cliente")
+                self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="La taglia della scarpa selezionata non corrisponde con quella richiesta dal cliente")
         elif self.itemClienteSelezionato is not None:
-            #self.codaScarpe()
-            pass
+            self.codaScarpe()
         else:
             self.messaggio(tipo=0, titolo="Assegnamento scarpa", mex="Selezionare un cliente e una scarpa")
 
 
-    # def codaScarpe(self):
-    #     tagliaRichiesta = self.itemClienteSelezionato.split("taglia:")[1].strip().split()[0]
-    #     if self.verificaDiponibilitaTaglia(tagliaRichiesta) is False:
-    #         id = self.itemClienteSelezionato.split("id:")[1].strip()
-    #         cliente = ControlloreCliente().ricercaClienteId(id)
-    #         if ControlloreCodaScarpe().aggiungiInCoda(cliente) is False:
-    #             self.messaggio(tipo=0, titolo="Coda per scarpe",
-    #                            mex="Cliente già in coda")
-    #         self.messaggio(tipo=1, titolo="Assegnamento scarpa",
-    #                       mex="Taglia non disponibile per il cliente, inserimento in coda")
+    def codaScarpe(self):
+        tagliaRichiesta = self.itemClienteSelezionato.split("taglia:")[1].strip().split()[0]
+        if self.verificaDiponibilitaTaglia(tagliaRichiesta) is False:
+            idCliente = self.itemClienteSelezionato.split("id:")[1].strip()
+            if self.controllerCoda.aggiungiInCoda(idCliente) is False:
+                self.messaggio(tipo=0, titolo="Coda per scarpe",
+                               mex="Cliente già in coda")
+            else:
+                self.messaggio(tipo=1, titolo="Assegnamento scarpa",
+                          mex="Taglia non disponibile per il cliente, inserimento in coda")
 
+            print(self.controllerCoda.visualizzaElementi())
 
     def verificaDiponibilitaTaglia(self, tagliaRichiesta):
         scarpePresenti= [self.scarpeList.item(index).text() for index in range(self.scarpeList.count())]
@@ -160,6 +164,8 @@ class VistaMagazziniere(QWidget):
                 threading.Thread(target=self.liberaPista, args=(idPistaOccupata, gruppoSelezionato)).start()
 
 
+    #rivedi la logica dietro i metodi e aggiustala
+
     def liberaPista(self, idPistaOccupata, gruppoSelezionato):
         #preleva numero partite del gruppo
         numPartite  = gruppoSelezionato.getNumeroPartite()
@@ -171,6 +177,7 @@ class VistaMagazziniere(QWidget):
         pista = ControllorePista().ricercaPistaId(idPistaOccupata)
         #rende nuovamente disponibile la pista
         pista.setDisponibilita(True, idPistaOccupata)
+
 
         membri = gruppoSelezionato.getMembri()
         if membri is not None:
@@ -186,6 +193,24 @@ class VistaMagazziniere(QWidget):
                 if scarpa is not None:
                     #scarpa nuovamente disponibile per altri clienti
                     scarpa.setDisponibilitaScarpa(True, idScarpa)
+
+                print(self.controllerCoda.visualizzaElementi())
+                # vedo se posso liberare il cliente dalla coda
+                coda = self.controllerCoda.visualizzaElementi()
+                if len(coda) != 0:
+                    for clienteCoda in coda:
+                        cliente = ControlloreCliente().ricercaClienteId(clienteCoda)
+
+                        if int(cliente.getTagliaScarpe()) == int(scarpa.getTagliaScarpa()):
+
+                            #se la scarpa liberata corrisponde con quella del cliente in coda allora procedi
+                            #libera il cliente in coda
+                            if self.controllerCoda.rimuoviDaCoda(clienteCoda):
+                                self.messaggio(tipo=1, titolo="Assegnamento scarpa",
+                                               mex="Taglia non disponibile per il cliente, inserimento in coda")
+                            else:
+                                self.messaggio(tipo=0, titolo="Coda scarpe",
+                                               mex="Cliente non in coda")
 
 
                 #ripristino della disponibilita per giocare in altri gruppi
