@@ -68,15 +68,15 @@ class VistaGestioneClienti(QWidget):
             nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
-            #MODIFICARE QUI
-            if clienteSelezionato.getAbbonato() == False:
-                idCliente = ControlloreCliente.getId(clienteSelezionato) # Viene preso l'id del cliente selezionato
-                ControlloreAbbonamento.creaAbbonamento(dataFine=datetime.now(),
+
+            if clienteSelezionato.abbonato is False:
+                idCliente = clienteSelezionato.id # Viene preso l'id del cliente selezionato
+                ControlloreAbbonamento().creaAbbonamento(dataFine=datetime.now().strftime("%Y-%m-%d %H:%M"),
                                                        dataValidazione=None,
-                                                       partitaGratuita=15,
-                                                       pagmentoRidotto=False,
+                                                       partiteGratuite=15,
+                                                       pagamentoRidotto=False,
                                                        idCliente=idCliente)
-                ControlloreCliente.setAbbonato(idCliente)
+                ControlloreCliente(clienteSelezionato).setAbbonato(idCliente)
                 self.messaggio(tipo=1 , titolo="Abbonamento cliente", mex='<p style=color:white> Cliente abbonato con susccesso')
             else:
                 self.messaggio(tipo=0, titolo="Abbonamento cliente", mex='<p style=color:white> Il cliente risulta gia abbonato')
@@ -88,7 +88,10 @@ class VistaGestioneClienti(QWidget):
 
             clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
             # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
-            abbonamento = ControlloreAbbonamento.ricercaAbbonamentoIdCliente(ControlloreCliente.getId(clienteSelezionato))
+            abbonamento = ControlloreAbbonamento.ricercaAbbonamentoIdCliente(self, clienteSelezionato.id)
+            # NON VIENE CREATO IL FILE PICKLE CE QUALCHE ERRORE DI SALVATTAGGIO DEGLI ABBONAMENTI
+            print(abbonamento)
+            print(abbonamento.idCliente)
             self.vista_abbonamento = VistaAbbonamento(abbonamento, clienteSelezionato)
             self.vista_abbonamento.show()
 
@@ -117,7 +120,6 @@ class VistaGestioneClienti(QWidget):
             self.vista_cliente.show()
 
     def clienteClicked(self, item):
-        print("Clicked")
         self.itemSelezionato = item.text()
 
     def goEliminaCliente(self):

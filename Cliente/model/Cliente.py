@@ -74,8 +74,15 @@ class Cliente():
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
         del self
 
-    def isAbbonato(self):
+
+    def getAbbonato(self):
         return self.abbonato
+
+    def isAbbonato(self):
+        if self.abbonato is True:
+            return "Si"
+        else:
+            return "No"
 
     def isAssegnato(self):
         return self.assegnato

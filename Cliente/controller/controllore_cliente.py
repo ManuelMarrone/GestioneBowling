@@ -7,16 +7,13 @@ class ControlloreCliente():
         self.model = cliente
 
     def getAbbonato(self):
-        return self.model.isAbbonato()
+        return self.model.getAbbonato()
 
     def setAbbonato(self, idCliente):
         self.model.setAbbonato(idCliente)
 
     def isAbbonato(self):
-        if self.model.isAbbonato is True:
-            return "Si"
-        else:
-            return "No"
+        return self.model.isAbbonato()
 
     def getCodiceFiscale(self):
         return self.model.getCodiceFiscale()

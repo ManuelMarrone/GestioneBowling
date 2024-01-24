@@ -2,19 +2,19 @@ import os
 import pickle
 from Abbonamento.model.Abbonamento import Abbonamento
 class ControlloreAbbonamento():
-    def __init__(self, abbonamento):
+    def __init__(self, abbonamento=None):
         self.model = abbonamento
     def getDataFine(self):
-        return self.model.getDataFine
+        return self.model.getDataFine()
     def getDataValidazione(self):
-        return self.model.getDataValidazione
+        return self.model.getDataValidazione()
     def getId(self):
-        return self.model.getId
+        return self.model.getId()
     def getPartiteGratuite(self):
-        return self.model.getPartiteGratuite
+        return self.model.getPartiteGratuite()
     def getPagamentoRidotto(self):
-        return self.model.getPagamentoRidotto
-    def creaAbbonamento(self, dataFine, dataValidazione, partitaGratuita, pagmentoRidotto, idCliente):
+        return self.model.getPagamentoRidotto()
+    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, idCliente):
         abbonamento = self.ricercaAbbonamentoIdCliente(idCliente)
         if isinstance(abbonamento, Abbonamento):  # se l'abbonamento già esiste
             return None
@@ -22,8 +22,8 @@ class ControlloreAbbonamento():
             nuovoAbbonamento = Abbonamento().creaAbbonamento(
               dataFine=dataFine,
               dataValidazione=dataValidazione,
-              partitaGratuita=partitaGratuita,
-              pagmentoRidotto=pagmentoRidotto,
+              partiteGratuite=partiteGratuite,
+              pagamentoRidotto=pagamentoRidotto,
               idCliente=idCliente
              )
 
