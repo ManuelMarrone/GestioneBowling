@@ -87,3 +87,5 @@ class ControlloreScarpa():
             return True
         else:
             return False
+
+

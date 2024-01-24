@@ -40,7 +40,6 @@ class VistaLogin(QWidget):
                         self.vista_cassiere.closed.connect(self.show)
                         self.vista_cassiere.show()
                     else:
-                        pass
                         self.vista_magazziniere = VistaMagazziniere()
                         self.vista_magazziniere.closed.connect(self.show)
                         self.vista_magazziniere.show()

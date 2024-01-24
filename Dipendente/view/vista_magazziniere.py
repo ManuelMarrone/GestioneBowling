@@ -3,7 +3,7 @@ import time
 
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtCore import pyqtSignal, QTimer
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Pista.controller.controllore_pista import ControllorePista
@@ -20,19 +20,26 @@ class VistaMagazziniere(QWidget):
         uic.loadUi('Dipendente/view/magazziniereMain.ui', self)
 
         self.controllerCoda = ControlloreCodaScarpe()
+        self.itemSelezionato = None
+        self.itemClienteSelezionato = None
 
+        self.impostaUI()
+
+
+    def impostaUI(self):
+        #liste e combobox
         self.riempiListaScarpe()
         self.riempiBoxGruppi()
         self.riempiListaClienti()
-        self.scarpeList.itemClicked.connect(self.scarpaClicked)
-        self.esciButton.clicked.connect(self.chiudiFinestra)
-        self.assegnaButton.clicked.connect(self.assegnaScarpa)
         self.clientiList.itemClicked.connect(self.clienteClicked)
         self.gruppiComboBox.activated.connect(self.riempiListaClienti)
         self.gruppiComboBox.activated.connect(self.iniziaCounter)
 
-        self.itemSelezionato = None
-        self.itemClienteSelezionato = None
+        self.scarpeList.itemClicked.connect(self.scarpaClicked)
+
+        #pulsanti
+        self.esciButton.clicked.connect(self.chiudiFinestra)
+        self.assegnaButton.clicked.connect(self.assegnaScarpa)
 
     def scarpaClicked(self, item):
         self.itemSelezionato = item.text()
@@ -79,6 +86,7 @@ class VistaMagazziniere(QWidget):
                     self.gruppiComboBox.addItem(str(gruppo.getId()))
 
     def assegnaScarpa(self):
+        self.avvisiLabel.clear()
         # se sono stati selezionati una scarpa e un cliente allora procede
         if self.itemSelezionato is not None and self.itemClienteSelezionato is not None:
             # preleva taglia e id della scarpa selezionata
@@ -160,17 +168,16 @@ class VistaMagazziniere(QWidget):
                 # preleva l'id della pista occupata dal gruppo
                 idPistaOccupata = gruppoSelezionato.getPistaOccupata()
                 # avvia un thread per liberare la pista dopo un certo tempo
-                threading.Thread(target=self.liberaPista, args=(idPistaOccupata, gruppoSelezionato)).start()
+                threading.Thread(target=self.finePartita, args=(idPistaOccupata, gruppoSelezionato)).start()
 
-    # rivedi la logica dietro i metodi e aggiustala
-
-    def liberaPista(self, idPistaOccupata, gruppoSelezionato):
+    def finePartita(self, idPistaOccupata, gruppoSelezionato):
         # preleva numero partite del gruppo
         numPartite = gruppoSelezionato.getNumeroPartite()
         tempo_di_attesa = 10 * numPartite  # Tempo di attesa in secondi
         print("inizia attesa" + str(tempo_di_attesa))
         time.sleep(tempo_di_attesa)
         print("fine attesa")
+
         # preleva l'oggetto della pista occupta
         pista = ControllorePista().ricercaPistaId(idPistaOccupata)
         # rende nuovamente disponibile la pista
@@ -191,21 +198,8 @@ class VistaMagazziniere(QWidget):
                     # scarpa nuovamente disponibile per altri clienti
                     scarpa.setDisponibilitaScarpa(True, idScarpa)
 
-                print(self.controllerCoda.visualizzaElementi())
-                # vedo se posso liberare il cliente dalla coda
-                coda = self.controllerCoda.visualizzaElementi()
-                if len(coda) != 0:
-                    for clienteCoda in coda:
-                        cliente = ControlloreCliente().ricercaClienteId(clienteCoda)
-
-                        if int(cliente.getTagliaScarpe()) == int(scarpa.getTagliaScarpa()):
-                            # se la scarpa liberata corrisponde con quella del cliente in coda allora procedi
-                            # libera il cliente in coda
-                            if self.controllerCoda.rimuoviDaCoda(clienteCoda):
-                                #non puoi bloccare il processo principale
-                                print("")
-                            else:
-                                print("")
+                if self.liberaCoda(scarpa):
+                    self.avvisiLabel.setText("Attenzione\nLe taglie richieste sono tornate disponibili")
 
                 # ripristino della disponibilita per giocare in altri gruppi
                 clienteSelezionato.setAssegnato(False, idCliente)
@@ -213,8 +207,7 @@ class VistaMagazziniere(QWidget):
                 clienteSelezionato.setIdScarpa("", idCliente)
 
         else:
-            self.messaggio(tipo=0, titolo="Ripristino disponibilità clienti e scarpe",
-                           mex="Errore nel ripristino delle disponibilita")
+            print("errore nel ripristino disponibilità")
 
         # preleva id del gruppo da eliminare
         idGruppo = gruppoSelezionato.getId()
@@ -222,6 +215,21 @@ class VistaMagazziniere(QWidget):
         ControlloreGruppoClienti(gruppoSelezionato).rimuoviGruppo(idGruppo)
         self.riempiListaScarpe()
         self.riempiListaClienti()
+
+    def liberaCoda(self, scarpa):
+        print(self.controllerCoda.visualizzaElementi())
+        # vedo se posso liberare il cliente dalla coda
+        coda = self.controllerCoda.visualizzaElementi()
+        if len(coda) != 0:
+            for clienteCoda in coda:
+                cliente = ControlloreCliente().ricercaClienteId(clienteCoda)
+                if scarpa.getTagliaScarpa() is not None:
+                    if int(cliente.getTagliaScarpe()) == int(scarpa.getTagliaScarpa()):
+                        # se la scarpa liberata corrisponde con quella del cliente in coda allora procedi
+                        # libera il cliente in coda
+                        return self.controllerCoda.rimuoviDaCoda(clienteCoda)
+
+
 
     def chiudiFinestra(self):
         self.closed.emit()
