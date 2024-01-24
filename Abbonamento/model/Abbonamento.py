@@ -15,8 +15,8 @@ class Abbonamento():
     #     self.idCliente = ""
 
     def __init__(self):
-        self.dataFine = ""
-        self.dataValidazione = ""
+        self.dataFine = None
+        self.dataValidazione = None
         self.id = ""
         self.pagamentoRidotto = ""
         self.partiteGratuite = ""

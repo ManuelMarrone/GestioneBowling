@@ -85,15 +85,14 @@ class VistaGestioneClienti(QWidget):
         if self.itemSelezionato is not None:
             nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
             cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-
             clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
-            # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
-            abbonamento = ControlloreAbbonamento.ricercaAbbonamentoIdCliente(self, clienteSelezionato.id)
-            # NON VIENE CREATO IL FILE PICKLE CE QUALCHE ERRORE DI SALVATTAGGIO DEGLI ABBONAMENTI
-            print(abbonamento)
-            print(abbonamento.idCliente)
-            self.vista_abbonamento = VistaAbbonamento(abbonamento, clienteSelezionato)
-            self.vista_abbonamento.show()
+
+            if clienteSelezionato.abbonato is True:
+                abbonamento = ControlloreAbbonamento.ricercaAbbonamentoIdCliente(self, clienteSelezionato.getId()) # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
+                self.vista_abbonamento = VistaAbbonamento(abbonamento, clienteSelezionato)
+                self.vista_abbonamento.show()
+            else:
+                self.messaggio(tipo=0, titolo="Abbonamento cliente",mex='<p style=color:white> Il cliente selezionato non risulta abbonato')
 
     def riempiListaClienti(self):
         listaClienti = []
