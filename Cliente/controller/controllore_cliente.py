@@ -37,7 +37,7 @@ class ControlloreCliente():
         return self.model.isAssegnato()
 
     def setAssegnato(self, x, id):
-        self.model.setAssegnato(x, id)  #va modificato anche qui l'id con il codice fiscale
+        self.model.setAssegnato(x, id)  #va modificato anche qui l'id con il codice fiscal
 
 
     def modificaCliente(self, nuovoAbbonato, codiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
