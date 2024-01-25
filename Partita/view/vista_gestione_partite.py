@@ -25,7 +25,7 @@ class VistaGestionePartite(QWidget):
         self.move(x, y)
 
         self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
-        self.pisteList.setEditable(True)
+        self.pisteList.setEditable(False)
 
         self.idCliente = None
         self.itemSelezionato = None
