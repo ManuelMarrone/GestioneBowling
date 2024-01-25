@@ -116,12 +116,12 @@ class Cliente():
         else:
             return None
 
-    def setAbbonato(self, cfCliente):
+    def setAbbonato(self, cfCliente, val):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
                 cliente = next((cliente for cliente in clienti if cliente.codiceFiscale == cfCliente), None)
-                cliente.abbonato = True
+                cliente.abbonato = val
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
 

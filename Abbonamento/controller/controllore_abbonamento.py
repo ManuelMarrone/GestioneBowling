@@ -1,6 +1,7 @@
 import os
 import pickle
 from Abbonamento.model.Abbonamento import Abbonamento
+from Cliente.controller.controllore_cliente import ControlloreCliente
 class ControlloreAbbonamento():
     def __init__(self, abbonamento=None):
         self.model = abbonamento
@@ -8,12 +9,12 @@ class ControlloreAbbonamento():
         return self.model.getDataFine()
     def getDataValidazione(self):
         return self.model.getDataValidazione()
-    def getId(self):
-        return self.model.getId()
     def getPartiteGratuite(self):
         return self.model.getPartiteGratuite()
     def getPagamentoRidotto(self):
         return self.model.getPagamentoRidotto()
+    def getCfCliente(self):
+        return self.model.getCfCliente()
     def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente):
         abbonamento = self.ricercaAbbonamentoCfCliente(cfCliente)
         if isinstance(abbonamento, Abbonamento):  # se l'abbonamento già esiste
@@ -39,3 +40,10 @@ class ControlloreAbbonamento():
                     return abbonamento
         else:
             return None
+
+    def rimuoviAbbonamento(self, abbonamento):
+        if isinstance(abbonamento, Abbonamento):
+            abbonamento.rimuoviAbbonamento()
+            return True
+        else:
+            return False

@@ -35,10 +35,28 @@ class VistaAbbonamento(QWidget):
         self.radioButtonSi.setEnabled(False)
 
         self.indietroButton.clicked.connect(self.chiudiFinestra)
-        self.eliminaButton.clicked.connect(self.eliminaAbbonamento)
+        self.abbonamento = abbonamento
+        self.eliminaButton.clicked.connect(self.rimuoviAbbonamento)
 
     def chiudiFinestra(self):
         self.close()
-    def eliminaAbbonamento(self):
-        pass
-        # finire
+    def rimuoviAbbonamento(self):
+        risultato = ControlloreAbbonamento().rimuoviAbbonamento(self.abbonamento)
+        if risultato:
+            #ControlloreCliente(self.cliente).setAbbonato(self.cliente.getCodiceFiscale())
+            self.controllerC.setAbbonato(self.controllerA.getCfCliente(), val=False)
+            self.messaggio(tipo=1, titolo="Rimozione cliente", mex="Abbonamento rimosso con successo")
+            self.chiudiFinestra()
+        else:
+            self.messaggio(tipo=0, titolo="Rimozione cliente", mex="Errore nella rimozione dell'abbonamento!")
+
+    def messaggio(self, tipo, titolo, mex):
+        mexBox = QMessageBox()
+        mexBox.setWindowTitle(titolo)
+        if tipo == 0:
+            mexBox.setIcon(QMessageBox.Icon.Warning)
+        elif tipo == 1:
+            mexBox.setIcon(QMessageBox.Icon.Information)
+        mexBox.setStyleSheet("background-color: rgb(54, 54, 54); color: white;")
+        mexBox.setText(mex)
+        mexBox.exec()
