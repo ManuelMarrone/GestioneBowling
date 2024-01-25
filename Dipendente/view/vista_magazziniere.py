@@ -41,6 +41,58 @@ class VistaMagazziniere(QWidget):
         self.esciButton.clicked.connect(self.chiudiFinestra)
         self.assegnaButton.clicked.connect(self.assegnaScarpa)
 
+        self.buttonCercaGruppo.clicked.connect(self.cercaGruppo)
+        self.buttonCercaScarpa.clicked.connect(self.cercaScarpa)
+
+    def cercaGruppo(self):
+        idList = self.ricercaGruppo.text().split()
+        if len(idList) == 0:
+            self.riempiBoxGruppi()
+        elif len(idList) == 1:
+            id = idList[0]
+            gruppoRicercato = ControlloreGruppoClienti().ricercaGruppoId(id)
+            if gruppoRicercato is not None:
+                self.gruppiComboBox.clear()
+                self.controller = ControlloreGruppoClienti(gruppoRicercato)
+                listaGruppi = ControlloreGruppoClienti().visualizzaGruppi()
+                if listaGruppi is not None:
+                    for gruppo in listaGruppi:
+                        idGruppo = ControlloreGruppoClienti(gruppo).getId()
+                        if idGruppo == self.controller.getId():
+                            if gruppo.getCounterPartito() is False:
+                                self.gruppiComboBox.addItem(str(idGruppo))
+                                self.riempiListaClienti()
+
+                    if len(self.gruppiComboBox) == 0:
+                        self.messaggio(tipo=1, titolo="Ricerca gruppo", mex="Il gruppo non è presente")
+            else:
+                self.messaggio(tipo=1, titolo="Ricerca gruppo", mex="Il gruppo non è presente")
+        else:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
+
+    def cercaScarpa(self):
+        tagliaLista = self.ricercaScarpa.text().split()
+        if len(tagliaLista) == 0:
+            self.riempiListaScarpe()
+        elif len(tagliaLista) == 1:
+            self.scarpeList.clear()
+            taglia = tagliaLista[0]
+            listaScarpe = ControlloreScarpa().visualizzaScarpe()
+            if listaScarpe is not None and taglia.isdigit():
+                for scarpa in listaScarpe:
+                    tagliaScarpa = scarpa.getTagliaScarpa()
+                    if int(taglia) == tagliaScarpa:
+                        if scarpa.getDisponibilitaScarpa() is True:
+                            item = QListWidgetItem()
+                            item.setText("Scarpa " + str(scarpa.getTagliaScarpa()) + ", id: " + str(scarpa.getIdScarpa()))
+                            self.scarpeList.addItem(item)
+                if len(self.scarpeList) == 0:
+                    self.messaggio(tipo=1, titolo="Ricerca scarpa", mex="Nessuna scarpa di quella taglia è disponibile")
+            else:
+                self.messaggio(tipo=1, titolo="Ricerca scarpa", mex="Nessuna scarpa disponibile")
+        else:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
+
     def scarpaClicked(self, item):
         self.itemSelezionato = item.text()
 
