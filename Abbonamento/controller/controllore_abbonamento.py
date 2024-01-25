@@ -14,8 +14,8 @@ class ControlloreAbbonamento():
         return self.model.getPartiteGratuite()
     def getPagamentoRidotto(self):
         return self.model.getPagamentoRidotto()
-    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, idCliente):
-        abbonamento = self.ricercaAbbonamentoIdCliente(idCliente)
+    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente):
+        abbonamento = self.ricercaAbbonamentoCfCliente(cfCliente)
         if isinstance(abbonamento, Abbonamento):  # se l'abbonamento già esiste
             return None
         else:
@@ -24,18 +24,18 @@ class ControlloreAbbonamento():
               dataValidazione=dataValidazione,
               partiteGratuite=partiteGratuite,
               pagamentoRidotto=pagamentoRidotto,
-              idCliente=idCliente
+              cfCliente=cfCliente
              )
 
         return nuovoAbbonamento
-    def ricercaAbbonamentoIdCliente(self, id):
+    def ricercaAbbonamentoCfCliente(self, cf):
         abbonamenti = []
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
             with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
                 abbonamenti = pickle.load(f)
         if len(abbonamenti) > 0:
             for abbonamento in abbonamenti:
-                if abbonamento.getIdCliente() == id:
+                if abbonamento.getCfCliente() == cf:
                     return abbonamento
         else:
             return None

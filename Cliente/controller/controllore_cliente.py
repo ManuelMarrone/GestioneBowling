@@ -9,8 +9,8 @@ class ControlloreCliente():
     def getAbbonato(self):
         return self.model.getAbbonato()
 
-    def setAbbonato(self, idCliente):
-        self.model.setAbbonato(idCliente)
+    def setAbbonato(self, cfCliente):
+        self.model.setAbbonato(cfCliente)
 
     def isAbbonato(self):
         return self.model.isAbbonato()
@@ -23,9 +23,6 @@ class ControlloreCliente():
 
     def getEmail(self):
         return self.model.getEmail()
-
-    def getId(self):
-        return self.model.getId()
 
     def getNome(self):
         return self.model.getNome()
@@ -40,14 +37,14 @@ class ControlloreCliente():
         return self.model.isAssegnato()
 
     def setAssegnato(self, x, id):
-        self.model.setAssegnato(x, id)
+        self.model.setAssegnato(x, id)  #va modificato anche qui l'id con il codice fiscale
 
 
-    def modificaCliente(self,id, nuovoAbbonato, nuovoCodiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
+    def modificaCliente(self, nuovoAbbonato, codiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
                         nuovoSesso, nuovaTagliaScarpe):
-        Cliente().modificaCliente(id = id,
+        Cliente().modificaCliente(
             nuovoAbbonato=nuovoAbbonato,
-            nuovoCodiceFiscale=nuovoCodiceFiscale,
+            codiceFiscale=codiceFiscale,
             nuovoCognome=nuovoCognome,
             nuovaEmail=nuovaEmail,
             nuovoNome=nuovoNome,
@@ -74,18 +71,6 @@ class ControlloreCliente():
                  if cliente.codiceFiscale == codiceFiscale:
                      return cliente
          else:
-            return None
-
-    def ricercaClienteId(self, id):
-        clienti = []
-        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
-            with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
-                clienti = pickle.load(f)
-        if len(clienti) > 0:
-            for cliente in clienti:
-                if cliente.id == id:
-                    return cliente
-        else:
             return None
 
     def ricercaClienteEmail(self, email):
@@ -120,7 +105,7 @@ class ControlloreCliente():
     def getIdScarpa(self):
         return self.model.getIdScarpa()
 
-    def setIdScarpa(self, idS, idCliente):
+    def setIdScarpa(self, idS, idCliente):  #va modificato anche qui l'id con il codice fiscale
         self.model.setIdScarpa(idS, idCliente)
 
     def visualizzaClienti(self):

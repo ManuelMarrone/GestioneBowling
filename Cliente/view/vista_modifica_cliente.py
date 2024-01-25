@@ -25,6 +25,7 @@ class VistaModificaCliente(QWidget):
         self.textNome.setText(self.controller.getNome())
         self.textCognome.setText(self.controller.getCognome())
         self.textCF.setText(self.controller.getCodiceFiscale())
+        self.textCF.setReadOnly(True)
         self.textEmail.setText(self.controller.getEmail())
         self.comboBoxSesso.setCurrentText(self.controller.getSesso())
         self.comboBoxAbbonato.setCurrentText(self.controller.isAbbonato())
@@ -35,7 +36,7 @@ class VistaModificaCliente(QWidget):
         if self.controllaCampi():
             nome = self.textNome.text().capitalize().strip()
             cognome = self.textCognome.text().capitalize().strip()
-            codiceFiscale = self.textCF.text().upper().strip()
+            #codiceFiscale = self.textCF.text().upper().strip()
             email = self.textEmail.text().strip()
             sesso = self.comboBoxSesso.currentText()
             abbonato = self.comboBoxAbbonato.currentText()
@@ -47,10 +48,9 @@ class VistaModificaCliente(QWidget):
                 abbonato = False
 
             risultato = self.controller.modificaCliente(
-                id = self.controller.getId(),
                 nuovoNome=nome,
                 nuovoCognome=cognome,
-                nuovoCodiceFiscale=codiceFiscale,
+                codiceFiscale=self.controller.getCodiceFiscale(),
                 nuovaEmail=email,
                 nuovoSesso=sesso,
                 nuovoAbbonato=abbonato,
@@ -70,8 +70,8 @@ class VistaModificaCliente(QWidget):
         elif len(self.textCognome.text()) < 2:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Il cognome deve avere almeno 2 caratteri")
         # cf di 16 caratteri e alfanumerico
-        elif len(self.textCF.text()) != 16 or not self.textCF.text().isalnum():
-            self.messaggio(tipo=0, titolo="Attenzione", mex="Il codice fiscale deve contenere 16 caratteri")
+        # elif len(self.textCF.text()) != 16 or not self.textCF.text().isalnum():
+        #     self.messaggio(tipo=0, titolo="Attenzione", mex="Il codice fiscale deve contenere 16 caratteri")
         # controllo sull'email
         elif len(self.textEmail.text()) < 1:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Email almeno 1 carattere")

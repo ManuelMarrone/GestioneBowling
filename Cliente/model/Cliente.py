@@ -1,11 +1,9 @@
 import os
 import pickle
-idIncrementale = 0
 class Cliente():
     def __init__(self):
         self.abbonato = ""
         self.codiceFiscale = ""
-        self.id = ""
         self.cognome = ""
         self.email = ""
         self.nome = ""
@@ -14,16 +12,9 @@ class Cliente():
         self.assegnato = False
         self.idScarpa = ""
 
-    def creaId(self, nome, cognome):
-        global idIncrementale
-        idIncrementale += 1
-        idGenerato = nome[0:2] + cognome[0:2] + str(idIncrementale)
-        return idGenerato
-
     def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato, idScarpa):
         self.abbonato = abbonato
         self.codiceFiscale = codiceFiscale
-        self.id = self.creaId(nome, cognome)
         self.cognome = cognome
         self.email = email
         self.nome = nome
@@ -40,10 +31,10 @@ class Cliente():
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
         return self
 
-    def modificaCliente(self,id, nuovoAbbonato, nuovoCodiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
+    def modificaCliente(self, nuovoAbbonato, codiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
                         nuovoSesso, nuovaTagliaScarpe):
         self.abbonato = nuovoAbbonato
-        self.codiceFiscale = nuovoCodiceFiscale
+        self.codiceFiscale = codiceFiscale
         self.cognome = nuovoCognome
         self.email = nuovaEmail
         self.nome = nuovoNome
@@ -53,9 +44,8 @@ class Cliente():
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                cliente = next((cliente for cliente in clienti if cliente.id == id), None)
+                cliente = next((cliente for cliente in clienti if cliente.codiceFiscale == codiceFiscale), None)
                 cliente.abbonato = nuovoAbbonato
-                cliente.codiceFiscale = nuovoCodiceFiscale
                 cliente.cognome = nuovoCognome
                 cliente.email = nuovaEmail
                 cliente.nome = nuovoNome
@@ -68,7 +58,7 @@ class Cliente():
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                daRimuovere = next((cliente for cliente in clienti if cliente.id == self.id), None)
+                daRimuovere = next((cliente for cliente in clienti if cliente.codiceFiscale == self.codiceFiscale), None)
                 clienti.remove(daRimuovere)
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:  # riscrive i cassieri sena l'eliminato
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
@@ -102,10 +92,7 @@ class Cliente():
     def getTagliaScarpe(self):
         return self.tagliaScarpe
 
-    def getId(self):
-        return self.id
-
-    def setIdScarpa(self, idS, idCliente):
+    def setIdScarpa(self, idS, idCliente):  #da cambiare con il codice fiscale
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
@@ -129,11 +116,11 @@ class Cliente():
         else:
             return None
 
-    def setAbbonato(self, idCliente):
+    def setAbbonato(self, cfCliente):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                cliente = next((cliente for cliente in clienti if cliente.id == idCliente), None)
+                cliente = next((cliente for cliente in clienti if cliente.codiceFiscale == cfCliente), None)
                 cliente.abbonato = True
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
@@ -142,7 +129,7 @@ class Cliente():
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                cliente = next((cliente for cliente in clienti if cliente.id == id), None)
+                cliente = next((cliente for cliente in clienti if cliente.id == id), None) #va modificata la ricerca e va messa quella tramite codice fiscale
                 cliente.assegnato = x
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
@@ -150,7 +137,6 @@ class Cliente():
     def __str__(self):
         return  "abbonato: " + self.abbonato + "\n" + \
                 "Codice Fiscale: " + self.codiceFiscale + "\n" + \
-                "Id: " + self.id + "\n" + \
                 "Cognome: " + self.cognome + "\n" + \
                 "Email: " + self.email + "\n" + \
                 "Nome: " + self.nome + "\n" + \

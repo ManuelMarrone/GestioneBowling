@@ -25,7 +25,7 @@ class VistaAbbonamento(QWidget):
         data_scadenza = QDateTime.fromString(self.controllerA.getDataValidazione(), "yyyy-MM-dd HH:mm")
         self.dateValidazione.setDateTime(data_scadenza)
         self.dateValidazione.setReadOnly(True)
-        self.textPartiteGratuite.setText(self.controllerC.getNome())
+        self.textPartiteGratuite.setText(str(self.controllerA.getPartiteGratuite()))
         self.textPartiteGratuite.setReadOnly(True)
         if self.controllerA.getPagamentoRidotto() == True:
             self.radioButtonSi.setChecked(True)

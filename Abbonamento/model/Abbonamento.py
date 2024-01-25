@@ -20,7 +20,7 @@ class Abbonamento():
         self.id = ""
         self.pagamentoRidotto = ""
         self.partiteGratuite = ""
-        self.idCliente = ""
+        self.cfCliente = ""
 
     def creaId(self):
         # Riutilizzo degli id delle istanze cancellate
@@ -31,13 +31,13 @@ class Abbonamento():
             self.id = Abbonamento.idIncrementale
 
         return self.id
-    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, idCliente):
+    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente):
         self.id = self.creaId()
         self.dataFine = dataFine
         self.dataValidazione = dataValidazione
         self.partiteGratuite = partiteGratuite
         self.pagamentoRidotto = pagamentoRidotto
-        self.idCliente = idCliente
+        self.cfCliente = cfCliente
         abbonamenti = []
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
             with open('Abbonamento/data/ListaAbbonamenti.pickle', "rb") as f:
@@ -67,8 +67,8 @@ class Abbonamento():
         return self.dataValidazione
     def getPagamentoRidotto(self):
         return self.pagamentoRidotto
-    def getIdCliente(self):
-        return self.idCliente
+    def getCfCliente(self):
+        return self.cfCliente
     def isAbbonamentoScaduto(self):
         timestamp = int(time.time())
         return timestamp > self.getDataFine()

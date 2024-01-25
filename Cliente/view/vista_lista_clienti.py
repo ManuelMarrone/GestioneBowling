@@ -26,7 +26,6 @@ class VistaGestioneClienti(QWidget):
         y = (desktop.height() - self.height()) // 2 - 50
         self.move(x, y)
 
-        self.idCliente = None
         self.itemSelezionato = None
         self.abbonaButton.clicked.connect(self.goCreaAbbonamento)
         self.abbonamentoButton.clicked.connect(self.goGestisciAbbonamento)
@@ -65,30 +64,28 @@ class VistaGestioneClienti(QWidget):
     #         self.messaggio(tipo=0, titolo="Attenzione",mex="Ricerca non valida")
     def goCreaAbbonamento(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
 
             if clienteSelezionato.abbonato is False:
-                idCliente = clienteSelezionato.id # Viene preso l'id del cliente selezionato
+                cfCliente = clienteSelezionato.codiceFiscale # Viene preso il codice fiscale del cliente selezionato
                 ControlloreAbbonamento().creaAbbonamento(dataFine=datetime.now().strftime("%Y-%m-%d %H:%M"),
                                                        dataValidazione=None,
                                                        partiteGratuite=15,
                                                        pagamentoRidotto=False,
-                                                       idCliente=idCliente)
-                ControlloreCliente(clienteSelezionato).setAbbonato(idCliente)
+                                                       cfCliente=cfCliente)
+                ControlloreCliente(clienteSelezionato).setAbbonato(cfCliente)
                 self.messaggio(tipo=1 , titolo="Abbonamento cliente", mex='<p style=color:white> Cliente abbonato con susccesso')
             else:
                 self.messaggio(tipo=0, titolo="Abbonamento cliente", mex='<p style=color:white> Il cliente risulta gia abbonato')
 
     def goGestisciAbbonamento(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
 
             if clienteSelezionato.abbonato is True:
-                abbonamento = ControlloreAbbonamento.ricercaAbbonamentoIdCliente(self, clienteSelezionato.getId()) # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
+                abbonamento = ControlloreAbbonamento.ricercaAbbonamentoCfCliente(self, clienteSelezionato.getCodiceFiscale()) # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
                 self.vista_abbonamento = VistaAbbonamento(abbonamento, clienteSelezionato)
                 self.vista_abbonamento.show()
             else:
@@ -101,7 +98,7 @@ class VistaGestioneClienti(QWidget):
         if listaClienti is not None:
             for cliente in listaClienti:
                 item = QListWidgetItem()
-                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome)
+                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", codice fiscale: " + cliente.codiceFiscale)
                 self.clientiList.addItem(item)
 
     def goCreaCliente(self):
@@ -111,10 +108,8 @@ class VistaGestioneClienti(QWidget):
 
     def goVisualizza(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-
-            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
             self.vista_cliente = VistaCliente(clienteSelezionato)
             self.vista_cliente.show()
 
@@ -123,9 +118,8 @@ class VistaGestioneClienti(QWidget):
 
     def goEliminaCliente(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+            codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
             if clienteSelezionato.isAssegnato() is False:
                 risultato = ControlloreCliente().rimuoviCliente(clienteSelezionato)
                 if risultato:
@@ -138,9 +132,8 @@ class VistaGestioneClienti(QWidget):
 
     def goModifica(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
+            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
             if clienteSelezionato.isAssegnato() is False:
                 self.vista_modifica = VistaModificaCliente(clienteSelezionato)
                 self.vista_modifica.closed.connect(self.riempiListaClienti)
