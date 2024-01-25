@@ -72,6 +72,39 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLineEdit" name="ricercaGruppo">
+            <property name="styleSheet">
+             <string notr="true">background: lightgrey</string>
+            </property>
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>inserire id gruppo</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonCercaGruppo">
+            <property name="styleSheet">
+             <string notr="true">color: white;  background-color: #757575</string>
+            </property>
+            <property name="text">
+             <string>cerca</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QComboBox" name="gruppiComboBox">
           <property name="minimumSize">
            <size>
@@ -98,7 +131,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>300</height>
+            <height>270</height>
            </size>
           </property>
          </spacer>
@@ -108,17 +141,20 @@
           <property name="maximumSize">
            <size>
             <width>250</width>
-            <height>50</height>
+            <height>80</height>
            </size>
           </property>
           <property name="sizeIncrement">
            <size>
             <width>250</width>
-            <height>50</height>
+            <height>80</height>
            </size>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -203,6 +239,39 @@
            <string>Magazzino</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLineEdit" name="ricercaScarpa">
+            <property name="styleSheet">
+             <string notr="true">background: lightgrey</string>
+            </property>
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>inserire taglia</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonCercaScarpa">
+            <property name="styleSheet">
+             <string notr="true">color: white;  background-color: #757575</string>
+            </property>
+            <property name="text">
+             <string>cerca</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QListWidget" name="scarpeList">
