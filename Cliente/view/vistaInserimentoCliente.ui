@@ -128,19 +128,19 @@
          <bool>false</bool>
         </property>
         <property name="currentText">
-         <string>Si</string>
+         <string>No</string>
         </property>
         <property name="currentIndex">
          <number>0</number>
         </property>
         <item>
          <property name="text">
-          <string>Si</string>
+          <string>No</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>No</string>
+          <string>Si</string>
          </property>
         </item>
        </widget>

@@ -25,10 +25,11 @@ class VistaModificaCliente(QWidget):
         self.textNome.setText(self.controller.getNome())
         self.textCognome.setText(self.controller.getCognome())
         self.textCF.setText(self.controller.getCodiceFiscale())
-        self.textCF.setReadOnly(True)
+        self.textCF.setEnabled(False)
         self.textEmail.setText(self.controller.getEmail())
         self.comboBoxSesso.setCurrentText(self.controller.getSesso())
         self.comboBoxAbbonato.setCurrentText(self.controller.isAbbonato())
+        self.comboBoxAbbonato.setEnabled(False)
         self.comboBoxTagliaScarpe.setCurrentText(self.controller.getTagliaScarpe())
 
 

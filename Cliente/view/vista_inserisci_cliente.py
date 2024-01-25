@@ -12,6 +12,7 @@ class VistaInserimento(QWidget):
         super(VistaInserimento, self).__init__(parent)
         uic.loadUi('Cliente/view/vistaInserimentoCliente.ui', self)
 
+        self.comboBoxAbbonato.setEnabled(False)
         self.inserisciButton.clicked.connect(self.creaNuovoCliente)
         self.annullaButton.clicked.connect(self.chiudiFinestra)
 

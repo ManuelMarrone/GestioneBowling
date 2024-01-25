@@ -75,7 +75,7 @@ class VistaGestioneClienti(QWidget):
                                                          partiteGratuite=15,
                                                          pagamentoRidotto=False,
                                                          cfCliente=cfCliente)
-                ControlloreCliente(clienteSelezionato).setAbbonato(cfCliente)
+                ControlloreCliente(clienteSelezionato).setAbbonato(cfCliente, val=True)
                 self.messaggio(tipo=1, titolo="Abbonamento cliente",
                                mex='<p style=color:white> Cliente abbonato con susccesso')
             else:
@@ -126,11 +126,15 @@ class VistaGestioneClienti(QWidget):
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
             if clienteSelezionato.isAssegnato() is False:
-                risultato = ControlloreCliente().rimuoviCliente(clienteSelezionato)
-                if risultato:
-                    self.messaggio(tipo=1, titolo="Rimozione cliente", mex="Cliente rimosso con successo")
+                if clienteSelezionato.getAbbonato() is False:
+                    risultato = ControlloreCliente().rimuoviCliente(clienteSelezionato)
+                    if risultato:
+                        self.messaggio(tipo=1, titolo="Rimozione cliente", mex="Cliente rimosso con successo")
+                    else:
+                        self.messaggio(tipo=0, titolo="Rimozione cliente", mex="Errore nella rimozione del cliente!")
                 else:
-                    self.messaggio(tipo=0, titolo="Rimozione cliente", mex="Errore nella rimozione del cliente!")
+                    self.messaggio(tipo=0, titolo="Rimozione cliente",
+                                   mex="Non puoi rimuovere il cliente se ha un abbonamento attivo")
             else:
                 self.messaggio(tipo=0, titolo="Rimozione cliente",
                                mex="Non puoi rimuovere il cliente mentre è assegnato ad un gruppo")
