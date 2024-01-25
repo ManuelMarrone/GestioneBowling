@@ -1,5 +1,4 @@
 from PyQt6 import uic, QtCore
-from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QWidget, QMessageBox
 
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente
@@ -21,7 +20,7 @@ class VistaModificaDipendente(QWidget):
         self.textNome.setText(self.controller.getNome())
         self.textCognome.setText(self.controller.getCognome())
         self.comboBoxRuolo.setCurrentText(self.controller.getRuolo())
-        self.textCF.setText(self.controller.getCF())
+        self.CFLabel.setText(self.controller.getCF())
         data = QtCore.QDateTime.fromString(self.controller.getDataNascita(), "dd-MM-yyyy")
         self.textNascita.setDateTime(data)
         self.textEmail.setText(self.controller.getEmail())
@@ -35,7 +34,7 @@ class VistaModificaDipendente(QWidget):
             nome = self.textNome.text().capitalize().strip()
             cognome = self.textCognome.text().capitalize().strip()
             ruolo = self.comboBoxRuolo.currentText()
-            codiceFiscale = self.textCF.text().upper().strip()
+            self.CFLabel.setText(self.controller.getCF())
             dataNascita = self.textNascita.dateTime()  # formatta la data
             email = self.textEmail.text().strip()
             sesso = self.comboBoxSesso.currentText()
@@ -43,9 +42,8 @@ class VistaModificaDipendente(QWidget):
             password = self.textNuovaPassword.text().strip()
 
             risultato = self.controller.modificaDipendente(
-                id = self.controller.getId(),
                 nuovoRuolo=ruolo,
-                nuovoCodiceFiscale=codiceFiscale,
+                codiceFiscale=self.controller.getCF(),
                 nuovoCognome=cognome,
                 nuovaDataNascita=dataNascita,
                 nuovaEmail=email,
@@ -68,9 +66,6 @@ class VistaModificaDipendente(QWidget):
             self.messaggio(tipo=0, titolo="Attenzione", mex="Il nome deve avere almeno 2 caratteri")
         elif len(self.textCognome.text()) < 2:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Il cognome deve avere almeno 2 caratteri")
-        # cf di 16 caratteri e alfanumerico
-        elif len(self.textCF.text()) != 16 or not self.textCF.text().isalnum():
-            self.messaggio(tipo=0, titolo="Attenzione", mex="Il codice fiscale deve contenere 16 caratteri")
         # controllo sull'email
         elif len(self.textEmail.text()) < 1:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Email almeno 1 carattere")

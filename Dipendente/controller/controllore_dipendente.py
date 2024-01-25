@@ -8,9 +8,6 @@ class ControlloreDipendente():
     def __init__(self, dipendente=None):
         self.model = dipendente
 
-    def getId(self):
-        return self.model.getId()
-
     def getNome(self):
         return self.model.getNome()
 
@@ -39,10 +36,10 @@ class ControlloreDipendente():
     def getPassword(self):
         return self.model.getPassword()
 
-    def modificaDipendente(self,id, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
-        Dipendente().modificaDipendente(id = id,
+    def modificaDipendente(self, nuovoRuolo, codiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome, nuovaPassword, nuovoSesso, nuovoTelefono):
+        Dipendente().modificaDipendente(
             nuovoRuolo=nuovoRuolo,
-            nuovoCodiceFiscale=nuovoCodiceFiscale,
+            codiceFiscale=codiceFiscale,
             nuovoCognome=nuovoCognome,
             nuovaDataNascita=nuovaDataNascita,
             nuovaEmail=nuovaEmail,
@@ -68,18 +65,6 @@ class ControlloreDipendente():
         if len(dipendenti) > 0:
             for dipendente in dipendenti:
                 if dipendente.codiceFiscale == codiceFiscale:
-                    return dipendente
-        else:
-            return None
-
-    def ricercaDipendenteId(self, id):
-        dipendenti = []
-        if os.path.isfile('Dipendente/data/dipendenti.pickle'):
-            with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
-                dipendenti = pickle.load(f)
-        if len(dipendenti) > 0:
-            for dipendente in dipendenti:
-                if dipendente.id == id:
                     return dipendente
         else:
             return None

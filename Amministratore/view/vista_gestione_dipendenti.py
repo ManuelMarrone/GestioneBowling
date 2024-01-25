@@ -58,7 +58,7 @@ class VistaGestioneDipendenti(QWidget):
                         if nomeDipendente == self.controller.getNome() and cognomeDipendente == self.controller.getCognome():
                             item = QListWidgetItem()
                             item.setText(
-                                "nome: " + nomeDipendente + ", cognome: " + cognomeDipendente + ", ruolo: " + ControlloreDipendente(dipendente).getRuolo())
+                                "nome: " + nomeDipendente + ", cognome: " + cognomeDipendente + ", ruolo: " + ControlloreDipendente(dipendente).getRuolo() + ", codice fiscale: " + ControlloreDipendente(dipendente).getCF())
                             self.dipendentiList.addItem(item)
             else:
                 self.messaggio(tipo=1, titolo="Ricerca dipendente", mex="Il dipendente non è presente")
@@ -75,7 +75,7 @@ class VistaGestioneDipendenti(QWidget):
             for dipendente in listaDipendenti:
                 item = QListWidgetItem()
                 item.setText(
-                    "nome: " + ControlloreDipendente(dipendente).getNome() + ", cognome: " + ControlloreDipendente(dipendente).getCognome() + ", ruolo: " + ControlloreDipendente(dipendente).getRuolo())
+                    "nome: " + ControlloreDipendente(dipendente).getNome() + ", cognome: " + ControlloreDipendente(dipendente).getCognome() + ", ruolo: " + ControlloreDipendente(dipendente).getRuolo()+ ", codice fiscale: " + ControlloreDipendente(dipendente).getCF())
                 self.dipendentiList.addItem(item)
 
     def goCreaDipendente(self):
@@ -85,10 +85,9 @@ class VistaGestioneDipendenti(QWidget):
 
     def goVisualizza(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome: ")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+            CF = self.itemSelezionato.split(", codice fiscale: ")[1].split(",")[0].strip()
 
-            dipendenteSelezionato = ControlloreDipendente().ricercaDipendenteNomeCognome(nome, cognome)
+            dipendenteSelezionato = ControlloreDipendente().ricercaDipendenteCodiceFiscale(CF)
             self.vista_dipendente = VistaDipendente(dipendenteSelezionato)
             self.vista_dipendente.show()
 
@@ -97,9 +96,9 @@ class VistaGestioneDipendenti(QWidget):
 
     def goEliminaDipendente(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
-            dipendenteSelezionato = ControlloreDipendente().ricercaDipendenteNomeCognome(nome, cognome)
+            CF = self.itemSelezionato.split(", codice fiscale: ")[1].split(",")[0].strip()
+
+            dipendenteSelezionato = ControlloreDipendente().ricercaDipendenteCodiceFiscale(CF)
             risultato = ControlloreDipendente().rimuoviDipendente(dipendenteSelezionato)
             if risultato:
                 self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
@@ -109,10 +108,9 @@ class VistaGestioneDipendenti(QWidget):
 
     def goModifica(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+            CF = self.itemSelezionato.split(", codice fiscale: ")[1].split(",")[0].strip()
 
-            dipendenteSelezionato = ControlloreDipendente().ricercaDipendenteNomeCognome(nome, cognome)
+            dipendenteSelezionato = ControlloreDipendente().ricercaDipendenteCodiceFiscale(CF)
             self.vista_modifica = VistaModificaDipendente(dipendenteSelezionato)
             self.vista_modifica.closed.connect(self.riempiListaDipendenti)
             self.vista_modifica.show()

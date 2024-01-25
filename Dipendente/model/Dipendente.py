@@ -1,6 +1,5 @@
 import os
 import pickle
-idIncrementale = 0
 
 class Dipendente:
     def __init__(self):
@@ -10,7 +9,6 @@ class Dipendente:
         self.dataNascita = None
         self.email = ""
         self.nome = ""
-        self.id = ""
         self.password = ""
         self.sesso = ""
         self.telefono = 0
@@ -20,9 +18,6 @@ class Dipendente:
 
     def getCognome(self):
         return self.cognome
-
-    def getId(self):
-        return self.id
 
     def getRuolo(self):
         return self.ruolo
@@ -46,12 +41,6 @@ class Dipendente:
     def getPassword(self):
         return self.password
 
-    # creazione id univoco
-    def creaId(self, nome, cognome):
-        global idIncrementale
-        idIncrementale += 1
-        idGenerato = nome[0:2] + cognome[0:2] + str(idIncrementale)
-        return idGenerato
 
     def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
         self.ruolo = ruolo
@@ -60,7 +49,6 @@ class Dipendente:
         self.dataNascita = dataNascita
         self.email = email
         self.nome = nome
-        self.id = self.creaId(nome, cognome)
         self.password = password
         self.sesso = sesso
         self.telefono = telefono
@@ -73,10 +61,9 @@ class Dipendente:
                 pickle.dump(dipendenti, f, pickle.HIGHEST_PROTOCOL)
         return self
 
-    def modificaDipendente(self,id, nuovoRuolo, nuovoCodiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
+    def modificaDipendente(self, nuovoRuolo, codiceFiscale, nuovoCognome, nuovaDataNascita, nuovaEmail, nuovoNome,
                            nuovaPassword, nuovoSesso, nuovoTelefono):
         self.ruolo = nuovoRuolo
-        self.codiceFiscale = nuovoCodiceFiscale
         self.cognome = nuovoCognome
         self.dataNascita = nuovaDataNascita
         self.email = nuovaEmail
@@ -88,9 +75,8 @@ class Dipendente:
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
                 dipendenti = pickle.load(f)
-                dipendente = next((dipendente for dipendente in dipendenti if dipendente.id == id), None)
+                dipendente = next((dipendente for dipendente in dipendenti if dipendente.codiceFiscale == codiceFiscale), None)
                 dipendente.ruolo = nuovoRuolo
-                dipendente.codiceFiscale = nuovoCodiceFiscale
                 dipendente.cognome = nuovoCognome
                 dipendente.dataNascita = nuovaDataNascita
                 dipendente.email = nuovaEmail
@@ -105,7 +91,7 @@ class Dipendente:
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
                 dipendenti = pickle.load(f)
-                daRimuovere = next((dipendente for dipendente in dipendenti if dipendente.id == self.id), None)
+                daRimuovere = next((dipendente for dipendente in dipendenti if dipendente.codiceFiscale == self.codiceFiscale), None)
                 dipendenti.remove(daRimuovere)
             with open('Dipendente/data/dipendenti.pickle', 'wb') as f:  # riscrive i cassieri sena l'eliminato
                 pickle.dump(dipendenti, f, pickle.HIGHEST_PROTOCOL)
@@ -115,7 +101,7 @@ class Dipendente:
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
                 dipendenti = pickle.load(f)
-                return dipendenti[self.id]
+                return dipendenti[self.codiceFiscale]
 
     def getDipendenti(self):
         dipendenti = []
@@ -125,15 +111,3 @@ class Dipendente:
             return dipendenti
         else:
             return None
-
-    def __str__(self):
-        return "Ruolo: " +self.ruolo + "\n" + \
-                "Id: " + self.id + "\n" + \
-                "Nome: " + self.nome + "\n" + \
-                "Cognome: " + self.cognome + "\n" + \
-                "Codice Fiscale: " + self.codiceFiscale + "\n" + \
-                "Data di nascita: " + self.dataNascita + "\n" + \
-                "Email: " + self.email + "\n" + \
-                "Password: " + self.password + "\n" + \
-                "Sesso: " + self.sesso + "\n" + \
-                "Telefono: " + self.telefono
