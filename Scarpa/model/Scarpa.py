@@ -8,17 +8,17 @@ class Scarpa():
         self.id = ""
         self.taglia = 0
 
-    # def creaScarpa(self, disponibilita, id, taglia):
-    #     self.disponibilita = disponibilita
-    #     self.id = id
-    #     self.taglia = taglia
-    #     scarpe = []
-    #     with open('Scarpa/data/scarpe.pickle', "rb") as f:
-    #         scarpe = pickle.load(f)
-    #     scarpe.append(self)
-    #     with open('Scarpa/data/scarpe.pickle', "wb") as f:
-    #         pickle.dump(scarpe, f, pickle.HIGHEST_PROTOCOL)
-    #     return self
+    def creaScarpa(self, disponibilita, id, taglia):
+        self.disponibilita = disponibilita
+        self.id = id
+        self.taglia = taglia
+        scarpe = []
+        with open('Scarpa/data/scarpe.pickle', "rb") as f:
+            scarpe = pickle.load(f)
+        scarpe.append(self)
+        with open('Scarpa/data/scarpe.pickle', "wb") as f:
+            pickle.dump(scarpe, f, pickle.HIGHEST_PROTOCOL)
+        return self
 
     def getScarpa(self):
         scarpe = []

@@ -12,7 +12,7 @@ class ControllorePista():
         return self.model.getId()
 
     def getDisponibilita(self):
-        return self.model.disponibilita
+        return self.model.getDisponibilita()
 
     def ricercaPistaId(self, id):
         piste = []
@@ -35,8 +35,8 @@ class ControllorePista():
     def setDisponibilita(self, bool, id):
          self.model.setDisponibilita(bool, id)
 
-    def creaPista(self, disponibilita, id):
-        nuovaPista = Pista().creaPista(
-            disponibilita=disponibilita,
-            id=id)
-        return nuovaPista
+    # def creaPista(self, disponibilita, id):
+    #     nuovaPista = Pista().creaPista(
+    #         disponibilita=disponibilita,
+    #         id=id)
+    #     return nuovaPista

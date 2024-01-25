@@ -10,14 +10,14 @@ class ControlloreScarpa():
     def __init__(self, scarpa=None):
         self.model = scarpa
 
-    # def creaScarpa(self, disponibilita, id, taglia):
-    #     nuovaScarpa = Scarpa().creaScarpa(
-    #         disponibilita=disponibilita,
-    #         id=id,
-    #         taglia=taglia,
-    #          )
-    #
-    #     return nuovaScarpa
+    def creaScarpa(self, disponibilita, id, taglia):
+        nuovaScarpa = Scarpa().creaScarpa(
+            disponibilita=disponibilita,
+            id=id,
+            taglia=taglia,
+             )
+
+        return nuovaScarpa
 
     def getIdScarpa(self):
         return self.model.getIdScarpa()
@@ -68,17 +68,18 @@ class ControlloreScarpa():
         if gruppoSelezionato is not None:
             #scorre i membri del gruppo
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
-                nome = cliente.split("nome: ")[1].split(",")[0].strip()
-                cognome = cliente.split("cognome:")[1].split(",")[0].strip()
+                cf = cliente.split("codice fiscale: ")[1].strip()
                 # se trovo corrispondenza con cliente al quale sto assegnando la scarpa
-                if nome == clienteSelezionato.getNome() and cognome == clienteSelezionato.getCognome():
+                if cf == clienteSelezionato.getCodiceFiscale():
                     #se la taglia della scarpa coincide con la richiesta
-
                     self.setDisponibilitaScarpa(False, idScarpa)  # rendiamo la scarpa non più disponibile
                     # associa dentro l'attributo del cliente l'id della scarpa
-                    clienteIstanza = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
-                    idCliente = ControlloreCliente(clienteIstanza).getId()
-                    ControlloreCliente(clienteIstanza).setIdScarpa(idScarpa, idCliente)
+                    clienteIstanza = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
+
+                    cfCliente = ControlloreCliente(clienteIstanza).getCodiceFiscale()
+
+                    ControlloreCliente(clienteIstanza).setIdScarpa(idScarpa, cfCliente)
+
                     return True
         return False
 

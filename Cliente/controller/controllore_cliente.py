@@ -2,6 +2,8 @@ import os
 import pickle
 
 from Cliente.model.Cliente import Cliente
+
+
 class ControlloreCliente():
     def __init__(self, cliente=None):
         self.model = cliente
@@ -36,9 +38,8 @@ class ControlloreCliente():
     def getAssegnato(self):
         return self.model.isAssegnato()
 
-    def setAssegnato(self, x, id):
-        self.model.setAssegnato(x, id)  #va modificato anche qui l'id con il codice fiscal
-
+    def setAssegnato(self, x, cf):
+        self.model.setAssegnato(x, cf)
 
     def modificaCliente(self, nuovoAbbonato, codiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
                         nuovoSesso, nuovaTagliaScarpe):
@@ -60,17 +61,16 @@ class ControlloreCliente():
         else:
             return False
 
-
     def ricercaClienteCodiceFiscale(self, codiceFiscale):
-         clienti = []
-         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
+        clienti = []
+        if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-         if len(clienti) > 0:
-             for cliente in clienti:
-                 if cliente.codiceFiscale == codiceFiscale:
-                     return cliente
-         else:
+        if len(clienti) > 0:
+            for cliente in clienti:
+                if cliente.codiceFiscale == codiceFiscale:
+                    return cliente
+        else:
             return None
 
     def ricercaClienteEmail(self, email):
@@ -105,8 +105,8 @@ class ControlloreCliente():
     def getIdScarpa(self):
         return self.model.getIdScarpa()
 
-    def setIdScarpa(self, idS, idCliente):  #va modificato anche qui l'id con il codice fiscale
-        self.model.setIdScarpa(idS, idCliente)
+    def setIdScarpa(self, idS, cf):
+        self.model.setIdScarpa(idS, cf)
 
     def visualizzaClienti(self):
         return Cliente().getClienti()
@@ -117,15 +117,15 @@ class ControlloreCliente():
             return None
         else:
             nuovoCliente = Cliente().creaCliente(
-              abbonato=abbonato,
-              codiceFiscale=codiceFiscale,
-              cognome=cognome,
-              email=email,
-              nome=nome,
-              sesso=sesso,
-              tagliaScarpe=tagliaScarpe,
-              assegnato=assegnato,
-              idScarpa=idScarpa
-             )
+                abbonato=abbonato,
+                codiceFiscale=codiceFiscale,
+                cognome=cognome,
+                email=email,
+                nome=nome,
+                sesso=sesso,
+                tagliaScarpe=tagliaScarpe,
+                assegnato=assegnato,
+                idScarpa=idScarpa
+            )
 
         return nuovoCliente

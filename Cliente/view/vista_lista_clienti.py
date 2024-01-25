@@ -10,6 +10,7 @@ from Cliente.view.vista_cliente import VistaCliente
 from Cliente.view.vista_modifica_cliente import VistaModificaCliente
 from Abbonamento.view.vista_abbonamento import VistaAbbonamento
 
+
 class VistaGestioneClienti(QWidget):
     closed = pyqtSignal()
 
@@ -36,7 +37,7 @@ class VistaGestioneClienti(QWidget):
         self.visualizzaButton.clicked.connect(self.goVisualizza)
         self.indietroButton.clicked.connect(self.chiudiFinestra)
         self.modificaButton.clicked.connect(self.goModifica)
-        #self.cercaButton.clicked.connect(self.goCerca)
+        # self.cercaButton.clicked.connect(self.goCerca)
 
     # def goCerca(self):
     #     controllo = self.ricercaText.text().split()
@@ -65,31 +66,34 @@ class VistaGestioneClienti(QWidget):
     def goCreaAbbonamento(self):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
+            clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
 
             if clienteSelezionato.abbonato is False:
-                cfCliente = clienteSelezionato.codiceFiscale # Viene preso il codice fiscale del cliente selezionato
+                cfCliente = clienteSelezionato.codiceFiscale  # Viene preso il codice fiscale del cliente selezionato
                 ControlloreAbbonamento().creaAbbonamento(dataFine=datetime.now().strftime("%Y-%m-%d %H:%M"),
-                                                       dataValidazione=None,
-                                                       partiteGratuite=15,
-                                                       pagamentoRidotto=False,
-                                                       cfCliente=cfCliente)
+                                                         dataValidazione=None,
+                                                         partiteGratuite=15,
+                                                         pagamentoRidotto=False,
+                                                         cfCliente=cfCliente)
                 ControlloreCliente(clienteSelezionato).setAbbonato(cfCliente)
-                self.messaggio(tipo=1 , titolo="Abbonamento cliente", mex='<p style=color:white> Cliente abbonato con susccesso')
+                self.messaggio(tipo=1, titolo="Abbonamento cliente",
+                               mex='<p style=color:white> Cliente abbonato con susccesso')
             else:
-                self.messaggio(tipo=0, titolo="Abbonamento cliente", mex='<p style=color:white> Il cliente risulta gia abbonato')
+                self.messaggio(tipo=0, titolo="Abbonamento cliente",
+                               mex='<p style=color:white> Il cliente risulta gia abbonato')
 
     def goGestisciAbbonamento(self):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
+            clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
 
             if clienteSelezionato.abbonato is True:
-                abbonamento = ControlloreAbbonamento.ricercaAbbonamentoCfCliente(self, clienteSelezionato.getCodiceFiscale()) # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
+                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(clienteSelezionato.getCodiceFiscale())  # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
                 self.vista_abbonamento = VistaAbbonamento(abbonamento, clienteSelezionato)
                 self.vista_abbonamento.show()
             else:
-                self.messaggio(tipo=0, titolo="Abbonamento cliente",mex='<p style=color:white> Il cliente selezionato non risulta abbonato')
+                self.messaggio(tipo=0, titolo="Abbonamento cliente",
+                               mex='<p style=color:white> Il cliente selezionato non risulta abbonato')
 
     def riempiListaClienti(self):
         listaClienti = []
@@ -98,7 +102,8 @@ class VistaGestioneClienti(QWidget):
         if listaClienti is not None:
             for cliente in listaClienti:
                 item = QListWidgetItem()
-                item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", codice fiscale: " + cliente.codiceFiscale)
+                item.setText(
+                    "nome: " + cliente.getNome() + ", cognome: " + cliente.getCognome() + ", codice fiscale: " + cliente.getCodiceFiscale())
                 self.clientiList.addItem(item)
 
     def goCreaCliente(self):
@@ -109,7 +114,7 @@ class VistaGestioneClienti(QWidget):
     def goVisualizza(self):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
+            clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
             self.vista_cliente = VistaCliente(clienteSelezionato)
             self.vista_cliente.show()
 
@@ -119,21 +124,22 @@ class VistaGestioneClienti(QWidget):
     def goEliminaCliente(self):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
+            clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
             if clienteSelezionato.isAssegnato() is False:
                 risultato = ControlloreCliente().rimuoviCliente(clienteSelezionato)
                 if risultato:
-                    self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
+                    self.messaggio(tipo=1, titolo="Rimozione cliente", mex="Cliente rimosso con successo")
                 else:
-                    self.messaggio(tipo=0, titolo="Rimozione cliente",mex= "Errore nella rimozione del cliente!")
+                    self.messaggio(tipo=0, titolo="Rimozione cliente", mex="Errore nella rimozione del cliente!")
             else:
-                self.messaggio(tipo=0, titolo="Rimozione cliente", mex="Non puoi rimuovere il cliente mentre è assegnato ad un gruppo")
+                self.messaggio(tipo=0, titolo="Rimozione cliente",
+                               mex="Non puoi rimuovere il cliente mentre è assegnato ad un gruppo")
         self.riempiListaClienti()
 
     def goModifica(self):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
-            clienteSelezionato = ControlloreCliente.ricercaClienteCodiceFiscale(self, codiceFiscale)
+            clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
             if clienteSelezionato.isAssegnato() is False:
                 self.vista_modifica = VistaModificaCliente(clienteSelezionato)
                 self.vista_modifica.closed.connect(self.riempiListaClienti)
@@ -154,5 +160,5 @@ class VistaGestioneClienti(QWidget):
         mexBox.exec()
 
     def chiudiFinestra(self):
-            self.closed.emit()
-            self.close()
+        self.closed.emit()
+        self.close()

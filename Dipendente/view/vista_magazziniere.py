@@ -66,14 +66,16 @@ class VistaMagazziniere(QWidget):
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
                 nome = cliente.split("nome:")[1].split(",")[0].strip()
                 cognome = cliente.split("cognome:")[1].split(",")[0].strip()
-                id = cliente.split("id:")[1].strip()
-                istanza = ControlloreCliente().ricercaClienteId(id)
-                taglia = ControlloreCliente(istanza).getTagliaScarpe()
-                idScarpa = ControlloreCliente(istanza).getIdScarpa()
+                cf = cliente.split("codice fiscale: ")[1].strip()
+
+                istanza = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
+
+                taglia = istanza.getTagliaScarpe()
+                idScarpa = istanza.getIdScarpa()
                 if taglia != "0" and idScarpa == "":
                     item = QListWidgetItem()
                     item.setText(
-                        nome + " " + cognome + " taglia:" + taglia + " id: " + id)
+                        nome + " " + cognome + " taglia:" + taglia + " codice fiscale: " + cf)
                     self.clientiList.addItem(item)
 
     def riempiBoxGruppi(self):
@@ -94,12 +96,13 @@ class VistaMagazziniere(QWidget):
             idScarpa = self.itemSelezionato.split("id:")[1].strip()
 
             # preleva nome e cognome del cliente selezionato
-            id = self.itemClienteSelezionato.split("id:")[1].strip()
+            cf = self.itemClienteSelezionato.split("codice fiscale:")[1].strip()
+
 
             # preleva l'oggetto della scarpa selezionata
             scarpaSelezionata = ControlloreScarpa().ricercaScarpaId(idScarpa)
             # preleva l'oggetto del cliente selezionato
-            clienteSelezionato = ControlloreCliente().ricercaClienteId(id)
+            clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
 
             # preleva l'id del gruppo a cui si sta facendo riferimento
             idSelezionato = self.gruppiComboBox.currentText()
@@ -127,8 +130,9 @@ class VistaMagazziniere(QWidget):
     def codaScarpe(self):
         tagliaRichiesta = self.itemClienteSelezionato.split("taglia:")[1].strip().split()[0]
         if self.verificaDiponibilitaTaglia(tagliaRichiesta) is False:
-            idCliente = self.itemClienteSelezionato.split("id:")[1].strip()
-            if self.controllerCoda.aggiungiInCoda(idCliente) is False:
+            cfCliente = self.itemClienteSelezionato.split("codice fiscale:")[1].strip()
+
+            if self.controllerCoda.aggiungiInCoda(cfCliente) is False:
                 self.messaggio(tipo=0, titolo="Coda per scarpe",
                                mex="Cliente già in coda")
             else:
@@ -187,9 +191,11 @@ class VistaMagazziniere(QWidget):
         if membri is not None:
             for membro in membri:
                 # preleva dati cliente
-                idCliente = membro.split("id:")[1].strip()
+                cfCliente = membro.split("codice fiscale:")[1].strip()
+
                 # preleva oggetto cliente
-                clienteSelezionato = ControlloreCliente().ricercaClienteId(idCliente)
+                clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(cfCliente)
+
                 # preleva idScarpa della scarpa assegnata al cliente
                 idScarpa = clienteSelezionato.getIdScarpa()
                 # preleva l'oggetto della relativa scarpa
@@ -202,9 +208,11 @@ class VistaMagazziniere(QWidget):
                     self.avvisiLabel.setText("Attenzione\nLe taglie richieste sono tornate disponibili")
 
                 # ripristino della disponibilita per giocare in altri gruppi
-                clienteSelezionato.setAssegnato(False, idCliente)
+                clienteSelezionato.setAssegnato(False, cfCliente)
+
                 # ripristino idScarpa del cliente a nessuna scarpa aseegnata
-                clienteSelezionato.setIdScarpa("", idCliente)
+                clienteSelezionato.setIdScarpa("", cfCliente)
+
 
         else:
             print("errore nel ripristino disponibilità")
@@ -222,7 +230,8 @@ class VistaMagazziniere(QWidget):
         coda = self.controllerCoda.visualizzaElementi()
         if len(coda) != 0:
             for clienteCoda in coda:
-                cliente = ControlloreCliente().ricercaClienteId(clienteCoda)
+                cliente = ControlloreCliente().ricercaClienteCodiceFiscale(clienteCoda)
+
                 if scarpa.getTagliaScarpa() is not None:
                     if int(cliente.getTagliaScarpe()) == int(scarpa.getTagliaScarpa()):
                         # se la scarpa liberata corrisponde con quella del cliente in coda allora procedi

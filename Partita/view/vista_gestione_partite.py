@@ -57,7 +57,7 @@ class VistaGestionePartite(QWidget):
             nome, cognome = self.ricercaText.text().split()
             nome = nome.capitalize().strip()
             cognome = cognome.capitalize().strip()
-            clienteRicercato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            clienteRicercato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
             if clienteRicercato is not None:                    #se il cliente è presente aggiorna la lista
                 self.clientiList.clear()
                 self.controller = ControlloreCliente(clienteRicercato)
@@ -66,7 +66,7 @@ class VistaGestionePartite(QWidget):
                     for cliente in listaClienti:
                         if cliente.nome == self.controller.getNome() and cliente.cognome == self.controller.getCognome():
                             item = QListWidgetItem()
-                            item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome)
+                            item.setText("nome: " + cliente.getNome() + ", cognome: " + cliente.getCognome())
                             self.clientiList.addItem(item)
             else:
                 self.messaggio(tipo=1, titolo="Ricerca cliente", mex="Il cliente non è presente")
@@ -81,9 +81,8 @@ class VistaGestionePartite(QWidget):
             for cliente in listaClienti:
                 if cliente.assegnato is False:
                     item = QListWidgetItem()
-                    item.setText("nome: " + cliente.nome + ", cognome: " + cliente.cognome + ", id: " + cliente.id)
+                    item.setText("nome: " + cliente.getNome() + ", cognome: " + cliente.getCognome() + ", codice fiscale: "+ cliente.getCodiceFiscale())
                     self.clientiList.addItem(item)
-                    print(str(cliente.assegnato))
 
     def riempiListaPiste(self):
         listaPiste = []
@@ -92,15 +91,14 @@ class VistaGestionePartite(QWidget):
         if listaPiste is not None:
             for pista in listaPiste:
                 item = QComboBox()
-                item.addItem("id: " + str(pista.id) + " disponibilità: " + str(pista.disponibilita))
+                item.addItem("id: " + str(pista.getId()) + " disponibilità: " + str(pista.getDisponibilita()))
                 self.pisteList.addItem(item.currentText())
 
     def goVisualizza(self):
         if self.itemSelezionato is not None:
-            nome = self.itemSelezionato.split("nome:")[1].split(",")[0].strip()
-            cognome = self.itemSelezionato.split("cognome:")[1].split(",")[0].strip()
+            cf = self.itemSelezionato.split(", codice fiscale: ")[1].strip()
 
-            clienteSelezionato = ControlloreCliente.ricercaClienteNomeCognome(self, nome, cognome)
+            clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
             self.vista_cliente = VistaGestioneClienti(clienteSelezionato)
             self.vista_cliente.show()
 
@@ -188,9 +186,10 @@ class VistaGestionePartite(QWidget):
                 if j == elemento:
                     self.clientiList.item(i).setHidden(True)
                     for cliente in ControlloreCliente().visualizzaClienti():
-                        if cliente.id == j[-5:]:
+                        codiceFiscale = j.split("codice fiscale:")[1].strip()
+                        if cliente.getCodiceFiscale() == codiceFiscale:
                             self.controller = ControlloreCliente(cliente)
-                            self.controller.setAssegnato(True, cliente.id)
+                            self.controller.setAssegnato(True, cliente.getCodiceFiscale())
 
         "chiede il n° partite e verifica che un gruppo giochi almeno una partita"
         numero_partite, ok = QInputDialog.getInt(self, 'Numero Partite', 'quante partite intende effettuare il gruppo?')

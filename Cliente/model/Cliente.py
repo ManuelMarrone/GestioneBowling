@@ -92,12 +92,12 @@ class Cliente():
     def getTagliaScarpe(self):
         return self.tagliaScarpe
 
-    def setIdScarpa(self, idS, idCliente):  #da cambiare con il codice fiscale
+    def setIdScarpa(self, idScarpa, cfCliente):  #da cambiare con il codice fiscale
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                cliente = next((cliente for cliente in clienti if str(cliente.id) == idCliente), None)
-                cliente.idScarpa = idS
+                cliente = next((cliente for cliente in clienti if str(cliente.codiceFiscale) == cfCliente), None)
+                cliente.idScarpa = idScarpa
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
 
@@ -105,7 +105,7 @@ class Cliente():
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                return clienti[self.id]
+                return clienti[self.codiceFiscale]
 
     def getClienti(self):
         clienti = []
@@ -125,21 +125,11 @@ class Cliente():
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
 
-    def setAssegnato(self, x, id):
+    def setAssegnato(self, x, cf):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                cliente = next((cliente for cliente in clienti if cliente.id == id), None) #va modificata la ricerca e va messa quella tramite codice fiscale
+                cliente = next((cliente for cliente in clienti if cliente.codiceFiscale == cf), None)
                 cliente.assegnato = x
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
-
-    def __str__(self):
-        return  "abbonato: " + self.abbonato + "\n" + \
-                "Codice Fiscale: " + self.codiceFiscale + "\n" + \
-                "Cognome: " + self.cognome + "\n" + \
-                "Email: " + self.email + "\n" + \
-                "Nome: " + self.nome + "\n" + \
-                "Sesso: " + self.sesso + "\n" + \
-                "Taglia Scarpe: " + self.tagliaScarpe + "\n" + \
-                "assegnat: " + self.assegnato
