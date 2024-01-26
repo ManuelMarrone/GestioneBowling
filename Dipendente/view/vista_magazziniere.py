@@ -10,7 +10,7 @@ from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 from CodaScarpe.controller.controllore_coda_scarpe import ControlloreCodaScarpe
-
+from Partita.controller.controllore_partita import ControllorePartita
 
 class VistaMagazziniere(QWidget):
     closed = pyqtSignal()
@@ -206,6 +206,7 @@ class VistaMagazziniere(QWidget):
         if self.clientiList.count() == 0:
             # se ci sono gruppi esistenti
             if self.gruppiComboBox.count() > 0:
+
                 # estraggo l'indice all'interno della comboBox del gruppo soddisfatto
                 currentIndex = self.gruppiComboBox.currentIndex()
 
@@ -213,6 +214,16 @@ class VistaMagazziniere(QWidget):
                 idSelezionato = self.gruppiComboBox.currentText()
                 # prelevo l'oggetto del gruppo
                 gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
+
+
+
+                #si era pensato di creare un numero di partite pari al numero di partite
+                #dichiarate dal gruppo, ma a questo punto conviene creare un solo oggetto
+                #partita per ogni gruppo giocante
+                ControllorePartita().creaPartita(gruppoSelezionato)
+
+
+
 
                 # rimuove l'elemento corrente dalla QComboBox
                 self.gruppiComboBox.removeItem(currentIndex)
