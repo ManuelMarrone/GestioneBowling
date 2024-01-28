@@ -1,6 +1,6 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import QDateTime
+from PyQt6.QtCore import QDateTime, QDate
 
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 from Cliente.controller.controllore_cliente import ControlloreCliente
@@ -22,8 +22,8 @@ class VistaAbbonamento(QWidget):
         data_fine = QDateTime.fromString(self.controllerA.getDataFine(), "yyyy-MM-dd HH:mm")
         self.dateScadenza.setDateTime(data_fine)
         self.dateScadenza.setReadOnly(True)
-        data_scadenza = QDateTime.fromString(self.controllerA.getDataValidazione(), "yyyy-MM-dd HH:mm")
-        self.dateValidazione.setDateTime(data_scadenza)
+        data_validazione = QDateTime.fromString(self.controllerA.getDataValidazione(), "yyyy-MM-dd HH:mm")
+        self.dateValidazione.setDateTime(data_validazione)
         self.dateValidazione.setReadOnly(True)
         self.textPartiteGratuite.setText(str(self.controllerA.getPartiteGratuite()))
         self.textPartiteGratuite.setReadOnly(True)
@@ -43,8 +43,6 @@ class VistaAbbonamento(QWidget):
     def rimuoviAbbonamento(self):
         risultato = ControlloreAbbonamento().rimuoviAbbonamento(self.abbonamento)
         if risultato:
-            #ControlloreCliente(self.cliente).setAbbonato(self.cliente.getCodiceFiscale())
-            self.controllerC.setAbbonato(self.controllerA.getCfCliente(), val=False)
             self.messaggio(tipo=1, titolo="Rimozione cliente", mex="Abbonamento rimosso con successo")
             self.chiudiFinestra()
         else:

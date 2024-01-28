@@ -1,7 +1,7 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
@@ -70,14 +70,17 @@ class VistaGestioneClienti(QWidget):
 
             if clienteSelezionato.abbonato is False:
                 cfCliente = clienteSelezionato.codiceFiscale  # Viene preso il codice fiscale del cliente selezionato
-                ControlloreAbbonamento().creaAbbonamento(dataFine=datetime.now().strftime("%Y-%m-%d %H:%M"),
-                                                         dataValidazione=None,
+
+                data_validazione = datetime.now() #DATA CHE GLI DOVRA' ESSERE PASSATA ma per il momento prendiamo quella corrente
+                data_fine = data_validazione + timedelta(minutes=1)
+                ControlloreAbbonamento().creaAbbonamento(dataFine=data_fine.strftime("%Y-%m-%d %H:%M"),
+                                                         dataValidazione=data_validazione.strftime("%Y-%m-%d %H:%M"),
                                                          partiteGratuite=15,
                                                          pagamentoRidotto=False,
                                                          cfCliente=cfCliente)
                 ControlloreCliente(clienteSelezionato).setAbbonato(cfCliente, val=True)
                 self.messaggio(tipo=1, titolo="Abbonamento cliente",
-                               mex='<p style=color:white> Cliente abbonato con susccesso')
+                               mex='<p style=color:white> Cliente abbonato con successo')
             else:
                 self.messaggio(tipo=0, titolo="Abbonamento cliente",
                                mex='<p style=color:white> Il cliente risulta gia abbonato')
