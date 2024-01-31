@@ -4,6 +4,7 @@ from PyQt6.QtCore import pyqtSignal
 
 from Partita.view.vista_gestione_partite import VistaGestionePartite
 from Cliente.view.vista_lista_clienti import VistaGestioneClienti
+from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 
 class VistaCassiere(QWidget):
     closed = pyqtSignal()
@@ -18,6 +19,7 @@ class VistaCassiere(QWidget):
 
     def goGestioneClienti(self):
         VistaCassiere.close(self)
+        ControlloreAbbonamento().controllo_scadenze()
         self.vista_gestione_clienti = VistaGestioneClienti()
         self.vista_gestione_clienti.closed.connect(self.show)
         self.vista_gestione_clienti.show()

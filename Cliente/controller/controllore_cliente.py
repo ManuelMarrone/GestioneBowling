@@ -11,8 +11,8 @@ class ControlloreCliente():
     def getAbbonato(self):
         return self.model.getAbbonato()
 
-    def setAbbonato(self, cfCliente, val):
-        self.model.setAbbonato(cfCliente, val)
+    def setAbbonato(self, val):
+        self.model.setAbbonato(val)
 
     def isAbbonato(self):
         return self.model.isAbbonato()

@@ -72,13 +72,13 @@ class VistaGestioneClienti(QWidget):
                 cfCliente = clienteSelezionato.codiceFiscale  # Viene preso il codice fiscale del cliente selezionato
 
                 data_validazione = datetime.now() #DATA CHE GLI DOVRA' ESSERE PASSATA ma per il momento prendiamo quella corrente
-                data_fine = data_validazione + timedelta(minutes=1)
-                ControlloreAbbonamento().creaAbbonamento(dataFine=data_fine.strftime("%Y-%m-%d %H:%M"),
+                data_fine = data_validazione + timedelta(days=30)
+                ControlloreAbbonamento().creaAbbonamento(dataFine=data_fine.strftime("%Y-%m-%d"),
                                                          dataValidazione=data_validazione.strftime("%Y-%m-%d %H:%M"),
                                                          partiteGratuite=15,
                                                          pagamentoRidotto=False,
                                                          cfCliente=cfCliente)
-                ControlloreCliente(clienteSelezionato).setAbbonato(cfCliente, val=True)
+                ControlloreCliente(clienteSelezionato).setAbbonato(val=True)
                 self.messaggio(tipo=1, titolo="Abbonamento cliente",
                                mex='<p style=color:white> Cliente abbonato con successo')
             else:

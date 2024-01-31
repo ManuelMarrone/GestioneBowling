@@ -11,14 +11,13 @@ class ControlloreAbbonamento():
         self.model = abbonamento
 
         # Pianifica l'avvio del controllo delle scadenze ogni giorno alle 00:00
-        schedule.every().day.at("22:09").do(self.controllo_scadenze)
+        schedule.every().day.at("00:00").do(self.controllo_scadenze)
 
         # Thread per eseguire la pianificazione in background
         self.thread_schedule = Thread(target=self.schedule_thread)
         self.thread_schedule.start()
 
     def controllo_scadenze(self):
-        print("il controllo viene richiamato")
         abbonamenti = []
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
             with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
@@ -26,10 +25,8 @@ class ControlloreAbbonamento():
         if len(abbonamenti) > 0:
             data_corrente = datetime.now()
             for abbonamento in abbonamenti:
-                print(abbonamento.getDataFine()," > ", data_corrente.strftime("%Y-%m-%d %H:%M"))
-                if abbonamento.getDataFine() >= data_corrente.strftime("%Y-%m-%d %H:%M"):
+                if abbonamento.getDataFine() < data_corrente.strftime("%Y-%m-%d"):
                     self.rimuoviAbbonamento(abbonamento)
-                    print(abbonamento.cfCliente)
 
     def schedule_thread(self):
         while True:
@@ -74,8 +71,9 @@ class ControlloreAbbonamento():
 
     def rimuoviAbbonamento(self, abbonamento):
         if isinstance(abbonamento, Abbonamento):
+            cliente = ControlloreCliente().ricercaClienteCodiceFiscale(abbonamento.cfCliente) #cerchiamo il cliente corrispondente con quell'abbonamento tramite il codice fiscale
+            ControlloreCliente(cliente).setAbbonato(val=False)
             abbonamento.rimuoviAbbonamento()
-            ControlloreCliente().setAbbonato(abbonamento.cfCliente, val=False)
             return True
         else:
             return False

@@ -5,6 +5,7 @@ from Amministratore.view.vista_amministratore import VistaAmministratore
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente
 from Dipendente.view.vista_cassiere import VistaCassiere
 from Dipendente.view.vista_magazziniere import VistaMagazziniere
+from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 
 
 class VistaLogin(QWidget):
@@ -23,6 +24,7 @@ class VistaLogin(QWidget):
         password = self.textPassword.text()
 
         if email == "a" and password == "b":
+            ControlloreAbbonamento().controllo_scadenze()
             self.vista_amministratore = VistaAmministratore()
             self.vista_amministratore.closed.connect(self.show)
             self.vista_amministratore.show()
@@ -35,6 +37,7 @@ class VistaLogin(QWidget):
             if dipendente is not None:
                 self.controller = ControlloreDipendente(dipendente)
                 if password == self.controller.getPassword():         #verifica password del dipendente
+                    ControlloreAbbonamento().controllo_scadenze()
                     if self.controller.getRuolo() == "Cassiere":
                         self.vista_cassiere = VistaCassiere()
                         self.vista_cassiere.closed.connect(self.show)

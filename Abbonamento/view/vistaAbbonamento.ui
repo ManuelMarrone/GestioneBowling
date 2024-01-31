@@ -177,7 +177,7 @@
        <widget class="QDateTimeEdit" name="dateValidazione"/>
       </item>
       <item row="5" column="1">
-       <widget class="QDateTimeEdit" name="dateScadenza"/>
+       <widget class="QDateEdit" name="dateScadenza"/>
       </item>
      </layout>
     </item>

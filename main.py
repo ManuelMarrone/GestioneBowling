@@ -8,6 +8,7 @@ from Cliente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.model.GruppoClienti import GruppoClienti
+from Dipendente.view.vista_cassiere import VistaCassiere
 
 if __name__ == "__main__":
 
@@ -40,8 +41,8 @@ if __name__ == "__main__":
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
 
     app = QApplication(sys.argv)
-    vistaclienti = VistaGestioneClienti()
-    vistaclienti.show()
+    vista_cassiere = VistaCassiere()
+    vista_cassiere.show()
     sys.exit(app.exec())
 
 
