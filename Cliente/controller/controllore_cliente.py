@@ -109,7 +109,7 @@ class ControlloreCliente():
         self.model.setIdScarpa(idS, cf)
 
     def visualizzaClienti(self):
-        return self.model.getClienti()
+        return Cliente().getClienti()
 
     def creaCliente(self, abbonato, codiceFiscale, cognome, email, nome, sesso, tagliaScarpe, assegnato, idScarpa):
         cliente = self.ricercaClienteCodiceFiscale(codiceFiscale)
