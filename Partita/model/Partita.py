@@ -3,35 +3,39 @@ import os
 import pickle
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 
+#va creata una partita con gruppo clienti e pista collegati, va aggiornato anche il cliente abbonato, sia la data di validazione dell'abbonamento se è la sua prima partita, sia le sue partite gratuite rimanenti
+#L'idPartita è inutile se ogni gruppo può partecipare a una sola partita
 class Partita:
     def __init__(self):
-        self.id = ""
-        self.oraFine = None
-        self.oraInizio = None
+        self.idGruppo = ControlloreGruppoClienti
+        self.idPista = ""
+        self.oraInizio = datetime.now().strftime('%H:%M')
+        timedeltaAggiuntivo = self.calcolaTempiAttesa()
+        self.oraFine = self.oraInizio + timedeltaAggiuntivo
+
 
     def setOraInizio(self, ora):
         self.oraInizio = ora
-
     def setOraFine(self, ora):
         self.oraFine = ora
-
     def getOraInizio(self):
         return self.oraInizio
-
     def getOraFine(self):
         return self.oraFine
+    def getIdGruppo(self):
+        return self.idGruppo
+    def getIdPista(self):
+        return self.idPista
 
     # metodo chiamato appena vengono assegnate tutte le scarpe
-    def creaPartita(self, gruppoDaAssegnare):
-        numeroPartite = ControlloreGruppoClienti(gruppoDaAssegnare).getNumeroPartite()
-        self.id = ControlloreGruppoClienti(gruppoDaAssegnare).getId() #id della partita identico all'id del gruppo, sono id univoci
-        self.oraFine = datetime.now().time()
+    def creaPartita(self, oraInizio, oraFine, idGruppo, idPista):
+        self.oraFine = oraFine
 
         secondiDaAggiungere = 10 * numeroPartite
         # Creare un oggetto timedelta con i secondi specificati
         delta = timedelta(seconds=secondiDaAggiungere)
         # Sommare il timedelta all'ora corrente
-        self.oraInizio = self.oraFine + delta
+        self.oraInizio = self.oraFin + delta
 
         with open('Partita/data/partite.pickle', "rb") as f:
             partite = pickle.load(f)
@@ -42,10 +46,8 @@ class Partita:
 
 
 
-    def calcolaTempiAttesa(self, gruppoGiocante):
-        pass
-        #in realtà il tempo di attesa di fine partita è già stato calcolato e si trova in
-        #self.oraFine, il metodo calcolaTempiAttesa potrebbe essere inutile
+    def calcolaTempiAttesa(self):
+        GruppoClienti = ControlloreGruppoClienti()
 
     def rimuoviPartita(self):
         if os.path.isfile('Partita/data/partite.pickle'):
