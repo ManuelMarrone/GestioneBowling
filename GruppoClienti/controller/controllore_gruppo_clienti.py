@@ -60,7 +60,7 @@ class ControlloreGruppoClienti:
         else:
             return None
 
-    def creaGruppoClienti(self, membri, numeroPartite, pistaOccupata,counterPartito=False):
+    def creaGruppoClienti(self, membri, numeroPartite, pistaOccupata, counterPartito=False):
         gruppo = self.ricercaGruppoId(id)
         if isinstance(gruppo, GruppoClienti):
             return None
