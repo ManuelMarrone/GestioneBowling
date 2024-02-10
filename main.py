@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     #RESET PICKLE DI CLIENTI E GRUPPO CLIENTI
 
-    # with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
+    #with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
     #
     # with open('Cliente/data/ListaClienti.pickle', 'wb') as f:

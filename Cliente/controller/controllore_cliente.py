@@ -38,8 +38,8 @@ class ControlloreCliente():
     def getAssegnato(self):
         return self.model.isAssegnato()
 
-    def setAssegnato(self, x, cf):
-        self.model.setAssegnato(x, cf)
+    def setAssegnato(self, val):
+        self.model.setAssegnato(val)
 
     def modificaCliente(self, nuovoAbbonato, codiceFiscale, nuovoCognome, nuovaEmail, nuovoNome,
                         nuovoSesso, nuovaTagliaScarpe):

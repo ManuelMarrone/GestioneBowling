@@ -125,11 +125,11 @@ class Cliente():
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
 
-    def setAssegnato(self, x, cf):
+    def setAssegnato(self, val):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                cliente = next((cliente for cliente in clienti if cliente.codiceFiscale == cf), None)
-                cliente.assegnato = x
+                cliente = next((cliente for cliente in clienti if cliente.codiceFiscale == self.codiceFiscale), None)
+                cliente.assegnato = val
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
