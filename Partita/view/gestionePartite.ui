@@ -357,6 +357,11 @@ background-color: rgb(135, 75, 15);</string>
           <property name="currentText">
            <string notr="true"/>
           </property>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
          </widget>
         </item>
         <item>

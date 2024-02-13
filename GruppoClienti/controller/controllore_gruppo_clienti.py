@@ -54,21 +54,20 @@ class ControlloreGruppoClienti:
                 gruppi = pickle.load(f)
         if len(gruppi) > 0:
             for gruppo in gruppi:
-                if str(gruppo.id) == id:
+                if gruppo.id == id:
                     return gruppo
-            return None
         else:
             return None
 
-    def creaGruppoClienti(self, membri, numeroPartite, pistaOccupata, counterPartito=False):
+    def creaGruppoClienti(self, id, membri, numeroPartite, counterPartito):
         gruppo = self.ricercaGruppoId(id)
         if isinstance(gruppo, GruppoClienti):
             return None
         else:
             nuovoGruppoclienti = GruppoClienti().creaGruppoClienti(
+                id=id,
                 membri=membri,
                 numeroPartite=numeroPartite,
-                pistaOccupata=pistaOccupata,
                 counterPartito=counterPartito
             )
 

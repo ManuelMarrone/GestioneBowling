@@ -27,7 +27,9 @@ class VistaGestionePartite(QWidget):
         self.move(x, y)
 
         self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
-        self.pisteList.setEditable(False)
+        self.clientiList.setEnabled(True)
+        self.pisteList.setCurrentText(None)
+        #self.pisteList.setEnabled(False)
 
         self.idCliente = None
 
@@ -103,9 +105,10 @@ class VistaGestionePartite(QWidget):
         listaPiste = ControllorePista().visualizzaPiste()
         if listaPiste is not None:
             for pista in listaPiste:
-                item = QComboBox()
-                item.addItem("id: " + str(pista.getId()) + " disponibilità: " + str(pista.getDisponibilita()))
-                self.pisteList.addItem(item.currentText())
+                if pista.getDisponibilita() == True:
+                    item = QComboBox()
+                    item.addItem(str(pista.getId()))
+                    self.pisteList.addItem(item.currentText())
 
     def goVisualizza(self):
         if self.itemSelezionato is not None:
@@ -133,6 +136,7 @@ class VistaGestionePartite(QWidget):
     def creaId(self):
         while True:
             id_gruppo, ok = QInputDialog.getText(self, 'Nome gruppo', 'Che nome si intende associare al gruppo?')
+            print("L' id del gruppo è : ", ControlloreGruppoClienti().ricercaGruppoId(id_gruppo))
             if not ok:
                 return None  # Se l'utente annulla, restituisci None
             if len(id_gruppo) < 4:
@@ -141,7 +145,7 @@ class VistaGestionePartite(QWidget):
             elif len(id_gruppo) > 15:
                 self.messaggio(tipo=0, titolo="Attenzione",
                                mex="Il nome associato al gruppo dev'essere minore di 15 caratteri")
-            elif ControlloreGruppoClienti().ricercaGruppoId(id_gruppo) == id_gruppo:
+            elif next((gruppo for gruppo in ControlloreGruppoClienti().visualizzaGruppi() if gruppo.id == id_gruppo), None) is not None:
                 self.messaggio(tipo=0, titolo="Attenzione", mex="Nome già esistente, sceglierne uno nuovo")
             else:
                 return id_gruppo
@@ -157,7 +161,7 @@ class VistaGestionePartite(QWidget):
                 return numero_partite
 
     def creaGruppoClienti(self):
-        # SVUOTA E SRISETTA I CLIENTI A NON ASSEGNATI (FALSE)
+        # SVUOTA E RISETTA I CLIENTI A NON ASSEGNATI (FALSE)
         # with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
         #     pickle.dump([], f, pickle.HIGHEST_PROTOCOL)
         # for cliente in ControlloreCliente().visualizzaClienti():
@@ -174,19 +178,19 @@ class VistaGestionePartite(QWidget):
                 gruppo_clienti.append(clienteSelezionato)
                 #ControlloreCliente(clienteSelezionato).setAssegnato(val=True) DA METTERE SOLO QUANDO SI è SICURI CHE è STATA ASSEGNATA ANCHE LA PISTA
 
-            self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti creato con successo, ora devi assegnargli una pista")
-            self.clientiList.setEnabled(False)
+            #self.clientiList.setEnabled(False)
             id_gruppo = self.creaId()
             if id_gruppo is not None:
-                print(id_gruppo)
                 numero_partite = self.numeroPartite()
                 if numero_partite is not None:
-                    print(numero_partite)
-                    #GruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, id_pista_occupata)
+                    GruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, counterPartito=False)
+                    self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti creato con successo, ora devi assegnargli una pista")
+                    self.pisteList.setEnabled(True)
                 else:
                     self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti annullato")
             else:
                 self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti annullato")
+
 
 
             # GruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, id_pista_occupata)
@@ -277,6 +281,13 @@ class VistaGestionePartite(QWidget):
             self.messaggioTempo.setText("Tutte le piste sono occupate")
 
     def goInvia(self):
-        pass
+        pista_selezionata = self.pisteList.currentText()
+        if pista_selezionata is not None:
+            pass
+            #QUI VA CREATA LA PARTITA
+        else:
+            self.messaggio(tipo=0, titolo="Selezione pista", mex="Non hai selezionato nessuna pista")
+
+
 
 

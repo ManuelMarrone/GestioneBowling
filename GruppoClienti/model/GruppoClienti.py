@@ -7,7 +7,6 @@ class GruppoClienti:
         self.id = ""
         self.membri = ""
         self.numeroPartite = 0
-        self.pistaOccupata = ""
         self.counterPartito = False
 
     def getMembri(self):
@@ -31,13 +30,9 @@ class GruppoClienti:
     def getId(self):
         return self.id
 
-    def getPistaOccupata(self):
-        return self.pistaOccupata
-
-    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata ):
+    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite):
         self.nuovoMembri = nuovoMembri
         self.nuovoNumeroPartite = nuovoNumeroPartite
-        self.nuovoPistaOccupata = nuovoPistaOccupata
 
         if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
             with open('GruppoClienti/data/GruppoClienti.pickle', 'rb') as f:
@@ -45,16 +40,14 @@ class GruppoClienti:
                 gruppo = next((gruppo for gruppo in gruppi if gruppi.id == id), None)
                 gruppo.membri = nuovoMembri
                 gruppo.numeroPartite = nuovoNumeroPartite
-                gruppo.pistaOccupata = nuovoPistaOccupata
 
             with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
                 pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
 
-    def creaGruppoClienti(self, id, membri, numeroPartite, pistaOccupata, counterPartito = False):
+    def creaGruppoClienti(self, id, membri, numeroPartite, counterPartito):
         self.id = id
         self.membri = membri
         self.numeroPartite = numeroPartite
-        self.pistaOccupata = pistaOccupata
         self.counterPartito = counterPartito
         gruppi = []
         if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
@@ -63,7 +56,6 @@ class GruppoClienti:
             gruppi.append(self)
             with open('GruppoClienti/data/GruppoClienti.pickle', "wb") as f:
                 pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
-        print("LL: " + str(gruppi))
         return self
 
     def getGruppoClienti(self):
