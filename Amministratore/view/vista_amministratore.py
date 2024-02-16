@@ -80,6 +80,27 @@ class VistaAmministratore(QWidget):
             self.testo6.setText(str(percClientiUomo) + "%")
             self.etichetta7.setText("Percentuale di altro")
             self.testo7.setText(str(percClientiAltro) + "%")
+        if selezione == "Abbonamenti":
+            numeroAbbonamentiAttivi = ControlloreStatistiche().numeroAbbonamentiAttivi()
+            clientiSenzaPartiteGratuite = ControlloreStatistiche().clientiSenzaPartiteGratutite()
+            clientiConPartiteGratuite = numeroAbbonamentiAttivi - clientiSenzaPartiteGratuite
+            mediaPartiteDaGiocare = ControlloreStatistiche().mediaPartiteGratuite()
+            dataPrimoAbbonamento = ControlloreStatistiche().dataPrimoAbbonamento()
+
+            self.etichetta1.setText("Abbonamenti attivi: ")
+            self.testo1.setText(str(numeroAbbonamentiAttivi))
+            self.etichetta2.setText("Clienti con partite gratuite terminate: ")
+            self.testo2.setText(str(clientiSenzaPartiteGratuite))
+            self.etichetta3.setText("Clienti con delle partite gratuite da giocare: ")
+            self.testo3.setText(str(clientiConPartiteGratuite))
+            self.etichetta4.setText("Media delle partite gratuite rimanenti: ")
+            self.testo4.setText(str(mediaPartiteDaGiocare))
+            self.etichetta5.setText("Data del primo abbonamento effettuato: ")
+            self.testo5.setText(str(dataPrimoAbbonamento))
+            self.etichetta6.setText("")
+            self.testo6.setText("")
+            self.etichetta7.setText("")
+            self.testo7.setText("")
 
     def goDipendenti(self):
         VistaAmministratore.close(self)

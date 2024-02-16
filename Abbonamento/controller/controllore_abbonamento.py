@@ -6,6 +6,8 @@ import time
 from threading import Thread
 from datetime import datetime
 from Cliente.controller.controllore_cliente import ControlloreCliente
+
+
 class ControlloreAbbonamento():
     def __init__(self, abbonamento=None):
         self.model = abbonamento
@@ -35,28 +37,34 @@ class ControlloreAbbonamento():
 
     def getDataFine(self):
         return self.model.getDataFine()
+
     def getDataValidazione(self):
         return self.model.getDataValidazione()
+
     def getPartiteGratuite(self):
         return self.model.getPartiteGratuite()
+
     def getPagamentoRidotto(self):
         return self.model.getPagamentoRidotto()
+
     def getCfCliente(self):
         return self.model.getCfCliente()
+
     def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente):
         abbonamento = self.ricercaAbbonamentoCfCliente(cfCliente)
         if isinstance(abbonamento, Abbonamento):  # se l'abbonamento già esiste
             return None
         else:
             nuovoAbbonamento = Abbonamento().creaAbbonamento(
-              dataFine=dataFine,
-              dataValidazione=dataValidazione,
-              partiteGratuite=partiteGratuite,
-              pagamentoRidotto=pagamentoRidotto,
-              cfCliente=cfCliente
-             )
+                dataFine=dataFine,
+                dataValidazione=dataValidazione,
+                partiteGratuite=partiteGratuite,
+                pagamentoRidotto=pagamentoRidotto,
+                cfCliente=cfCliente
+            )
 
         return nuovoAbbonamento
+
     def ricercaAbbonamentoCfCliente(self, cf):
         abbonamenti = []
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
@@ -71,7 +79,8 @@ class ControlloreAbbonamento():
 
     def rimuoviAbbonamento(self, abbonamento):
         if isinstance(abbonamento, Abbonamento):
-            cliente = ControlloreCliente().ricercaClienteCodiceFiscale(abbonamento.cfCliente) #cerchiamo il cliente corrispondente con quell'abbonamento tramite il codice fiscale
+            cliente = ControlloreCliente().ricercaClienteCodiceFiscale(
+                abbonamento.cfCliente)  # cerchiamo il cliente corrispondente con quell'abbonamento tramite il codice fiscale
             ControlloreCliente(cliente).setAbbonato(val=False)
             abbonamento.rimuoviAbbonamento()
             return True
