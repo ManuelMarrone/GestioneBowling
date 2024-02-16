@@ -21,6 +21,16 @@ class ControlloreStatistiche():
                 self.clienti = pickle.load(f)
         if len(self.clienti) == 0:
             self.messaggio(tipo=0, titolo="Statistiche clienti", mex="Errore nel calcolo delle statistiche!")
+
+        self.abbonamenti = []
+        if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                self.abbonamenti = pickle.load(f)
+        if len(self.abbonamenti) == 0:
+            self.messaggio(tipo=0, titolo="Statistiche abbonamenti", mex="Errore nel calcolo delle statistiche!")
+
+
+    #statistiche sui dipendenti
     def etaMediaDipendenti(self):
         self.oggi = datetime.now()
         etaTot = 0
@@ -70,6 +80,7 @@ class ControlloreStatistiche():
         percAltro = round(percAltro, 2)
         return percUomo,percDonna,percAltro
 
+    #statistiche sui clienti
     def percClientiAbbonati(self):
         #% di abbonati
         contAbbonati = 0
@@ -109,6 +120,36 @@ class ControlloreStatistiche():
         percDonna = round(percDonna, 2)
         percAltro = round(percAltro, 2)
         return percUomo, percDonna, percAltro
+
+    #statistiche sugli abbonamenti
+    #attributi a disposizione: dataFine, dataValidazione tipo datetime
+    #pagamentoRidotto:bool, partiteGratuite: int, cfCliente
+    def numeroAbbonamentiAttivi(self):
+        return len(self.abbonamenti)
+
+    def clientiSenzaPartiteGratutite(self):
+        contatore = 0
+        for abbonamento in self.abbonamenti:
+            if abbonamento.getPartiteGratuite() == 0:
+                contatore += 1
+        return contatore
+
+    def mediaPartiteGratuite(self):
+        somma = 0
+        for abbonamento in self.abbonamenti:
+            somma += abbonamento.getPartiteGratuite()
+        media = somma/len(self.abbonamenti)
+        return media
+
+    def dataPrimoAbbonamento(self):
+        date = []
+        for abbonamento in self.abbonamenti:
+            date.append((abbonamento.getDataValidazione()))
+        return min(date)
+
+    def statisticheRicevute(self):
+        pass
+
     def statistichePartite(self):
         pass
         #numero di partite medio fatte da gruppi di clienti
