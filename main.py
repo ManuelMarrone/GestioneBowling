@@ -9,6 +9,7 @@ from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.model.GruppoClienti import GruppoClienti
 from Dipendente.view.vista_cassiere import VistaCassiere
+from Dipendente.view.vista_magazziniere import VistaMagazziniere
 
 if __name__ == "__main__":
 

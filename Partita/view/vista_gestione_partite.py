@@ -25,11 +25,11 @@ class VistaGestionePartite(QWidget):
         x = (desktop.width() - self.width()) // 2
         y = (desktop.height() - self.height()) // 2 - 50
         self.move(x, y)
-
+        self.clientiList.setEnabled(False)
+        self.pisteList.setCurrentText("Seleziona una pista")
+        self.pisteListself.currentIndexChanged.connect(self.assegnaPista)
         self.clientiList.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
-        self.clientiList.setEnabled(True)
-        self.pisteList.setCurrentText(None)
-        #self.pisteList.setEnabled(False)
+
 
         self.idCliente = None
 
@@ -280,14 +280,13 @@ class VistaGestionePartite(QWidget):
         else:
             self.messaggioTempo.setText("Tutte le piste sono occupate")
 
-    def goInvia(self):
+    def assegnaPista(self):
         pista_selezionata = self.pisteList.currentText()
-        if pista_selezionata is not None:
-            pass
-            #QUI VA CREATA LA PARTITA
+        if pista_selezionata is not None or pista_selezionata != "Seleziona una pista":
+            self.pisteList.setEnabled(False)
+            self.clientiList.setEnabled(True)
+            return pista_selezionata
         else:
-            self.messaggio(tipo=0, titolo="Selezione pista", mex="Non hai selezionato nessuna pista")
-
-
+            self.messaggio(tipo=0, titolo="Selezione pista", mex="La pista selezionata non è valida")
 
 
