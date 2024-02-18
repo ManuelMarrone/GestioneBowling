@@ -16,13 +16,11 @@ class Pista():
             with open('Pista/data/piste.pickle', "rb") as f:
                 piste = pickle.load(f)
             piste.append(self)
-            print(piste)
             with open('Pista/data/piste.pickle', "wb") as f:
                 pickle.dump(piste, f, pickle.HIGHEST_PROTOCOL)
         return self
 
     def getPista(self):
-        piste = []
         if os.path.isfile('Pista/data/piste.pickle'):
             with open('Pista/data/piste.pickle', 'rb') as f:
                 piste = pickle.load(f)
@@ -43,11 +41,11 @@ class Pista():
     def getDisponibilita(self):
         return self.disponibilita
 
-    def setDisponibilita(self, bool, id):
+    def setDisponibilita(self, occupata):
         if os.path.isfile('Pista/data/piste.pickle'):
             with open('Pista/data/piste.pickle', 'rb') as f:
                 piste = pickle.load(f)
-                pista = next((pista for pista in piste if str(pista.id) == str(id)), None)
-                pista.disponibilita = bool
+                pista = next((pista for pista in piste if pista.id == self.id), None)
+                pista.disponibilita = occupata
             with open('Pista/data/piste.pickle', 'wb') as f:
                 pickle.dump(piste, f, pickle.HIGHEST_PROTOCOL)

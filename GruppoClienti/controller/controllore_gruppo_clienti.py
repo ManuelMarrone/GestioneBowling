@@ -4,7 +4,7 @@ import pickle
 from GruppoClienti.model.GruppoClienti import GruppoClienti
 
 
-class ControlloreGruppoClienti:
+class ControlloreGruppoClienti():
     def __init__(self, gruppoClienti=None):
         self.model = gruppoClienti
 

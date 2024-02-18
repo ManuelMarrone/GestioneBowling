@@ -32,8 +32,8 @@ class ControllorePista():
     def visualizzaPiste(self):
         return Pista().getPiste()
 
-    def setDisponibilita(self, bool, id):
-         self.model.setDisponibilita(bool, id)
+    def setDisponibilita(self, occupata):
+         self.model.setDisponibilita(occupata)
 
     # def creaPista(self, disponibilita, id):
     #     nuovaPista = Pista().creaPista(

@@ -7,43 +7,31 @@ from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGrupp
 #L'idPartita è inutile se ogni gruppo può partecipare a una sola partita
 class Partita:
     def __init__(self):
-        self.idGruppo = ControlloreGruppoClienti
+        self.idGruppo = ""
         self.idPista = ""
-        self.oraInizio = datetime.now().strftime('%H:%M')
-        timedeltaAggiuntivo = self.calcolaTempiAttesa()
-        self.oraFine = self.oraInizio + timedeltaAggiuntivo
-
+        self.oraInizio = None
 
     def setOraInizio(self, ora):
         self.oraInizio = ora
-    def setOraFine(self, ora):
-        self.oraFine = ora
     def getOraInizio(self):
         return self.oraInizio
-    def getOraFine(self):
-        return self.oraFine
     def getIdGruppo(self):
         return self.idGruppo
     def getIdPista(self):
         return self.idPista
 
     # metodo chiamato appena vengono assegnate tutte le scarpe
-    def creaPartita(self, oraInizio, oraFine, idGruppo, idPista):
-        self.oraFine = oraFine
-
-        secondiDaAggiungere = 10 * numeroPartite
-        # Creare un oggetto timedelta con i secondi specificati
-        delta = timedelta(seconds=secondiDaAggiungere)
-        # Sommare il timedelta all'ora corrente
-        self.oraInizio = self.oraFin + delta
-
+    def creaPartita(self, idGruppo, idPista, oraInizio):
+        self.idGruppo = idGruppo
+        self.idPista = idPista
+        self.oraInizio = oraInizio
+        partite = []
         with open('Partita/data/partite.pickle', "rb") as f:
             partite = pickle.load(f)
         partite.append(self)
         with open('Partita/data/partite.pickle', "wb") as f:
             pickle.dump(partite, f, pickle.HIGHEST_PROTOCOL)
         return self
-
 
 
     def calcolaTempiAttesa(self):
@@ -53,7 +41,7 @@ class Partita:
         if os.path.isfile('Partita/data/partite.pickle'):
             with open('Partita/data/partite.pickle', 'rb') as f:
                 partite = pickle.load(f)
-                daRimuovere = next((partita for partita in partite if partite.id == self.id), None)
+                daRimuovere = next((partita for partita in partite if partite.idGruppo == self.idGruppo), None)
                 partite.remove(daRimuovere)
             with open('Partita/data/partite.pickle', 'wb') as f:
                 pickle.dump(partite, f, pickle.HIGHEST_PROTOCOL)
