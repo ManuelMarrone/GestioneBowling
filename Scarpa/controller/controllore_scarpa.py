@@ -57,17 +57,13 @@ class ControlloreScarpa():
         if gruppoSelezionato is not None:
             #scorre i membri del gruppo
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
-                cf = cliente.split("codice fiscale: ")[1].strip()
+                cf = ControlloreCliente(cliente).getCodiceFiscale()
                 # se trovo corrispondenza con cliente al quale sto assegnando la scarpa
-                if cf == clienteSelezionato.getCodiceFiscale():
+                if cf == ControlloreCliente(clienteSelezionato).getCodiceFiscale():
                     #se la taglia della scarpa coincide con la richiesta
                     self.setDisponibilitaScarpa(False, idScarpa)  # rendiamo la scarpa non più disponibile
                     # associa dentro l'attributo del cliente l'id della scarpa
-                    clienteIstanza = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
-
-                    cfCliente = ControlloreCliente(clienteIstanza).getCodiceFiscale()
-
-                    ControlloreCliente(clienteIstanza).setIdScarpa(idScarpa, cfCliente)
+                    ControlloreCliente(cliente).setIdScarpa(idScarpa, cf)
 
                     return True
         return False

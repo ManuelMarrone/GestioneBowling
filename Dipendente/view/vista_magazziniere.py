@@ -119,14 +119,14 @@ class VistaMagazziniere(QWidget):
         gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
         if gruppoSelezionato is not None:
             for cliente in ControlloreGruppoClienti(gruppoSelezionato).getMembri():
-                nome = cliente.split("nome:")[1].split(",")[0].strip()
-                cognome = cliente.split("cognome:")[1].split(",")[0].strip()
-                cf = cliente.split("codice fiscale: ")[1].strip()
+                cf = ControlloreCliente(cliente).getCodiceFiscale()
+                clienteGruppo = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
+                nome = ControlloreCliente(clienteGruppo).getNome()
+                cognome = ControlloreCliente(clienteGruppo).getCognome()
 
-                istanza = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
 
-                taglia = istanza.getTagliaScarpe()
-                idScarpa = istanza.getIdScarpa()
+                taglia = ControlloreCliente(clienteGruppo).getTagliaScarpe()
+                idScarpa = ControlloreCliente(clienteGruppo).getIdScarpa()
                 if taglia != "0" and idScarpa == "":
                     item = QListWidgetItem()
                     item.setText(
