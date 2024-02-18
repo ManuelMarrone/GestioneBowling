@@ -3,9 +3,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 from datetime import datetime, timedelta
 
-from Cliente.controller.controllore_cliente import ControlloreCliente
 from GruppoClienti.view.vista_gruppo import VistaGruppo
-from Cliente.view.vista_modifica_cliente import VistaModificaCliente
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 class VistaGestioneGruppi(QWidget):
     closed = pyqtSignal()
@@ -28,6 +26,29 @@ class VistaGestioneGruppi(QWidget):
         self.gruppiList.itemClicked.connect(self.gruppoClicked)
         self.visualizzaGruppo.clicked.connect(self.goVisualizzaGruppo)
         self.indietroButton_2.clicked.connect(self.chiudiFinestra)
+        self.cercaButton.clicked.connect(self.cercaGruppo)
+    def cercaGruppo(self):
+        idList = self.ricercaText.text().split()
+        if len(idList) == 0:
+            self.riempiListaGruppi()
+        elif len(idList) == 1:
+            id = idList[0]
+            gruppoRicercato = ControlloreGruppoClienti().ricercaGruppoId(id)
+            if gruppoRicercato is not None:
+                self.gruppiList.clear()
+                self.controller = ControlloreGruppoClienti(gruppoRicercato)
+                listaGruppi = ControlloreGruppoClienti().visualizzaGruppi()
+                if listaGruppi is not None:
+                    for gruppo in listaGruppi:
+                        idGruppo = ControlloreGruppoClienti(gruppo).getId()
+                        if idGruppo == self.controller.getId():
+                            item = QListWidgetItem()
+                            item.setText("nome gruppo: " + ControlloreGruppoClienti(gruppo).getId())
+                            self.gruppiList.addItem(item)
+            else:
+                self.messaggio(tipo=1, titolo="Ricerca gruppo", mex="Il gruppo non è presente")
+        else:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
 
     def riempiListaGruppi(self):
         listaGruppi = []

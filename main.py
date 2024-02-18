@@ -42,15 +42,20 @@ if __name__ == "__main__":
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
 
     # app = QApplication(sys.argv)
-    # vista_cassiere = VistaCassiere()
-    # vista_cassiere.show()
+    # vista_mag = VistaMagazziniere()
+    # vista_mag.show()
     # sys.exit(app.exec())
 
-
     app = QApplication(sys.argv)
-    VistaLogin = VistaLogin()
-    VistaLogin.show()
+    vista_cassiere = VistaCassiere()
+    vista_cassiere.show()
     sys.exit(app.exec())
+
+
+    # app = QApplication(sys.argv)
+    # VistaLogin = VistaLogin()
+    # VistaLogin.show()
+    # sys.exit(app.exec())
 
     #RESET PICKLE DI CLIENTI E GRUPPO CLIENTI
 
