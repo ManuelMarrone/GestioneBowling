@@ -34,7 +34,7 @@
      <x>10</x>
      <y>10</y>
      <width>781</width>
-     <height>721</height>
+     <height>731</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -78,18 +78,19 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_11">
               <item>
-               <widget class="QPushButton" name="eliminaGruppo">
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(135, 75, 15);</string>
-                </property>
-                <property name="text">
-                 <string>Elimina gruppo</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QPushButton" name="visualizzaGruppo">
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>28</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>28</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color: rgb(255, 255, 255);
 background-color: rgb(135, 75, 15);</string>
@@ -106,25 +107,38 @@ background-color: rgb(135, 75, 15);</string>
           <item>
            <widget class="QListWidget" name="gruppiList"/>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="indietroButton_2">
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>28</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>28</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(135, 75, 15);</string>
+              </property>
+              <property name="text">
+               <string>&lt; indietro</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </item>
        </layout>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="indietroButton_2">
-      <property name="styleSheet">
-       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(135, 75, 15);</string>
-      </property>
-      <property name="text">
-       <string>&lt; indietro</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_12"/>
     </item>
    </layout>
   </widget>

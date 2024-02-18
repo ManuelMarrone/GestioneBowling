@@ -157,12 +157,13 @@ class VistaGestionePartite(QWidget):
                 codiceFiscale = cliente.split("codice fiscale:")[1].split(",")[0].strip()
                 clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
                 gruppo_clienti.append(clienteSelezionato)
-                ControlloreCliente(clienteSelezionato).setAssegnato(val=True) #DA METTERE SOLO QUANDO SI è SICURI CHE è STATA ASSEGNATA ANCHE LA PISTA
 
             id_gruppo = self.creaId()
             if id_gruppo is not None:
                 numero_partite = self.numeroPartite()
                 if numero_partite is not None:
+                    for cliente in gruppo_clienti:
+                        ControlloreCliente(cliente).setAssegnato(val=True) #DA METTERE SOLO QUANDO SI è SICURI CHE è STATA ASSEGNATA ANCHE LA PISTA
                     ControlloreGruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, counterPartito=False)
                     self.riempiListaClienti()
                     self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti creato con successo")
@@ -209,6 +210,7 @@ class VistaGestionePartite(QWidget):
     def goListaPartite(self):
         VistaGestionePartite.close(self)
         self.vista_lista_partite = VistaListaPartite()
+        self.vista_lista_partite.closed.connect(self.riempiListaClienti)
         self.vista_lista_partite.closed.connect(self.show)
         self.vista_lista_partite.show()
 

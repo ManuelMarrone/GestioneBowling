@@ -13,7 +13,7 @@ class ControlloreAbbonamento():
         self.model = abbonamento
 
         # Pianifica l'avvio del controllo delle scadenze ogni giorno alle 00:00
-        schedule.every().day.at("00:00").do(self.controllo_scadenze)
+        #schedule.every().day.at("00:00").do(self.controllo_scadenze)
 
         # Thread per eseguire la pianificazione in background
         self.thread_schedule = Thread(target=self.schedule_thread)

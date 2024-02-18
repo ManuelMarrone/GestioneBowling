@@ -56,37 +56,40 @@ class VistaListaPartite(QWidget):
             gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
             partitaSelezionata = ControllorePartita().ricercaPartitaIdGruppo(idGruppo)
 
-            if ControlloreGruppoClienti(gruppo).getNumeroPartite() > 0:
-                ControlloreGruppoClienti(gruppo).decrementaNumPartite()
+            if ControllorePartita(partitaSelezionata).getOraInizio() is not None:
+                if ControlloreGruppoClienti(gruppo).getNumeroPartite() > 1:
+                    ControlloreGruppoClienti(gruppo).decrementaNumPartite()
+                else:
+                    # preleva l'oggetto della pista occupata
+                    idPista = ControllorePartita(partitaSelezionata).getIdPista()
+                    pista = ControllorePista().ricercaPistaId(idPista)
+                    ControllorePista(pista).setDisponibilita(occupata=False)
+
+                    membri = ControlloreGruppoClienti(gruppo).getMembri()
+                    for membro in membri:
+                        # preleva idScarpa della scarpa assegnata al cliente
+                        idScarpa = ControlloreCliente(membro).getIdScarpa()
+                        # preleva l'oggetto della relativa scarpa
+                        scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
+
+                        ControlloreCodaScarpe().liberaCoda(scarpa)
+
+                        if scarpa is not None:
+                            # scarpa nuovamente disponibile per altri clienti
+                            ControlloreScarpa(scarpa).setDisponibilitaScarpa(True, idScarpa)
+
+                        # ripristino della disponibilita per giocare in altri gruppi
+                        ControlloreCliente(membro).setAssegnato(val=False)
+
+                        # ripristino idScarpa del cliente a nessuna scarpa aseegnata
+                        cfCliente = ControlloreCliente(membro).getCodiceFiscale()
+                        ControlloreCliente(membro).setIdScarpa("", cfCliente)
+
+                    ControllorePartita().rimuoviPartita(partitaSelezionata)
+                    # preleva id del gruppo da eliminare
+                    ControlloreGruppoClienti(gruppo).rimuoviGruppo(idGruppo)
             else:
-                # preleva l'oggetto della pista occupata
-                idPista = ControllorePartita(partitaSelezionata).getIdPista()
-                pista = ControllorePista().ricercaPistaId(idPista)
-                ControllorePista(pista).setDisponibilita(occupata=False)
-
-                membri = ControlloreGruppoClienti(gruppo).getMembri()
-                for membro in membri:
-                    # preleva idScarpa della scarpa assegnata al cliente
-                    idScarpa = ControlloreCliente(membro).getIdScarpa()
-                    # preleva l'oggetto della relativa scarpa
-                    scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
-
-                    ControlloreCodaScarpe().liberaCoda(scarpa)
-
-                    if scarpa is not None:
-                        # scarpa nuovamente disponibile per altri clienti
-                        ControlloreScarpa(scarpa).setDisponibilitaScarpa(True, idScarpa)
-
-                    # ripristino della disponibilita per giocare in altri gruppi
-                    ControlloreCliente(membro).setAssegnato(val=False)
-
-                    # ripristino idScarpa del cliente a nessuna scarpa aseegnata
-                    cfCliente = ControlloreCliente(membro).getCodiceFiscale()
-                    ControlloreCliente(membro).setIdScarpa("", cfCliente)
-
-                ControllorePartita().rimuoviPartita(partitaSelezionata)
-                # preleva id del gruppo da eliminare
-                ControlloreGruppoClienti(gruppo).rimuoviGruppo(idGruppo)
+                self.messaggio(tipo=0, titolo="Partita", mex="Non puoi Terminare una partita che non è ancora iniziata")
         self.riempiListaPartite()
 
     def messaggio(self, tipo, titolo, mex):

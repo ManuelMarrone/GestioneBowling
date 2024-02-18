@@ -26,7 +26,6 @@ class VistaGestioneGruppi(QWidget):
         self.itemGruppoSelezionato = None
         self.riempiListaGruppi()
         self.gruppiList.itemClicked.connect(self.gruppoClicked)
-        self.eliminaGruppo.clicked.connect(self.goEliminaGruppo)
         self.visualizzaGruppo.clicked.connect(self.goVisualizzaGruppo)
         self.indietroButton_2.clicked.connect(self.chiudiFinestra)
 
@@ -49,21 +48,6 @@ class VistaGestioneGruppi(QWidget):
 
     def gruppoClicked(self, item):
         self.itemGruppoSelezionato = item.text()
-
-    def goEliminaGruppo(self):
-        if self.itemGruppoSelezionato is not None:
-            idGruppo = self.itemGruppoSelezionato.split("nome gruppo:")[1].split(",")[0].strip()
-            gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
-            if gruppoSelezionato.isPartita() is False:                    # ATTENZIONE SE IL GRUPPO STA STA GIOCANDO NON PUO ESSERE ELIMINATO
-                risultato = ControlloreGruppoClienti().rimuoviGruppo(gruppoSelezionato)
-                if risultato:
-                    self.messaggio(tipo=1, titolo="Rimozione gruppo", mex="Gruppo rimosso con successo")
-                else:
-                    self.messaggio(tipo=0, titolo="Rimozione gruppo", mex="Errore nella rimozione del gruppo!")
-            else:
-                self.messaggio(tipo=0, titolo="Rimozione gruppo",
-                               mex="Non puoi rimuovere il gruppo mentre è in corso una partita")
-        self.riempiListaGruppi()
 
     def messaggio(self, tipo, titolo, mex):
         mexBox = QMessageBox()
