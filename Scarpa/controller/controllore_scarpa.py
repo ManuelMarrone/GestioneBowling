@@ -28,17 +28,6 @@ class ControlloreScarpa():
     def getTagliaScarpa(self):
         return self.model.getTaglia()
 
-    def ricercaScarpaTaglia(self, taglia):
-        scarpe = []
-        if os.path.isfile('Scarpa/data/scarpe.pickle'):
-            with open('Scarpa/data/scarpe.pickle', 'rb') as f:
-                scarpe = pickle.load(f)
-        if len(scarpe) > 0:
-            for scarpa in scarpe:
-                if scarpa.getTagliaScarpa() == taglia:
-                    return scarpa
-        else:
-            return None
 
     def ricercaScarpaId(self, id):
         scarpe = []

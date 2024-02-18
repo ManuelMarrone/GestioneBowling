@@ -9,6 +9,7 @@ from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.model.GruppoClienti import GruppoClienti
 from Dipendente.view.vista_cassiere import VistaCassiere
+from Amministratore.model.Amministratore import Amministratore
 
 if __name__ == "__main__":
 
@@ -50,6 +51,7 @@ if __name__ == "__main__":
     VistaLogin = VistaLogin()
     VistaLogin.show()
     sys.exit(app.exec())
+
 
     #RESET PICKLE DI CLIENTI E GRUPPO CLIENTI
 

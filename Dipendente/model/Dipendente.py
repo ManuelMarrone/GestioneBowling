@@ -13,12 +13,6 @@ class Dipendente:
         self.sesso = ""
         self.telefono = 0
 
-    def getNome(self):
-        return self.nome
-
-    def getCognome(self):
-        return self.cognome
-
     def getRuolo(self):
         return self.ruolo
 

@@ -6,6 +6,7 @@ from Dipendente.controller.controllore_dipendente import ControlloreDipendente
 from Dipendente.view.vista_cassiere import VistaCassiere
 from Dipendente.view.vista_magazziniere import VistaMagazziniere
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
+from Amministratore.controller.controllore_amministratore import ControlloreAmministratore
 
 
 class VistaLogin(QWidget):
@@ -23,7 +24,9 @@ class VistaLogin(QWidget):
         email = self.textEmail.text()
         password = self.textPassword.text()
 
-        if email == "a" and password == "b":
+        admin = ControlloreAmministratore().getAmministratore()
+
+        if email == ControlloreAmministratore(admin).getEmail() and password == ControlloreAmministratore(admin).getPassword():
             ControlloreAbbonamento().controllo_scadenze()
             self.vista_amministratore = VistaAmministratore()
             self.vista_amministratore.closed.connect(self.show)
@@ -32,7 +35,7 @@ class VistaLogin(QWidget):
             # verifica se il dipendente esiste
             # se esiste riconosci il tipo di dipendente e valida i dati inseriti
             # manda al relativo pannello oppure segnala messaggio di errore
-            dipendente = ControlloreDipendente.ricercaDipendenteEmail(self,email)
+            dipendente = ControlloreDipendente().ricercaDipendenteEmail(email)
 
             if dipendente is not None:
                 self.controller = ControlloreDipendente(dipendente)
@@ -51,7 +54,7 @@ class VistaLogin(QWidget):
                     self.messaggio(tipo=0, titolo="Login dipendente",mex= "Password errata")
             else:
                 pass
-                self.messaggio(tipo=0, titolo="Login dipendente", mex="Dipendente non trovato")
+                self.messaggio(tipo=0, titolo="Login", mex="Utente non trovato")
 
     def messaggio(self, tipo, titolo, mex):
         mexBox = QMessageBox()
