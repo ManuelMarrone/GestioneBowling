@@ -86,3 +86,6 @@ class ControlloreAbbonamento():
             return True
         else:
             return False
+
+    def visualizzaAbbonamenti(self):
+        return Abbonamento().getAbbonamenti()

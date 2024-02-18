@@ -8,12 +8,6 @@ class ControlloreDipendente():
     def __init__(self, dipendente=None):
         self.model = dipendente
 
-    def getNome(self):
-        return self.model.getNome()
-
-    def getCognome(self):
-        return self.model.getCognome()
-
     def getRuolo(self):
         return self.model.getRuolo()
 
@@ -22,7 +16,6 @@ class ControlloreDipendente():
 
     def getDataNascita(self):
         return self.model.getDataNascita()
-
 
     def getEmail(self):
         return self.model.getEmail()
