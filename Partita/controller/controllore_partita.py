@@ -9,9 +9,12 @@ class ControllorePartita():
     def __init__(self, partita=None):
         self.model = partita
 
+    def getIdGruppo(self):
+        return self.model.getIdGruppo()
+    def getIdPista(self):
+        return self.model.getIdPista()
     def setOraInizio(self, ora):
         self.model.setOraInizio(ora)
-
     def getOraInizio(self):
         return self.model.getOraInizio()
 
@@ -49,3 +52,6 @@ class ControllorePartita():
             return True
         else:
             return False
+
+    def visualizzaPartite(self):
+        return Partita().getPartite()

@@ -1,9 +1,11 @@
 import threading
 import time
 
+import schedule
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal, QTimer
+from datetime import datetime
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Pista.controller.controllore_pista import ControllorePista
@@ -33,7 +35,7 @@ class VistaMagazziniere(QWidget):
         self.riempiListaClienti()
         self.clientiList.itemClicked.connect(self.clienteClicked)
         self.gruppiComboBox.activated.connect(self.riempiListaClienti)
-        self.gruppiComboBox.activated.connect(self.iniziaCounter)
+        self.gruppiComboBox.activated.connect(self.iniziaPartita)
 
         self.scarpeList.itemClicked.connect(self.scarpaClicked)
 
@@ -43,6 +45,7 @@ class VistaMagazziniere(QWidget):
 
         self.buttonCercaGruppo.clicked.connect(self.cercaGruppo)
         self.buttonCercaScarpa.clicked.connect(self.cercaScarpa)
+        self.aggiornaButton.clicked.connect(self.notifica)
 
     def cercaGruppo(self):
         idList = self.ricercaGruppo.text().split()
@@ -170,7 +173,7 @@ class VistaMagazziniere(QWidget):
                 if scarpa.assegnaScarpa(gruppoSelezionato, clienteSelezionato, idScarpa) is True:
                     self.riempiListaScarpe()
                     self.riempiListaClienti()
-                    self.iniziaCounter()
+                    self.iniziaPartita()
             else:
                 self.messaggio(tipo=0, titolo="Assegnamento scarpa",
                                mex="La taglia della scarpa selezionata non corrisponde con quella richiesta dal cliente")
@@ -200,7 +203,7 @@ class VistaMagazziniere(QWidget):
                 return True
         return False
 
-    def iniziaCounter(self):
+    def iniziaPartita(self):
         # se la lista dei clienti partecipanti al gruppo è vuota
         # vuol dire o che nessun cliente richiede scarpe o che ogni cliente richiedente è stato soddisfatto
         if self.clientiList.count() == 0:
@@ -215,92 +218,23 @@ class VistaMagazziniere(QWidget):
                 # prelevo l'oggetto del gruppo
                 gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
 
-
-
-                #si era pensato di creare un numero di partite pari al numero di partite
-                #dichiarate dal gruppo, ma a questo punto conviene creare un solo oggetto
-                #partita per ogni gruppo giocante
-                ControllorePartita().creaPartita(gruppoSelezionato)
-
-
-
+                partita = ControllorePartita().ricercaPartitaIdGruppo(idSelezionato)
+                currentData = datetime.now()
+                ControllorePartita(partita).setOraInizio(currentData)
 
                 # rimuove l'elemento corrente dalla QComboBox
                 self.gruppiComboBox.removeItem(currentIndex)
                 # d'ora in poi non comparirà più il gruppo nella vista del magazziniere
-                gruppoSelezionato.setCounterPartito(idSelezionato, True)
+                ControlloreGruppoClienti(gruppoSelezionato).setCounterPartito(idSelezionato, True)
                 # aggiorna i gruppi da soddisfare
                 self.riempiBoxGruppi()
 
-                # preleva l'id della pista occupata dal gruppo
-                idPistaOccupata = gruppoSelezionato.getPistaOccupata()
-                # avvia un thread per liberare la pista dopo un certo tempo
-                threading.Thread(target=self.finePartita, args=(idPistaOccupata, gruppoSelezionato)).start()
+    def notifica(self):
+        if self.controllerCoda.getNotifica():
+            self.avvisiLabel.setText("Attenzione\nLe taglie richieste sono tornate disponibili")
 
-    def finePartita(self, idPistaOccupata, gruppoSelezionato):
-        # preleva numero partite del gruppo
-        numPartite = gruppoSelezionato.getNumeroPartite()
-        tempo_di_attesa = 10 * numPartite  # Tempo di attesa in secondi
-        print("inizia attesa" + str(tempo_di_attesa))
-        time.sleep(tempo_di_attesa)
-        print("fine attesa")
-
-        # preleva l'oggetto della pista occupta
-        pista = ControllorePista().ricercaPistaId(idPistaOccupata)
-        # rende nuovamente disponibile la pista
-        pista.setDisponibilita(True, idPistaOccupata)
-
-        membri = gruppoSelezionato.getMembri()
-        if membri is not None:
-            for membro in membri:
-                # preleva dati cliente
-                cfCliente = membro.split("codice fiscale:")[1].strip()
-
-                # preleva oggetto cliente
-                clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(cfCliente)
-
-                # preleva idScarpa della scarpa assegnata al cliente
-                idScarpa = clienteSelezionato.getIdScarpa()
-                # preleva l'oggetto della relativa scarpa
-                scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
-                if scarpa is not None:
-                    # scarpa nuovamente disponibile per altri clienti
-                    scarpa.setDisponibilitaScarpa(True, idScarpa)
-
-                if self.liberaCoda(scarpa):
-                    self.avvisiLabel.setText("Attenzione\nLe taglie richieste sono tornate disponibili")
-
-                # ripristino della disponibilita per giocare in altri gruppi
-                clienteSelezionato.setAssegnato(False, cfCliente)
-
-                # ripristino idScarpa del cliente a nessuna scarpa aseegnata
-                clienteSelezionato.setIdScarpa("", cfCliente)
-
-
-        else:
-            print("errore nel ripristino disponibilità")
-
-        # preleva id del gruppo da eliminare
-        idGruppo = gruppoSelezionato.getId()
-        # rimozione gruppo
-        ControlloreGruppoClienti(gruppoSelezionato).rimuoviGruppo(idGruppo)
         self.riempiListaScarpe()
         self.riempiListaClienti()
-
-    def liberaCoda(self, scarpa):
-        print(self.controllerCoda.visualizzaElementi())
-        # vedo se posso liberare il cliente dalla coda
-        coda = self.controllerCoda.visualizzaElementi()
-        if len(coda) != 0:
-            for clienteCoda in coda:
-                cliente = ControlloreCliente().ricercaClienteCodiceFiscale(clienteCoda)
-
-                if scarpa.getTagliaScarpa() is not None:
-                    if int(cliente.getTagliaScarpe()) == int(scarpa.getTagliaScarpa()):
-                        # se la scarpa liberata corrisponde con quella del cliente in coda allora procedi
-                        # libera il cliente in coda
-                        return self.controllerCoda.rimuoviDaCoda(clienteCoda)
-
 
 
     def chiudiFinestra(self):

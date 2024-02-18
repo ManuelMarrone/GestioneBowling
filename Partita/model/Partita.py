@@ -12,7 +12,13 @@ class Partita:
         self.oraInizio = None
 
     def setOraInizio(self, ora):
-        self.oraInizio = ora
+        if os.path.isfile('Partita/data/partite.pickle'):
+            with open('Partita/data/partite.pickle', 'rb') as f:
+                partite = pickle.load(f)
+                partita = next((partita for partita in partite if partita.idGruppo == self.idGruppo), None)
+                partita.oraInizio = ora
+            with open('Partita/data/partite.pickle', 'wb') as f:
+                pickle.dump(partite, f, pickle.HIGHEST_PROTOCOL)
     def getOraInizio(self):
         return self.oraInizio
     def getIdGruppo(self):
@@ -41,8 +47,16 @@ class Partita:
         if os.path.isfile('Partita/data/partite.pickle'):
             with open('Partita/data/partite.pickle', 'rb') as f:
                 partite = pickle.load(f)
-                daRimuovere = next((partita for partita in partite if partite.idGruppo == self.idGruppo), None)
+                daRimuovere = next((partita for partita in partite if partita.idGruppo == self.idGruppo), None)
                 partite.remove(daRimuovere)
             with open('Partita/data/partite.pickle', 'wb') as f:
                 pickle.dump(partite, f, pickle.HIGHEST_PROTOCOL)
         del self
+
+    def getPartite(self):
+        if os.path.isfile('Partita/data/partite.pickle'):
+            with open('Partita/data/partite.pickle', 'rb') as f:
+                partite = pickle.load(f)
+            return partite
+        else:
+            return None

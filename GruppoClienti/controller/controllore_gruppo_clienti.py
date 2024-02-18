@@ -72,3 +72,6 @@ class ControlloreGruppoClienti():
             )
 
         return nuovoGruppoclienti
+
+    def decrementaNumPartite(self):
+        self.model.decrementaNumPartite()

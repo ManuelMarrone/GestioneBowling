@@ -1,6 +1,7 @@
 class CodaScarpe():
     def __init__(self):
         self.coda = []
+        self.notifica = False
 
     def aggiungiInCoda(self, cliente):
         #verifico che cliente non sia già in lista
@@ -19,3 +20,9 @@ class CodaScarpe():
 
     def visualizzaElementi(self):
         return self.coda
+
+    def setNotifica(self, val):
+        self.notifica = val
+
+    def getNotifica(self):
+        return self.notifica

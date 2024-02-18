@@ -77,6 +77,17 @@ class GruppoClienti:
                 pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
         del self
 
+    def decrementaNumPartite(self):
+        if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
+            with open('GruppoClienti/data/GruppoClienti.pickle', 'rb') as f:
+                gruppi = pickle.load(f)
+                gruppo = next((gruppo for gruppo in gruppi if gruppo.id == self.id), None)
+                gruppo.numeroPartite -= 1
+            with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
+                pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
+
+
+
     # def __str__(self):
     #     return "Id: " + str(self.id) + "\n" + \
     #             "Membri : " + str(self.membri) + "\n" + \

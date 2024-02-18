@@ -11,6 +11,7 @@ from Pista.controller.controllore_pista import ControllorePista
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 from GruppoClienti.view.vista_gestione_gruppi import VistaGestioneGruppi
 from Partita.controller.controllore_partita import ControllorePartita
+from Partita.view.vista_lista_partite import VistaListaPartite
 
 class VistaGestionePartite(QWidget):
     closed = pyqtSignal()
@@ -35,15 +36,16 @@ class VistaGestionePartite(QWidget):
         self.cercaButton.clicked.connect(self.goCerca)
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
         self.gestioneGruppi.clicked.connect(self.goGestioneGruppi)
+        self.listaPartite.clicked.connect(self.goListaPartite)
 
 
-        contatore_piste_libere = 0
-        tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
-        for i in tutte_le_piste:
-            if "True" in i:
-                contatore_piste_libere = contatore_piste_libere + 1
-
-        self.messaggioPiste(contatore_piste_libere)
+        # contatore_piste_libere = 0
+        # tutte_le_piste = [self.pisteList.itemText(i) for i in range(self.pisteList.count())]
+        # for i in tutte_le_piste:
+        #     if "True" in i:
+        #         contatore_piste_libere = contatore_piste_libere + 1
+        #
+        # self.messaggioPiste(contatore_piste_libere)
 
     def selectedItems(self):
         selected_items = self.clientiList.selectedItems()
@@ -191,7 +193,7 @@ class VistaGestionePartite(QWidget):
                 ControllorePista(pista_disponibile).setDisponibilita(occupata=True) # DA METTERE SOLO QUANDO
                 idPista = ControllorePista(pista_disponibile).getId()
                 print("idPista ", idPista)
-                oraInizio = datetime.now()
+                oraInizio = None
                 ControllorePartita().creaPartita(idGruppo, idPista, oraInizio)
                 self.messaggio(tipo=1, titolo="Partita", mex="Al gruppo clienti "+str(idGruppo)+" è stata asssegnata la pista "+str(idPista))
             else:
@@ -203,5 +205,12 @@ class VistaGestionePartite(QWidget):
         self.vista_gestione_gruppi = VistaGestioneGruppi()
         self.vista_gestione_gruppi.closed.connect(self.show)
         self.vista_gestione_gruppi.show()
+
+    def goListaPartite(self):
+        VistaGestionePartite.close(self)
+        self.vista_lista_partite = VistaListaPartite()
+        self.vista_lista_partite.closed.connect(self.show)
+        self.vista_lista_partite.show()
+
 
 

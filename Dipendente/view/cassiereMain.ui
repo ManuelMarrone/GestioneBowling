@@ -147,7 +147,7 @@
            <string notr="true">color: white;  background-color: #874B0F</string>
           </property>
           <property name="text">
-           <string>Gestione Partite</string>
+           <string>Crea Partite</string>
           </property>
          </widget>
         </item>

@@ -21,7 +21,7 @@ class ControllorePista():
                 piste = pickle.load(f)
         if len(piste) > 0:
             for pista in piste:
-                if str(pista.id) == id:
+                if pista.id == id:
                     return pista
         else:
             return None
