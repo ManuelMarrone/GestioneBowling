@@ -387,7 +387,7 @@ background-color: rgb(135, 75, 15);</string>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="inviaButton">
+         <widget class="QPushButton" name="gestioneGruppi">
           <property name="minimumSize">
            <size>
             <width>300</width>
@@ -577,7 +577,7 @@ background-color: rgb(135, 75, 15);</string>
 background-color: rgb(135, 75, 15);</string>
           </property>
           <property name="text">
-           <string>Invia</string>
+           <string>Gestisci gruppi</string>
           </property>
          </widget>
         </item>

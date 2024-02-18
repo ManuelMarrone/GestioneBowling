@@ -9,7 +9,7 @@ from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.model.GruppoClienti import GruppoClienti
 from Dipendente.view.vista_cassiere import VistaCassiere
-from Amministratore.model.Amministratore import Amministratore
+from Dipendente.view.vista_magazziniere import VistaMagazziniere
 
 if __name__ == "__main__":
 
@@ -41,17 +41,16 @@ if __name__ == "__main__":
     # with open('Pista/data/piste.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
 
-    # app = QApplication(sys.argv)
-    # vista_cassiere = VistaCassiere()
-    # vista_cassiere.show()
-    # sys.exit(app.exec())
-    #
-    #
     app = QApplication(sys.argv)
-    VistaLogin = VistaLogin()
-    VistaLogin.show()
+    vista_cassiere = VistaCassiere()
+    vista_cassiere.show()
     sys.exit(app.exec())
 
+
+    # app = QApplication(sys.argv)
+    # VistaLogin = VistaLogin()
+    # VistaLogin.show()
+    # sys.exit(app.exec())
 
     #RESET PICKLE DI CLIENTI E GRUPPO CLIENTI
 
