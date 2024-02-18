@@ -57,6 +57,15 @@ class Abbonamento():
         timestamp = int(time.time())
         return timestamp > self.getDataFine()
 
+    def getAbbonamenti(self):
+        abbonamenti = []
+        if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                abbonamenti = pickle.load(f)
+            return abbonamenti
+        else:
+            return None
+
 
 
 
