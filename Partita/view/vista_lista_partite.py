@@ -4,6 +4,7 @@ from PyQt6.QtCore import pyqtSignal
 from datetime import datetime, timedelta
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
+from CodaScarpe.controller.controllore_coda_scarpe import ControlloreCodaScarpe
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 from Partita.controller.controllore_partita import ControllorePartita
 from Pista.controller.controllore_pista import ControllorePista
@@ -41,7 +42,9 @@ class VistaListaPartite(QWidget):
                 idGruppo = ControllorePartita(partita).getIdGruppo()
                 gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
                 item = QListWidgetItem()
-                item.setText("Gruppo : " + str(ControllorePartita(partita).getIdGruppo()) + ", Ora inizio : " + str(ControllorePartita(partita).getOraInizio())+ ", Numero partite : " + str(ControlloreGruppoClienti(gruppo).getNumeroPartite()))
+                item.setText("Gruppo : " + str(ControllorePartita(partita).getIdGruppo()) + ", Ora inizio : " + str(
+                    ControllorePartita(partita).getOraInizio()) + ", Numero partite : " + str(
+                    ControlloreGruppoClienti(gruppo).getNumeroPartite()))
                 self.partiteList.addItem(item)
 
     def partitaClicked(self, item):
@@ -67,6 +70,9 @@ class VistaListaPartite(QWidget):
                     idScarpa = ControlloreCliente(membro).getIdScarpa()
                     # preleva l'oggetto della relativa scarpa
                     scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
+
+                    ControlloreCodaScarpe().liberaCoda(scarpa)
+
                     if scarpa is not None:
                         # scarpa nuovamente disponibile per altri clienti
                         ControlloreScarpa(scarpa).setDisponibilitaScarpa(True, idScarpa)

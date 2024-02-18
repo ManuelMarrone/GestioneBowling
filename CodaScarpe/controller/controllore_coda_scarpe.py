@@ -23,8 +23,7 @@ class ControlloreCodaScarpe():
                 cliente = ControlloreCliente().ricercaClienteCodiceFiscale(clienteCoda)
 
                 if ControlloreScarpa(scarpa).getTagliaScarpa() is not None:
-                    if int(ControlloreCliente(cliente).getTagliaScarpe()) == int(
-                            ControlloreScarpa(scarpa).getTagliaScarpa()):
+                    if int(ControlloreCliente(cliente).getTagliaScarpe()) == int(ControlloreScarpa(scarpa).getTagliaScarpa()):
                         # se la scarpa liberata corrisponde con quella del cliente in coda allora procedi
                         # libera il cliente in coda
                         self.rimuoviDaCoda(clienteCoda)
