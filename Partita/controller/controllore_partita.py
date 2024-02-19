@@ -16,7 +16,8 @@ class ControllorePartita():
     def setOraInizio(self, ora):
         self.model.setOraInizio(ora)
     def getOraInizio(self):
-        return self.model.getOraInizio()
+        if self.model is not None:
+            return self.model.getOraInizio()
 
     def creaPartita(self, idGruppo, idPista, oraInizio):
         partita = self.ricercaPartitaIdGruppo(idGruppo)

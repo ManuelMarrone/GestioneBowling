@@ -233,6 +233,10 @@ class VistaMagazziniere(QWidget):
         if self.controllerCoda.getNotifica():
             self.avvisiLabel.setText("Attenzione\nLe taglie richieste sono tornate disponibili")
             self.controllerCoda.setNotifica(False)
+        elif len(self.controllerCoda.visualizzaElementi()) != 0:
+            self.avvisiLabel.setText("Le taglie richieste non sono ancora disponibili")
+        elif len(self.controllerCoda.visualizzaElementi()) == 0:
+            self.avvisiLabel.setText("Nessun cliente in coda")
 
         self.riempiListaScarpe()
         self.riempiListaClienti()

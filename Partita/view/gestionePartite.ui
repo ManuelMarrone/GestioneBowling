@@ -301,7 +301,7 @@
 background-color: rgb(135, 75, 15);</string>
           </property>
           <property name="text">
-           <string>Seleziona</string>
+           <string>Crea partita</string>
           </property>
          </widget>
         </item>
@@ -330,10 +330,49 @@ background-color: rgb(135, 75, 15);</string>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0">
         <property name="sizeConstraint">
          <enum>QLayout::SetFixedSize</enum>
         </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="cercaPista">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: lightgrey</string>
+            </property>
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>inserire numero pista</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pistaButton">
+            <property name="styleSheet">
+             <string notr="true">color: white;  background-color: #757575</string>
+            </property>
+            <property name="text">
+             <string>cerca</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QListWidget" name="pisteList"/>
+        </item>
         <item>
          <spacer name="verticalSpacer_2">
           <property name="orientation">

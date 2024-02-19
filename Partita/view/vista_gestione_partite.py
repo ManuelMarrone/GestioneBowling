@@ -32,11 +32,15 @@ class VistaGestionePartite(QWidget):
 
         self.riempiListaClienti()
 
+        self.riempiListaPiste()
+
         self.indietroButton.clicked.connect(self.chiudiFinestra)
         self.cercaButton.clicked.connect(self.goCerca)
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
         self.gestioneGruppi.clicked.connect(self.goGestioneGruppi)
         self.listaPartite.clicked.connect(self.goListaPartite)
+
+        self.pistaButton.clicked.connect(self.goCercaPista)
 
 
         # contatore_piste_libere = 0
@@ -46,6 +50,48 @@ class VistaGestionePartite(QWidget):
         #         contatore_piste_libere = contatore_piste_libere + 1
         #
         # self.messaggioPiste(contatore_piste_libere)
+
+
+    def goCercaPista(self):
+        controllo = self.cercaPista.text().split()
+        if len(controllo) == 0:
+            self.riempiListaPiste()
+        elif len(controllo) == 1:
+            id = self.cercaPista.text().split()
+            pistaRicercata = ControllorePista().ricercaPistaId(id)
+            if pistaRicercata is not None:
+                self.pisteList.clear()
+                if ControllorePista(pistaRicercata).getDisponibilita():
+                    item = QListWidgetItem()
+                    item.setText(
+                        "Pista " + str(ControllorePista(pistaRicercata).getId()) + " occupata")
+                    self.pisteList.addItem(item)
+                else:
+                    item = QListWidgetItem()
+                    item.setText(
+                        "Pista " + str(ControllorePista(pistaRicercata).getId()) + " libera")
+                    self.pisteList.addItem(item)
+            else:
+                self.messaggio(tipo=1, titolo="Ricerca pista", mex="La pista non è presente")
+        else:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
+
+    def riempiListaPiste(self):
+        listaPiste = []
+        self.pisteList.clear()
+        listaPiste = ControllorePista().visualizzaPiste()
+        if listaPiste is not None:
+            for pista in listaPiste:
+                if ControllorePista(pista).getDisponibilita():
+                    item = QListWidgetItem()
+                    item.setText(
+                        "Pista " + str(ControllorePista(pista).getId()) + " occupata")
+                    self.pisteList.addItem(item)
+                else:
+                    item = QListWidgetItem()
+                    item.setText(
+                        "Pista " + str(ControllorePista(pista).getId()) + " libera")
+                    self.pisteList.addItem(item)
 
     def selectedItems(self):
         selected_items = self.clientiList.selectedItems()
@@ -75,9 +121,9 @@ class VistaGestionePartite(QWidget):
                 listaClienti = ControlloreCliente().visualizzaClienti()
                 if listaClienti is not None:
                     for cliente in listaClienti:
-                        if cliente.nome == self.controller.getNome() and cliente.cognome == self.controller.getCognome():
+                        if ControlloreCliente(cliente).getNome() == self.controller.getNome() and ControlloreCliente(cliente).getCognome()== self.controller.getCognome():
                             item = QListWidgetItem()
-                            item.setText("nome: " + cliente.getNome() + ", cognome: " + cliente.getCognome())
+                            item.setText("nome: " +  ControlloreCliente(cliente).getNome() + ", cognome: " +  ControlloreCliente(cliente).getCognome())
                             self.clientiList.addItem(item)
             else:
                 self.messaggio(tipo=1, titolo="Ricerca cliente", mex="Il cliente non è presente")
@@ -88,12 +134,11 @@ class VistaGestionePartite(QWidget):
         listaClienti = []
         self.clientiList.clear()
         listaClienti = ControlloreCliente().visualizzaClienti()
-        print(listaClienti)
         if listaClienti is not None:
             for cliente in listaClienti:
-                if cliente.assegnato is False:
+                if  ControlloreCliente(cliente).getAssegnato() is False:
                     item = QListWidgetItem()
-                    item.setText("nome: " + cliente.getNome() + ", cognome: " + cliente.getCognome() + ", codice fiscale: "+ cliente.getCodiceFiscale())
+                    item.setText("nome: " + ControlloreCliente(cliente).getNome() + ", cognome: " +  ControlloreCliente(cliente).getCognome() + ", codice fiscale: "+  ControlloreCliente(cliente).getCodiceFiscale())
                     self.clientiList.addItem(item)
 
     def chiudiFinestra(self):
@@ -122,7 +167,7 @@ class VistaGestionePartite(QWidget):
             elif len(id_gruppo) > 15:
                 self.messaggio(tipo=0, titolo="Attenzione",
                                mex="Il nome associato al gruppo dev'essere minore di 15 caratteri")
-            elif next((gruppo for gruppo in ControlloreGruppoClienti().visualizzaGruppi() if gruppo.id == id_gruppo), None) is not None:
+            elif next((gruppo for gruppo in ControlloreGruppoClienti().visualizzaGruppi() if ControlloreGruppoClienti(gruppo).getId() == id_gruppo), None) is not None:
                 self.messaggio(tipo=0, titolo="Attenzione", mex="Nome già esistente, sceglierne uno nuovo")
             else:
                 return id_gruppo
@@ -149,7 +194,6 @@ class VistaGestionePartite(QWidget):
         # for pista in ControllorePista().visualizzaPiste():
         #     print(ControllorePista(pista).getId(), "Libera")
         #     ControllorePista(pista).setDisponibilita(occupata=False)
-
         clienti_selezionati = self.selectedItems()
         if clienti_selezionati is not None:
             gruppo_clienti = []
@@ -172,6 +216,8 @@ class VistaGestionePartite(QWidget):
                     self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti annullato")
             else:
                 self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti annullato")
+
+            self.riempiListaPiste()
 
 
     def messaggioPiste(self, contatore_piste_libere):
@@ -211,6 +257,7 @@ class VistaGestionePartite(QWidget):
         VistaGestionePartite.close(self)
         self.vista_lista_partite = VistaListaPartite()
         self.vista_lista_partite.closed.connect(self.riempiListaClienti)
+        self.vista_lista_partite.closed.connect(self.riempiListaPiste)
         self.vista_lista_partite.closed.connect(self.show)
         self.vista_lista_partite.show()
 
