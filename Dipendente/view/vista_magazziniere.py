@@ -232,6 +232,7 @@ class VistaMagazziniere(QWidget):
     def notifica(self):
         if self.controllerCoda.getNotifica():
             self.avvisiLabel.setText("Attenzione\nLe taglie richieste sono tornate disponibili")
+            self.controllerCoda.setNotifica(False)
 
         self.riempiListaScarpe()
         self.riempiListaClienti()

@@ -67,8 +67,13 @@ class VistaListaPartite(QWidget):
 
                     membri = ControlloreGruppoClienti(gruppo).getMembri()
                     for membro in membri:
+
+                        cfCliente = ControlloreCliente(membro).getCodiceFiscale()
+                        #prendo l'effettivo cliente salvato nel pickle
+                        clienteGruppo = ControlloreCliente().ricercaClienteCodiceFiscale(cfCliente)
+
                         # preleva idScarpa della scarpa assegnata al cliente
-                        idScarpa = ControlloreCliente(membro).getIdScarpa()
+                        idScarpa = ControlloreCliente(clienteGruppo).getIdScarpa()
                         # preleva l'oggetto della relativa scarpa
                         scarpa = ControlloreScarpa().ricercaScarpaId(idScarpa)
 
@@ -79,11 +84,10 @@ class VistaListaPartite(QWidget):
                             ControlloreScarpa(scarpa).setDisponibilitaScarpa(True, idScarpa)
 
                         # ripristino della disponibilita per giocare in altri gruppi
-                        ControlloreCliente(membro).setAssegnato(val=False)
+                        ControlloreCliente(clienteGruppo).setAssegnato(val=False)
 
                         # ripristino idScarpa del cliente a nessuna scarpa aseegnata
-                        cfCliente = ControlloreCliente(membro).getCodiceFiscale()
-                        ControlloreCliente(membro).setIdScarpa("", cfCliente)
+                        ControlloreCliente(clienteGruppo).setIdScarpa("", cfCliente)
 
                     ControllorePartita().rimuoviPartita(partitaSelezionata)
                     # preleva id del gruppo da eliminare

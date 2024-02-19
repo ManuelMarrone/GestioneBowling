@@ -26,7 +26,7 @@ class ControlloreScarpa():
         return self.model.getDisponibilitaScarpa()
 
     def getTagliaScarpa(self):
-        return self.model.getTaglia()
+        return self.model.getTagliaScarpa()
 
 
     def ricercaScarpaId(self, id):
