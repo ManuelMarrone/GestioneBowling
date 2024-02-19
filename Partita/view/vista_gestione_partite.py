@@ -58,7 +58,7 @@ class VistaGestionePartite(QWidget):
             self.riempiListaPiste()
         elif len(controllo) == 1:
             id = self.cercaPista.text().split()
-            pistaRicercata = ControllorePista().ricercaPistaId(id)
+            pistaRicercata = ControllorePista().ricercaPistaId(id[0])
             if pistaRicercata is not None:
                 self.pisteList.clear()
                 if ControllorePista(pistaRicercata).getDisponibilita():
