@@ -39,7 +39,7 @@ class VistaGestioneRicevute(QWidget):
             for ricevuta in listaRicevute:
                 item = QListWidgetItem()
                 item.setText(
-                    "id: " + ControlloreRicevuta(ricevuta).getId() + ", data emissione: " + str(ControlloreRicevuta(ricevuta).getDataEmissione()))
+                    "id: " + ControlloreRicevuta(ricevuta).getId() + ", data emissione: " + str(ControlloreRicevuta(ricevuta).getDataEmissione()) + ", ora emissione: " + (ControlloreRicevuta(ricevuta).getOraEmissione()).strftime("%H:%M:%S"))
                 self.ricevuteList.addItem(item)
 
     def ricevutaClicked(self, item):
@@ -60,7 +60,8 @@ class VistaGestioneRicevute(QWidget):
     def goVisualizzaRicevuta(self):
         if self.itemSelezionato is not None:
             idRicevuta = self.itemSelezionato.split("id:")[1].split(",")[0].strip()
-            ricevutaSelezionata = ControlloreRicevuta().ricercaRicevutaId(idRicevuta)
+            oraEmissione = self.itemSelezionato.split(", ora emissione: ")[1].strip()
+            ricevutaSelezionata = ControlloreRicevuta().ricercaRicevutaIdOra(idRicevuta, oraEmissione)
             self.vista_ricevuta = VistaRicevuta(ricevutaSelezionata)
             self.vista_ricevuta.show()
 
@@ -71,14 +72,15 @@ class VistaGestioneRicevute(QWidget):
             self.riempiListaRicevute()
         elif len(controllo) >= 1:
             id = self.ricercaText.text().strip()
-            ricevuta = ControlloreRicevuta().ricercaRicevutaId(id)
-            if ricevuta is not None:
+            ricevute = ControlloreRicevuta().ricercaRicevutaId(id)
+            if ricevute is not None:
                 self.ricevuteList.clear()
-                item = QListWidgetItem()
-                item.setText(
-                    "id: " + ControlloreRicevuta(ricevuta).getId() + ", data emissione: " + str(
-                        ControlloreRicevuta(ricevuta).getDataEmissione()))
-                self.ricevuteList.addItem(item)
+                for ricevuta in ricevute:
+                    item = QListWidgetItem()
+                    item.setText(
+                        "id: " + ControlloreRicevuta(ricevuta).getId() + ", data emissione: " + str(
+                            ControlloreRicevuta(ricevuta).getDataEmissione())+ ", ora emissione: " + (ControlloreRicevuta(ricevuta).getOraEmissione()).strftime("%H:%M:%S"))
+                    self.ricevuteList.addItem(item)
             else:
                 self.messaggio(tipo=1, titolo="Ricerca ricevuta", mex="La ricevuta non è presente")
         else:

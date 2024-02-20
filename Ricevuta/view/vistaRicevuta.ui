@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Ricevuta</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #FCD19C</string>

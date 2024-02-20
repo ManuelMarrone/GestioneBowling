@@ -9,6 +9,7 @@ from Cliente.view.vista_inserisci_cliente import VistaInserimento
 from Cliente.view.vista_cliente import VistaCliente
 from Cliente.view.vista_modifica_cliente import VistaModificaCliente
 from Abbonamento.view.vista_abbonamento import VistaAbbonamento
+from Ricevuta.controller.controllore_ricevuta import ControlloreRicevuta
 
 
 class VistaGestioneClienti(QWidget):
@@ -127,21 +128,49 @@ class VistaGestioneClienti(QWidget):
             clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
 
             if clienteSelezionato.abbonato is False:
-                cfCliente = clienteSelezionato.codiceFiscale  # Viene preso il codice fiscale del cliente selezionato
+                if self.optTessera(codiceFiscale, clienteSelezionato):
+                    cfCliente = ControlloreCliente(clienteSelezionato).getCodiceFiscale()  # Viene preso il codice fiscale del cliente selezionato
 
-                data_validazione = datetime.now() #DATA CHE GLI DOVRA' ESSERE PASSATA ma per il momento prendiamo quella corrente
-                data_fine = data_validazione + timedelta(days=30)
-                ControlloreAbbonamento().creaAbbonamento(dataFine=data_fine.strftime("%Y-%m-%d"),
-                                                         dataValidazione=data_validazione.strftime("%Y-%m-%d %H:%M"),
-                                                         partiteGratuite=15,
-                                                         pagamentoRidotto=False,
-                                                         cfCliente=cfCliente)
-                ControlloreCliente(clienteSelezionato).setAbbonato(val=True)
-                self.messaggio(tipo=1, titolo="Abbonamento cliente",
-                               mex='<p style=color:white> Cliente abbonato con successo')
+                    data_validazione = datetime.now() #DATA CHE GLI DOVRA' ESSERE PASSATA ma per il momento prendiamo quella corrente
+                    data_fine = data_validazione + timedelta(days=30)
+                    ControlloreAbbonamento().creaAbbonamento(dataFine=data_fine.strftime("%Y-%m-%d"),
+                                                             dataValidazione=data_validazione.strftime("%Y-%m-%d %H:%M"),
+                                                             partiteGratuite=15,
+                                                             pagamentoRidotto=False,
+                                                             cfCliente=cfCliente)
+                    ControlloreCliente(clienteSelezionato).setAbbonato(val=True)
+                    self.messaggio(tipo=1, titolo="Abbonamento cliente",
+                                   mex='<p style=color:white> Cliente abbonato con successo')
+                else:
+                    self.messaggio(tipo=1, titolo="Abbonamento", mex="Abbonamento annullato")
+
             else:
-                self.messaggio(tipo=0, titolo="Abbonamento cliente",
-                               mex='<p style=color:white> Il cliente risulta gia abbonato')
+                self.messaggio(tipo=0, titolo="Abbonamento cliente",mex='<p style=color:white> Il cliente risulta gia abbonato')
+
+
+    def optTessera(self, codiceFiscale, cliente):
+        # opzione tessera
+        opzioni = ['Si', 'No']
+        surpluss = 0
+        while True:
+            scelta, ok = QInputDialog.getItem(None, 'Tessera', 'Il cliente necessita della tessera?', opzioni,
+                                              editable=False)
+            if ok:
+                if scelta == 'Si':
+                    surpluss = 5
+                else:
+                    surpluss = 0
+            else:
+                return False
+            importo = 30
+            clienti=[]
+            nome = ControlloreCliente(cliente).getNome()
+            cognome = ControlloreCliente(cliente).getCognome()
+            importoTot = importo+surpluss
+            clienti.append(nome+" "+cognome+" "+str(importoTot)+"€")
+            ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=codiceFiscale, importo=importoTot,
+                                               oraEmissione=datetime.now().time(), membri=clienti, tipo="Abbonamento")
+            return True
 
     def goGestisciAbbonamento(self):
         if self.itemSelezionato is not None:

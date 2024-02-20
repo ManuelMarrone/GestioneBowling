@@ -8,6 +8,7 @@ class Ricevuta():
         importo = 0.0
         oraEmissione = None
         membri = []
+        tipo = ""
 
     def getMembri(self):
         return self.membri
@@ -24,12 +25,13 @@ class Ricevuta():
     def getOraEmissione(self):
         return self.oraEmissione
 
-    def creaRicevuta(self, dataEmissione, id, importo, oraEmissione, membri):
+    def creaRicevuta(self, dataEmissione, id, importo, oraEmissione, membri, tipo):
         self.dataEmissione = dataEmissione
         self.id = id #preferibilimente lo stesso della classe partita
         self.importo = importo
         self.oraEmissione = oraEmissione
         self.membri = membri
+        self.tipo =tipo
         ricevute = []
         with open('Ricevuta/data/ricevute.pickle', "rb") as f:
           ricevute = pickle.load(f)

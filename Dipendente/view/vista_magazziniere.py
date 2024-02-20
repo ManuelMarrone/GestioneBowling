@@ -253,7 +253,7 @@ class VistaMagazziniere(QWidget):
 
             membri.append(nome+" "+cognome+" "+str(importoCliente)+"€")
         # creazione ricevuta
-        ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=idGruppo, importo=importo, oraEmissione=datetime.now().time(), membri=membri)
+        ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=idGruppo, importo=importo, oraEmissione=datetime.now().time(), membri=membri, tipo = "Partita")
 
     def notifica(self):
         if self.controllerCoda.getNotifica():
