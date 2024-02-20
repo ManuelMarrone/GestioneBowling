@@ -51,6 +51,17 @@ class Abbonamento():
         return self.dataValidazione
     def getPagamentoRidotto(self):
         return self.pagamentoRidotto
+
+    def setPagamentoRidotto(self, bool):
+        if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                abbonamenti = pickle.load(f)
+                abbonamento = next((abbonamento for abbonamento in abbonamenti if abbonamento.cfCliente == self.cfCliente), None)
+                abbonamento.pagamentoRidotto = bool
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
+                pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
+
+
     def getCfCliente(self):
         return self.cfCliente
     def isAbbonamentoScaduto(self):
@@ -65,6 +76,40 @@ class Abbonamento():
             return abbonamenti
         else:
             return None
+
+    def decrementaPartite(self,numPartite):
+        if int(self.partiteGratuite) - numPartite < 0:
+            self.setPagamentoRidotto(True)
+            if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+                with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                    abbonamenti = pickle.load(f)
+                    abbonamento = next(
+                        (abbonamento for abbonamento in abbonamenti if abbonamento.cfCliente == self.cfCliente), None)
+                    abbonamento.partiteGratuite = 0
+                with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
+                    pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
+            return False
+        elif int(self.partiteGratuite) - numPartite == 0:
+            if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+                with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                    abbonamenti = pickle.load(f)
+                    abbonamento = next(
+                        (abbonamento for abbonamento in abbonamenti if abbonamento.cfCliente == self.cfCliente), None)
+                    abbonamento.partiteGratuite = 0
+                with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
+                    pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
+            return False
+        else:
+            if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+                with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                    abbonamenti = pickle.load(f)
+                    abbonamento = next(
+                        (abbonamento for abbonamento in abbonamenti if abbonamento.cfCliente == self.cfCliente), None)
+                    partiteRimanenti= int(self.partiteGratuite) - numPartite
+                    abbonamento.partiteGratuite = partiteRimanenti
+                with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
+                    pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
+                return True
 
 
 

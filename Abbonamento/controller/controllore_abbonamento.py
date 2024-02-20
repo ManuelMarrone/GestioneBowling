@@ -89,3 +89,6 @@ class ControlloreAbbonamento():
 
     def visualizzaAbbonamenti(self):
         return Abbonamento().getAbbonamenti()
+
+    def decrementaPartite(self,partite):
+        return self.model.decrementaPartite(partite)

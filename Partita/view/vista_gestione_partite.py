@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 from datetime import datetime
 
+from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 # ci sono degli import da fare
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Pista.controller.controllore_pista import ControllorePista
@@ -186,8 +187,15 @@ class VistaGestionePartite(QWidget):
             id_gruppo = self.creaId()
             if id_gruppo is not None:
                 numero_partite = self.numeroPartite()
+
                 if numero_partite is not None:
                     for cliente in gruppo_clienti:
+                        if ControlloreCliente(cliente).getAbbonato():
+                            abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(cliente).getCodiceFiscale())
+                            if ControlloreAbbonamento(abbonamento).decrementaPartite(numero_partite) is False:
+                                self.messaggio(tipo=0, titolo="Avviso abbonamento", mex="Il cliente "+ ControlloreCliente(cliente).getCodiceFiscale()+" ha terminato le partite gratutite")
+
+
                         ControlloreCliente(cliente).setAssegnato(val=True) #DA METTERE SOLO QUANDO SI è SICURI CHE è STATA ASSEGNATA ANCHE LA PISTA
                     ControlloreGruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, counterPartito=False)
                     self.riempiListaClienti()

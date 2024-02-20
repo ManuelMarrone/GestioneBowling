@@ -55,7 +55,7 @@ class Ricevuta():
         if os.path.isfile('Ricevuta/data/ricevute.pickle'):
             with open('Ricevuta/data/ricevute.pickle', 'rb') as f:
                 ricevute = pickle.load(f)
-                daRimuovere = next((ricevuta for ricevuta in ricevute if str(ricevuta.id) == str(self.id)), None)
+                daRimuovere = next((ricevuta for ricevuta in ricevute if str(ricevuta.id) == str(self.id) and ricevuta.oraEmissione == self.oraEmissione), None)
                 ricevute.remove(daRimuovere)
             with open('Ricevuta/data/ricevute.pickle', 'wb') as f:
                 pickle.dump(ricevute, f, pickle.HIGHEST_PROTOCOL)

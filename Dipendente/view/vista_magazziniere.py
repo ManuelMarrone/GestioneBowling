@@ -238,6 +238,7 @@ class VistaMagazziniere(QWidget):
         # calcolo importo
         importo = ControlloreRicevuta().calcolaImportoPartita(idGruppo)
         gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
+        numPartite = ControlloreGruppoClienti(gruppo).getNumeroPartite()
         membri = []
         for membro in ControlloreGruppoClienti(gruppo).getMembri():
             nome = ControlloreCliente(membro).getNome()
@@ -251,7 +252,7 @@ class VistaMagazziniere(QWidget):
                 else:
                     importoCliente = 3
 
-            membri.append(nome+" "+cognome+" "+str(importoCliente)+"€")
+            membri.append(nome+" "+cognome+" "+str(importoCliente)+"€" + " * " + str(numPartite))
         # creazione ricevuta
         ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=idGruppo, importo=importo, oraEmissione=datetime.now().time(), membri=membri, tipo = "Partita")
 

@@ -32,15 +32,16 @@ class ControlloreRicevuta():
     def calcolaImportoPartita(self, idGruppo):
         importo = 0.0
         gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
+        numPartite = ControlloreGruppoClienti(gruppo).getNumeroPartite()
         for membro in ControlloreGruppoClienti(gruppo).getMembri():
             if ControlloreCliente(membro).getAbbonato() is False:
-                importo += 5
+                importo += (5*numPartite)
             elif ControlloreCliente(membro).getAbbonato() is True:
                 abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(membro).getCodiceFiscale())
                 if ControlloreAbbonamento(abbonamento).getPagamentoRidotto() is False:
                     importo += 0
                 else:
-                    importo += 3
+                    importo += (3*numPartite)
 
         return importo
 
