@@ -3,6 +3,8 @@ import pprint
 import pickle
 import sys
 from PyQt6.QtWidgets import QApplication
+
+from Backup.controller.controller_backup import Backup
 from Login.view.VistaLogin import VistaLogin
 from Cliente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
@@ -56,6 +58,7 @@ if __name__ == "__main__":
     VistaLogin = VistaLogin()
     VistaLogin.show()
     sys.exit(app.exec())
+
 
     #RESET PICKLE DI CLIENTI E GRUPPO CLIENTI
 

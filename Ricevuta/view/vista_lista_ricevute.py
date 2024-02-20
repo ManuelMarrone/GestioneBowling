@@ -48,7 +48,8 @@ class VistaGestioneRicevute(QWidget):
     def goEliminaRicevuta(self):
         if self.itemSelezionato is not None:
             idRicevuta = self.itemSelezionato.split("id:")[1].split(",")[0].strip()
-            ricevutaSelezionata = ControlloreRicevuta().ricercaRicevutaId(idRicevuta)
+            oraEmissione = self.itemSelezionato.split(", ora emissione: ")[1].strip()
+            ricevutaSelezionata = ControlloreRicevuta().ricercaRicevutaIdOra(idRicevuta, oraEmissione)
 
             risultato = ControlloreRicevuta().rimuoviRicevuta(ricevutaSelezionata)
             if risultato:

@@ -12,6 +12,8 @@ class Ricevuta():
 
     def getMembri(self):
         return self.membri
+    def getTipo(self):
+        return self.tipo
 
     def getId(self):
         return self.id

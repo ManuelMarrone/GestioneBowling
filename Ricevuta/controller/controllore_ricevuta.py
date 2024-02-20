@@ -17,6 +17,9 @@ class ControlloreRicevuta():
     def getDataEmissione(self):
         return self.model.getDataEmissione()
 
+    def getTipo(self):
+        return self.model.getTipo()
+
     def getImporto(self):
         return self.model.getImporto()
 
