@@ -14,7 +14,7 @@ class Abbonamento():
     def __init__(self):
         self.dataFine = None
         self.dataValidazione = None
-        self.pagamentoRidotto = ""
+        self.pagamentoRidotto = False
         self.partiteGratuite = ""
         self.cfCliente = ""
 

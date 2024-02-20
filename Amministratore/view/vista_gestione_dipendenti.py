@@ -42,24 +42,20 @@ class VistaGestioneDipendenti(QWidget):
         controllo = self.ricercaText.text().split()
         if len(controllo) == 0:
             self.riempiListaDipendenti()
-        elif len(controllo) == 2:
-            nome, cognome = self.ricercaText.text().split()
-            nome = nome.capitalize().strip()
-            cognome = cognome.capitalize().strip()
-            dipendenteRicercato = ControlloreDipendente().ricercaDipendenteNomeCognome(nome, cognome)
-            if dipendenteRicercato is not None:
+        elif len(controllo) >= 2:
+            sottostringhe = self.ricercaText.text().split()
+
+            nome = sottostringhe[0].capitalize().strip()
+            cognome = ' '.join(sottostringhe[1:]).capitalize().strip()
+            dipendentiRicercati = ControlloreDipendente().ricercaDipendenteNomeCognome(nome, cognome)
+            if dipendentiRicercati is not None:
                 self.dipendentiList.clear()
-                self.controller = ControlloreDipendente(dipendenteRicercato)
-                listaDipendenti = ControlloreDipendente().visualizzaDipendenti()
-                if listaDipendenti is not None:
-                    for dipendente in listaDipendenti:
-                        nomeDipendente = ControlloreDipendente(dipendente).getNome()
-                        cognomeDipendente = ControlloreDipendente(dipendente).getCognome()
-                        if nomeDipendente == self.controller.getNome() and cognomeDipendente == self.controller.getCognome():
-                            item = QListWidgetItem()
-                            item.setText(
-                                "nome: " + nomeDipendente + ", cognome: " + cognomeDipendente + ", ruolo: " + ControlloreDipendente(dipendente).getRuolo() + ", codice fiscale: " + ControlloreDipendente(dipendente).getCF())
-                            self.dipendentiList.addItem(item)
+
+                for dipendente in dipendentiRicercati:
+                    item = QListWidgetItem()
+                    item.setText(
+                        "nome: " + ControlloreDipendente(dipendente).getNome() + ", cognome: " +  ControlloreDipendente(dipendente).getCognome()  + ", ruolo: " +  ControlloreDipendente(dipendente).getRuolo() + ", codice fiscale: " + ControlloreDipendente(dipendente).getCF())
+                    self.dipendentiList.addItem(item)
             else:
                 self.messaggio(tipo=1, titolo="Ricerca dipendente", mex="Il dipendente non è presente")
         else:

@@ -11,6 +11,7 @@ from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 
 
+
 class VistaListaPartite(QWidget):
     closed = pyqtSignal()
 
@@ -92,9 +93,11 @@ class VistaListaPartite(QWidget):
                     ControllorePartita().rimuoviPartita(partitaSelezionata)
                     # preleva id del gruppo da eliminare
                     ControlloreGruppoClienti(gruppo).rimuoviGruppo(idGruppo)
+
             else:
                 self.messaggio(tipo=0, titolo="Partita", mex="Non puoi Terminare una partita che non è ancora iniziata")
         self.riempiListaPartite()
+
 
     def messaggio(self, tipo, titolo, mex):
         mexBox = QMessageBox()

@@ -74,20 +74,27 @@ class ControlloreCliente():
             return None
 
     def ricercaClienteEmail(self, email):
+        clienteRicercato = []
         clienti = []
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-
         if len(clienti) > 0:
             for cliente in clienti:
                 if cliente.email == email:
-                    return cliente
+                    clienteRicercato.append(cliente)
+
+            if len(clienteRicercato) != 0:
+                return clienteRicercato
+            else:
+                return None
         else:
             return None
 
+
     def ricercaClienteNomeCognome(self, nome, cognome):
         clienti = []
+        clienteRicercato = []
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
@@ -95,7 +102,11 @@ class ControlloreCliente():
         if len(clienti) > 0:
             for cliente in clienti:
                 if cliente.nome == nome and cliente.cognome == cognome:
-                    return cliente
+                    clienteRicercato.append(cliente)
+            if len(clienteRicercato) != 0:
+                return clienteRicercato
+            else:
+                return None
         else:
             return None
 

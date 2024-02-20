@@ -83,6 +83,7 @@ class ControlloreDipendente():
 
     def ricercaDipendenteNomeCognome(self, nome, cognome):
         dipendenti = []
+        dipendenteRicercato = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
             with open('Dipendente/data/dipendenti.pickle', 'rb') as f:
                 dipendenti = pickle.load(f)
@@ -90,7 +91,11 @@ class ControlloreDipendente():
         if len(dipendenti) > 0:
             for dipendente in dipendenti:
                 if dipendente.nome == nome and dipendente.cognome == cognome:
-                    return dipendente
+                    dipendenteRicercato.append(dipendente)
+            if len(dipendenteRicercato) != 0:
+                return dipendenteRicercato
+            else:
+                return None
         else:
             return None
 

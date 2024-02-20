@@ -35,12 +35,14 @@ class VistaGestionePartite(QWidget):
         self.riempiListaPiste()
 
         self.indietroButton.clicked.connect(self.chiudiFinestra)
-        self.cercaButton.clicked.connect(self.goCerca)
+
         self.selezionaButton.clicked.connect(self.creaGruppoClienti)
         self.gestioneGruppi.clicked.connect(self.goGestioneGruppi)
         self.listaPartite.clicked.connect(self.goListaPartite)
 
         self.pistaButton.clicked.connect(self.goCercaPista)
+
+
 
 
         # contatore_piste_libere = 0
@@ -106,29 +108,8 @@ class VistaGestionePartite(QWidget):
         else:
             return selected_texts
 
-    def goCerca(self):
-        controllo = self.ricercaText.text().split()
-        if len(controllo) == 0:
-            self.riempiListaClienti()
-        elif len(controllo) == 2:
-            nome, cognome = self.ricercaText.text().split()
-            nome = nome.capitalize().strip()
-            cognome = cognome.capitalize().strip()
-            clienteRicercato = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
-            if clienteRicercato is not None:                    #se il cliente è presente aggiorna la lista
-                self.clientiList.clear()
-                self.controller = ControlloreCliente(clienteRicercato)
-                listaClienti = ControlloreCliente().visualizzaClienti()
-                if listaClienti is not None:
-                    for cliente in listaClienti:
-                        if ControlloreCliente(cliente).getNome() == self.controller.getNome() and ControlloreCliente(cliente).getCognome()== self.controller.getCognome():
-                            item = QListWidgetItem()
-                            item.setText("nome: " +  ControlloreCliente(cliente).getNome() + ", cognome: " +  ControlloreCliente(cliente).getCognome())
-                            self.clientiList.addItem(item)
-            else:
-                self.messaggio(tipo=1, titolo="Ricerca cliente", mex="Il cliente non è presente")
-        else:
-            self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
+
+
 
     def riempiListaClienti(self):
         listaClienti = []

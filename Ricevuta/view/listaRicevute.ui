@@ -23,12 +23,12 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Gestione ricevute</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #FCD19C</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
+  <widget class="QWidget" name="verticalLayoutWidget_2">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -37,11 +37,11 @@
      <height>731</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_6">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_2">
         <property name="minimumSize">
          <size>
           <width>150</width>
@@ -68,30 +68,11 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QComboBox" name="selettoreComboBox">
-            <item>
-             <property name="text">
-              <string>Cerca per nome e cognome</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Cerca per codice fiscale</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Cerca per email</string>
-             </property>
-            </item>
-           </widget>
-          </item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QLineEdit" name="ricercaText">
             <property name="enabled">
@@ -99,13 +80,13 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>300</width>
+              <width>500</width>
               <height>22</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>300</width>
+              <width>500</width>
               <height>22</height>
              </size>
             </property>
@@ -122,7 +103,7 @@
              <bool>true</bool>
             </property>
             <property name="placeholderText">
-             <string>inserire dati</string>
+             <string>inserire id ricevuta</string>
             </property>
            </widget>
           </item>
@@ -151,79 +132,20 @@
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="clientiList"/>
+         <widget class="QListWidget" name="ricevuteList"/>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0">
         <property name="sizeConstraint">
          <enum>QLayout::SetFixedSize</enum>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <spacer name="verticalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="abbonaButton">
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: white;  background-color: #874B0F</string>
-            </property>
-            <property name="text">
-             <string>Abbona</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="abbonamentoButton">
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: white;  background-color: #874B0F</string>
-            </property>
-            <property name="text">
-             <string>Gestisci
-abbonamento</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <layout class="QVBoxLayout" name="verticalLayout_9"/>
         </item>
         <item>
-         <spacer name="verticalSpacer">
+         <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -236,7 +158,7 @@ abbonamento</string>
          </spacer>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
+         <layout class="QVBoxLayout" name="verticalLayout_10">
           <item>
            <widget class="QPushButton" name="visualizzaButton">
             <property name="minimumSize">
@@ -256,50 +178,6 @@ abbonamento</string>
             </property>
             <property name="text">
              <string>Visualizza</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="aggiungiButton">
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: white;  background-color: #874B0F</string>
-            </property>
-            <property name="text">
-             <string>Aggiungi</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="modificaButton">
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: white;  background-color: #874B0F</string>
-            </property>
-            <property name="text">
-             <string>Modifica</string>
             </property>
            </widget>
           </item>
@@ -350,7 +228,7 @@ abbonamento</string>
          </layout>
         </item>
         <item>
-         <spacer name="verticalSpacer_2">
+         <spacer name="verticalSpacer_6">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>

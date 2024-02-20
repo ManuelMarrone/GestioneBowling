@@ -72,40 +72,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLineEdit" name="ricercaText">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background: lightgrey</string>
-            </property>
-            <property name="inputMask">
-             <string/>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>inserire nome e cognome separati da uno spazio</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="cercaButton">
-            <property name="styleSheet">
-             <string notr="true">color: white;  background-color: #757575</string>
-            </property>
-            <property name="text">
-             <string>cerca</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
         </item>
         <item>
          <widget class="QListWidget" name="clientiList"/>

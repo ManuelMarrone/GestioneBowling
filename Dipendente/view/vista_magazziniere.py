@@ -7,12 +7,14 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal, QTimer
 from datetime import datetime
 
+from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 from CodaScarpe.controller.controllore_coda_scarpe import ControlloreCodaScarpe
 from Partita.controller.controllore_partita import ControllorePartita
+from Ricevuta.controller.controllore_ricevuta import ControlloreRicevuta
 
 class VistaMagazziniere(QWidget):
     closed = pyqtSignal()
@@ -215,6 +217,9 @@ class VistaMagazziniere(QWidget):
 
                 # estraggo l'id del gruppo soddisfatto
                 idSelezionato = self.gruppiComboBox.currentText()
+
+                self.creaRicevuta(idSelezionato)
+
                 # prelevo l'oggetto del gruppo
                 gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idSelezionato)
 
@@ -228,6 +233,27 @@ class VistaMagazziniere(QWidget):
                 ControlloreGruppoClienti(gruppoSelezionato).setCounterPartito(idSelezionato, True)
                 # aggiorna i gruppi da soddisfare
                 self.riempiBoxGruppi()
+
+    def creaRicevuta(self, idGruppo):
+        # calcolo importo
+        importo = ControlloreRicevuta().calcolaImportoPartita(idGruppo)
+        gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
+        membri = []
+        for membro in ControlloreGruppoClienti(gruppo).getMembri():
+            nome = ControlloreCliente(membro).getNome()
+            cognome = ControlloreCliente(membro).getCognome()
+            if ControlloreCliente(membro).getAbbonato() is False:
+                importoCliente = 5
+            elif ControlloreCliente(membro).getAbbonato() is True:
+                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(membro).getCodiceFiscale())
+                if ControlloreAbbonamento(abbonamento).getPagamentoRidotto() is False:
+                    importoCliente = 0
+                else:
+                    importoCliente = 3
+
+            membri.append(nome+" "+cognome+" "+str(importoCliente)+"€")
+        # creazione ricevuta
+        ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=idGruppo, importo=importo, oraEmissione=datetime.now().time(), membri=membri)
 
     def notifica(self):
         if self.controllerCoda.getNotifica():

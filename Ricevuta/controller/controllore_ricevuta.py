@@ -1,0 +1,82 @@
+import os
+import pickle
+
+from Ricevuta.model.Ricevuta import Ricevuta
+from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
+from Cliente.controller.controllore_cliente import ControlloreCliente
+from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
+
+
+class ControlloreRicevuta():
+    def __init__(self, ricevuta=None):
+        self.model = ricevuta
+
+    def getId(self):
+        return self.model.getId()
+
+    def getDataEmissione(self):
+        return self.model.getDataEmissione()
+
+    def getImporto(self):
+        return self.model.getImporto()
+
+    def getOraEmissione(self):
+        return self.model.getOraEmissione()
+
+    def getMembri(self):
+        return self.model.getMembri()
+
+    def calcolaImportoPartita(self, idGruppo):
+        importo = 0.0
+        gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
+        for membro in ControlloreGruppoClienti(gruppo).getMembri():
+            if ControlloreCliente(membro).getAbbonato() is False:
+                importo += 5
+            elif ControlloreCliente(membro).getAbbonato() is True:
+                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(membro).getCodiceFiscale())
+                if ControlloreAbbonamento(abbonamento).getPagamentoRidotto() is False:
+                    importo += 0
+                else:
+                    importo += 3
+
+        return importo
+
+
+
+    def creaRicevuta(self, dataEmissione, id, importo, oraEmissione, membri):
+        ricevuta = self.ricercaRicevutaId(id)
+        if isinstance(ricevuta, Ricevuta):
+            return None
+        else:
+            nuovaRicevuta = Ricevuta().creaRicevuta(
+                dataEmissione=dataEmissione,
+                id=id,  # preferibilimente lo stesso della classe partita
+                importo=importo,
+                oraEmissione=oraEmissione,
+                membri=membri
+            )
+        return nuovaRicevuta
+
+    def rimuoviRicevuta(self, ricevuta):
+        if isinstance(ricevuta, Ricevuta):
+            ricevuta.eliminaRicevuta()
+            return True
+        else:
+            return False
+
+
+    def ricercaRicevutaId(self, id):
+        ricevute = []
+        if os.path.isfile('Ricevuta/data/ricevute.pickle'):
+            with open('Ricevuta/data/ricevute.pickle', 'rb') as f:
+                ricevute = pickle.load(f)
+        if len(ricevute) > 0:
+            for ricevuta in ricevute:
+                if ricevuta.id == id:
+                    return ricevuta
+        else:
+            return None
+
+    def visualizzaRicevute(self):
+        return Ricevuta().getRicevute()
+

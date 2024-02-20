@@ -37,32 +37,90 @@ class VistaGestioneClienti(QWidget):
         self.visualizzaButton.clicked.connect(self.goVisualizza)
         self.indietroButton.clicked.connect(self.chiudiFinestra)
         self.modificaButton.clicked.connect(self.goModifica)
-        # self.cercaButton.clicked.connect(self.goCerca)
+        self.cercaButton.clicked.connect(self.goCerca)
 
-    # def goCerca(self):
-    #     controllo = self.ricercaText.text().split()
-    #     if len(controllo) == 0:
-    #         self.riempiListaDipendenti()
-    #     elif len(controllo) == 2:
-    #         nome, cognome = self.ricercaText.text().split()
-    #         nome = nome.capitalize().strip()
-    #         cognome = cognome.capitalize().strip()
-    #         dipendenteRicercato = ControlloreDipendente.ricercaDipendenteNomeCognome(self, nome, cognome)
-    #         if dipendenteRicercato is not None:
-    #             self.dipendentiList.clear()
-    #             self.controller = ControlloreDipendente(dipendenteRicercato)
-    #             listaDipendenti = ControlloreDipendente.visualizzaDipendenti(self)
-    #             if listaDipendenti is not None:
-    #                 for dipendente in listaDipendenti:
-    #                     if dipendente.nome == self.controller.getNome() and dipendente.cognome == self.controller.getCognome():
-    #                         item = QListWidgetItem()
-    #                         item.setText(
-    #                             "nome: " + dipendente.nome + ", cognome: " + dipendente.cognome + ", ruolo: " + dipendente.ruolo)
-    #                         self.dipendentiList.addItem(item)
-    #         else:
-    #             self.messaggio(tipo=1, titolo="Ricerca dipendente", mex="Il dipendente non è presente")
-    #     else:
-    #         self.messaggio(tipo=0, titolo="Attenzione",mex="Ricerca non valida")
+    def goCerca(self):
+        ricerca = self.ricercaText.text().split()
+        selezione = self.selettoreComboBox.currentIndex()
+        if selezione == 0:
+            if self.controlloNomeCognome(ricerca):
+                sottostringhe = self.ricercaText.text().split()
+
+                nome = sottostringhe[0].capitalize().strip()
+                cognome = ' '.join(sottostringhe[1:]).capitalize().strip()
+
+                clientiRicercati = ControlloreCliente().ricercaClienteNomeCognome(nome, cognome)
+                if clientiRicercati is not None:
+                    self.clientiList.clear()
+
+                    for cliente in clientiRicercati:
+                        item = QListWidgetItem()
+                        item.setText(
+                            "nome: " + ControlloreCliente(
+                                cliente).getNome() + ", cognome: " + ControlloreCliente(
+                                cliente).getCognome() + ", codice fiscale: " + ControlloreCliente(
+                                cliente).getCodiceFiscale())
+                        self.clientiList.addItem(item)
+                else:
+                    self.messaggio(tipo=1, titolo="Ricerca cliente", mex="Il cliente non è presente")
+
+        elif selezione == 1:
+            if self.controlloCodiceFiscale(ricerca):
+                codiceFiscale = self.ricercaText.text().upper()
+                clienteRicercato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
+                if clienteRicercato is not None:
+                    self.clientiList.clear()
+
+                    item = QListWidgetItem()
+                    item.setText(
+                        "nome: " + ControlloreCliente(
+                            clienteRicercato).getNome() + ", cognome: " + ControlloreCliente(
+                            clienteRicercato).getCognome() + ", codice fiscale: " + ControlloreCliente(
+                            clienteRicercato).getCodiceFiscale())
+                    self.clientiList.addItem(item)
+                else:
+                    self.messaggio(tipo=1, titolo="Ricerca cliente", mex="Il cliente non è presente")
+
+        elif selezione == 2:
+            if self.controlloEmail(ricerca):
+                email = self.ricercaText.text()
+                clientiRicercati = ControlloreCliente().ricercaClienteEmail(email)
+                if clientiRicercati is not None:
+                    self.clientiList.clear()
+                    for cliente in clientiRicercati:
+                                item = QListWidgetItem()
+                                item.setText(
+                                    "nome: " + ControlloreCliente(
+                                        cliente).getNome() + ", cognome: " + ControlloreCliente(
+                                        cliente).getCognome() + ", codice fiscale: " + ControlloreCliente(
+                                        ControlloreCliente(cliente)).getCodiceFiscale() + ", email: " +ControlloreCliente(
+                                        cliente).getEmail())
+                                self.clientiList.addItem(item)
+                else:
+                    self.messaggio(tipo=1, titolo="Ricerca cliente", mex="Il cliente non è presente")
+
+    def controlloEmail(self, ricerca):
+        if len(ricerca) == 0:
+            self.riempiListaClienti()
+        elif len(ricerca) == 1:
+            return True
+        else:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
+
+    def controlloCodiceFiscale(self, ricerca):
+        if len(ricerca) == 0:
+            self.riempiListaClienti()
+        elif len(ricerca) == 1 and len(ricerca[0]) == 16:
+            return True
+        else:
+            self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
+
+    def controlloNomeCognome(self, ricerca):
+        if len(ricerca) == 0:
+            self.riempiListaClienti()
+        elif len(ricerca) >= 2:
+            return True
+
     def goCreaAbbonamento(self):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
@@ -106,7 +164,7 @@ class VistaGestioneClienti(QWidget):
             for cliente in listaClienti:
                 item = QListWidgetItem()
                 item.setText(
-                    "nome: " + cliente.getNome() + ", cognome: " + cliente.getCognome() + ", codice fiscale: " + cliente.getCodiceFiscale())
+                    "nome: " + ControlloreCliente(cliente).getNome() + ", cognome: " + ControlloreCliente(cliente).getCognome() + ", codice fiscale: " + ControlloreCliente(cliente).getCodiceFiscale())
                 self.clientiList.addItem(item)
 
     def goCreaCliente(self):
