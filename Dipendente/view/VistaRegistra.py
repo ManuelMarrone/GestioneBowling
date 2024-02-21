@@ -10,7 +10,7 @@ class VistaRegistra(QWidget):
     closed = pyqtSignal()
     def __init__(self, parent=None):
         super(VistaRegistra, self).__init__(parent)
-        uic.loadUi('Registra/registra.ui', self)
+        uic.loadUi('Dipendente/view/registra.ui', self)
 
         self.registraButton.clicked.connect(self.creaAccount)
         self.annullaButton.clicked.connect(self.chiudiFinestra)

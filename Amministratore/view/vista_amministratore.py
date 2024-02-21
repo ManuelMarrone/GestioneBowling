@@ -123,7 +123,7 @@ class VistaAmministratore(QWidget):
 
         if selezione == "Partite":
             numeroPartite = ControlloreStatistiche().partiteAttive()
-            data = ControlloreStatistiche().dataPrimoAbbonamento()
+            data = ControlloreStatistiche().primaPartita()
 
             self.etichetta1.setText("Numero totale di partite all'attivo: ")
             self.testo1.setText(str(numeroPartite))

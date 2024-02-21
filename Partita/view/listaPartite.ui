@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Termina partite</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #FCD19C</string>
@@ -32,7 +32,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>20</y>
      <width>781</width>
      <height>721</height>
     </rect>
@@ -68,64 +68,49 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_8">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_11">
-              <item>
-               <widget class="QPushButton" name="terminaButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>28</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>28</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 255, 255);
+         <widget class="QPushButton" name="terminaButton">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>28</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);
 background-color: rgb(135, 75, 15);</string>
-                </property>
-                <property name="text">
-                 <string>Termina partita</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QListWidget" name="partiteList"/>
-          </item>
-         </layout>
+          </property>
+          <property name="text">
+           <string>Termina partita</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="indietroButton_2">
-      <property name="styleSheet">
-       <string notr="true">color: rgb(255, 255, 255);
+      <item>
+       <widget class="QListWidget" name="partiteList"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="indietroButton_2">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
 background-color: rgb(135, 75, 15);</string>
-      </property>
-      <property name="text">
-       <string>&lt; indietro</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_12"/>
+        </property>
+        <property name="text">
+         <string>&lt; indietro</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

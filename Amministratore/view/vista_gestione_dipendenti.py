@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
 
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente
-from Registra.VistaRegistra import VistaRegistra
+from Dipendente.view.VistaRegistra import VistaRegistra
 from Dipendente.view.vista_dipendente import VistaDipendente
 from Dipendente.view.vista_modifica_dipendente import VistaModificaDipendente
 

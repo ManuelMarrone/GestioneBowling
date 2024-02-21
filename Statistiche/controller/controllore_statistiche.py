@@ -229,6 +229,6 @@ class ControlloreStatistiche():
             date = []
             for partita in self.partite:
                 date.append((ControllorePartita(partita).getOraInizio()))
-            return min(date)
+            return min(date).strftime("%H:%M:%S")
         else:
             return 0

@@ -7,23 +7,23 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>700</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>600</width>
-    <height>700</height>
+    <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>600</width>
-    <height>700</height>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Inserimento dati cliente</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #FCD19C</string>
@@ -34,12 +34,38 @@
      <x>10</x>
      <y>10</y>
      <width>581</width>
-     <height>681</height>
+     <height>565</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout"/>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>../../Logo_bowling.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <spacer name="verticalSpacer">
@@ -52,7 +78,7 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>100</height>
+        <height>50</height>
        </size>
       </property>
      </spacer>
@@ -317,6 +343,9 @@
      <spacer name="verticalSpacer_3">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
