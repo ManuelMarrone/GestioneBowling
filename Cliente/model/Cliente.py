@@ -133,3 +133,8 @@ class Cliente():
                 cliente.assegnato = val
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
+
+    def __eq__(self, other):
+        if isinstance(other, Cliente):
+            return (self.codiceFiscale == other.codiceFiscale)
+        return False

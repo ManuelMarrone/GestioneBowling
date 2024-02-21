@@ -85,6 +85,11 @@ if __name__ == "__main__":
     # with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
 
+    #RESET RICEVUTE
+    # with open('Ricevuta/data/ricevute.pickle', 'wb') as f:
+    #   pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
+    #
+
 
     #RESET DISPONIBILITA SCARPE
 
@@ -101,7 +106,7 @@ if __name__ == "__main__":
     # with open('Pista/data/piste.pickle', 'rb') as f:
     #     piste = pickle.load(f)
     #     for pista in piste:
-    #        pista.disponibilita=True
+    #        pista.disponibilita=False
     #
     # with open('Pista/data/piste.pickle', 'wb') as f:
     #    pickle.dump(piste,f,pickle.HIGHEST_PROTOCOL)

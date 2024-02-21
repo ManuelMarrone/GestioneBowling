@@ -60,3 +60,8 @@ class Ricevuta():
             with open('Ricevuta/data/ricevute.pickle', 'wb') as f:
                 pickle.dump(ricevute, f, pickle.HIGHEST_PROTOCOL)
         del self
+
+    def __eq__(self, other):
+        if isinstance(other, Ricevuta):
+            return (self.oraEmissione == other.oraEmissione)
+        return False

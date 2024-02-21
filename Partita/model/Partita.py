@@ -60,3 +60,8 @@ class Partita:
             return partite
         else:
             return None
+
+    def __eq__(self, other):
+        if isinstance(other, Partita):
+            return (self.idGruppo == other.idGruppo)
+        return False

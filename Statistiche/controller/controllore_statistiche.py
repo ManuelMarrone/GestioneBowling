@@ -191,32 +191,38 @@ class ControlloreStatistiche():
         return len(self.ricevute)
     #percentuale di abbonamenti
     def percAbbonamentiPartite(self):
-        # %maschi e femmine
-        contAbbonamenti = 0
-        contPartite = 0
+        if len(self.abbonamenti) > 0:
+            # %maschi e femmine
+            contAbbonamenti = 0
+            contPartite = 0
 
-        if len(self.ricevute) > 0:
-            for ricevuta in self.ricevute:
-                if (ControlloreRicevuta(ricevuta).getTipo() == "Abbonamento"):
-                    contAbbonamenti += 1
-                elif (ControlloreRicevuta(ricevuta).getTipo() == "Partita"):
-                    contPartite += 1
+            if len(self.ricevute) > 0:
+                for ricevuta in self.ricevute:
+                    if (ControlloreRicevuta(ricevuta).getTipo() == "Abbonamento"):
+                        contAbbonamenti += 1
+                    elif (ControlloreRicevuta(ricevuta).getTipo() == "Partita"):
+                        contPartite += 1
 
-        percAbbonamenti = (contAbbonamenti / len(self.ricevute)) * 100
-        percPartite = (contPartite / len(self.ricevute)) * 100
+            percAbbonamenti = (contAbbonamenti / len(self.ricevute)) * 100
+            percPartite = (contPartite / len(self.ricevute)) * 100
 
-        percAbbonamenti = round(percAbbonamenti, 2)
-        percPartite = round(percPartite, 2)
+            percAbbonamenti = round(percAbbonamenti, 2)
+            percPartite = round(percPartite, 2)
 
-        return percAbbonamenti, percPartite
+            return percAbbonamenti, percPartite
+        else:
+            return 0,0
 
     #incasso totale
     def incasso(self):
-        incasso = 0
-        if len(self.ricevute) > 0:
-            for ricevuta in self.ricevute:
-                incasso += ControlloreRicevuta(ricevuta).getImporto()
-        return incasso
+        if len(self.abbonamenti) > 0:
+            incasso = 0
+            if len(self.ricevute) > 0:
+                for ricevuta in self.ricevute:
+                    incasso += ControlloreRicevuta(ricevuta).getImporto()
+            return incasso
+        else:
+            return 0
 
 
     #partite totali fatte

@@ -17,7 +17,7 @@ class Abbonamento():
         self.pagamentoRidotto = False
         self.partiteGratuite = ""
         self.cfCliente = ""
-        partiteDaPagareAbbonamento = 0
+        self.partiteDaPagareAbbonamento = 0
 
     def setPartiteDaPagareAbbonamento(self, valore):
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):

@@ -199,10 +199,19 @@ class VistaGestionePartite(QWidget):
                 if numero_partite is not None:
                     for cliente in gruppo_clienti:
                         if ControlloreCliente(cliente).getAbbonato():
-                            abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(cliente).getCodiceFiscale())
-                            if ControlloreAbbonamento(abbonamento).decrementaPartite(numero_partite) is False:
-                                self.messaggio(tipo=0, titolo="Avviso abbonamento", mex="Il cliente "+ ControlloreCliente(cliente).getCodiceFiscale()+" ha terminato le partite gratutite")
+                            partiteDaPagare = 0
+                            abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(
+                                ControlloreCliente(cliente).getCodiceFiscale())
+                            partiteGratuite = ControlloreAbbonamento(abbonamento).getPartiteGratuite()
+                            if partiteGratuite != 0 and numero_partite > partiteGratuite:
+                                # variabile ausiliaria
+                                partiteDaPagare = numero_partite - partiteGratuite
+                                ControlloreAbbonamento(abbonamento).setPartiteDaPagareAbbonamento(partiteDaPagare)
 
+                            if ControlloreAbbonamento(abbonamento).verificaPartiteMax(numero_partite) is False:
+                                self.messaggio(tipo=0, titolo="Avviso abbonamento",
+                                               mex="Il cliente " + ControlloreCliente(
+                                                   cliente).getCodiceFiscale() + " ha terminato le partite gratutite")
 
                         ControlloreCliente(cliente).setAssegnato(val=True) #DA METTERE SOLO QUANDO SI è SICURI CHE è STATA ASSEGNATA ANCHE LA PISTA
                     ControlloreGruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, counterPartito=False)
@@ -241,6 +250,7 @@ class VistaGestionePartite(QWidget):
                     ControlloreCodaPiste().aggiungiInCoda(idGruppo, oraInizioCoda)
                     self.messaggio(tipo=1, titolo="Partita", mex="Non ci sono piste disponibili, il gruppo è stato aggiunto alla coda")
                     print("Non c'è nessuna pista disponibile")
+
     def controllaPiste(self):
         if len(ControlloreCodaPiste().visualizzaGruppiCoda()) > 0:
             for gruppo in ControlloreCodaPiste().visualizzaGruppiCoda(): #lista di gruppi in coda
