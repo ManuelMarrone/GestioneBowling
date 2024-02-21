@@ -17,13 +17,28 @@ class Abbonamento():
         self.pagamentoRidotto = False
         self.partiteGratuite = ""
         self.cfCliente = ""
+        partiteDaPagareAbbonamento = 0
 
-    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente):
+    def setPartiteDaPagareAbbonamento(self, valore):
+        if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
+                abbonamenti = pickle.load(f)
+                abbonamento = next((abbonamento for abbonamento in abbonamenti if abbonamento.cfCliente == self.cfCliente),
+                                None)
+                abbonamento.partiteDaPagareAbbonamento = valore
+            with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
+                pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
+
+    def getPartiteDaPagareAbbonamento(self):
+        return self.partiteDaPagareAbbonamento
+
+    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente, partiteDaPagareAbbonamento):
         self.dataFine = dataFine
         self.dataValidazione = dataValidazione
         self.partiteGratuite = partiteGratuite
         self.pagamentoRidotto = pagamentoRidotto
         self.cfCliente = cfCliente
+        self.partiteDaPagareAbbonamento = partiteDaPagareAbbonamento
         abbonamenti = []
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
             with open('Abbonamento/data/ListaAbbonamenti.pickle', "rb") as f:
@@ -77,7 +92,7 @@ class Abbonamento():
         else:
             return None
 
-    def decrementaPartite(self,numPartite):
+    def verificaPartiteMax(self,numPartite):
         if int(self.partiteGratuite) - numPartite < 0:
             self.setPagamentoRidotto(True)
             if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):

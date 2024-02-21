@@ -35,6 +35,12 @@ class ControlloreAbbonamento():
             schedule.run_pending()
             time.sleep(1)
 
+    def setPartiteDaPagareAbbonamento(self, valore):
+        self.model.setPartiteDaPagareAbbonamento(valore)
+
+    def getPartiteDaPagareAbbonamento(self):
+        return self.model.getPartiteDaPagareAbbonamento()
+
     def getDataFine(self):
         return self.model.getDataFine()
 
@@ -50,7 +56,7 @@ class ControlloreAbbonamento():
     def getCfCliente(self):
         return self.model.getCfCliente()
 
-    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente):
+    def creaAbbonamento(self, dataFine, dataValidazione, partiteGratuite, pagamentoRidotto, cfCliente,partiteDaPagareAbbonamento):
         abbonamento = self.ricercaAbbonamentoCfCliente(cfCliente)
         if isinstance(abbonamento, Abbonamento):  # se l'abbonamento già esiste
             return None
@@ -60,7 +66,8 @@ class ControlloreAbbonamento():
                 dataValidazione=dataValidazione,
                 partiteGratuite=partiteGratuite,
                 pagamentoRidotto=pagamentoRidotto,
-                cfCliente=cfCliente
+                cfCliente=cfCliente,
+                partiteDaPagareAbbonamento=partiteDaPagareAbbonamento
             )
 
         return nuovoAbbonamento
@@ -90,5 +97,5 @@ class ControlloreAbbonamento():
     def visualizzaAbbonamenti(self):
         return Abbonamento().getAbbonamenti()
 
-    def decrementaPartite(self,partite):
-        return self.model.decrementaPartite(partite)
+    def verificaPartiteMax(self,partite):
+        return self.model.verificaPartiteMax(partite)

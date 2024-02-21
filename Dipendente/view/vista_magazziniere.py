@@ -245,14 +245,27 @@ class VistaMagazziniere(QWidget):
             cognome = ControlloreCliente(membro).getCognome()
             if ControlloreCliente(membro).getAbbonato() is False:
                 importoCliente = 5
+                membri.append(nome + " " + cognome + " " + str(importoCliente) + "€" + " * " + str(numPartite))
             elif ControlloreCliente(membro).getAbbonato() is True:
                 abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(membro).getCodiceFiscale())
-                if ControlloreAbbonamento(abbonamento).getPagamentoRidotto() is False:
-                    importoCliente = 0
+                partiteDaPagare = ControlloreAbbonamento(abbonamento).getPartiteDaPagareAbbonamento()
+                if partiteDaPagare > 0:
+                    membri.append(
+                        nome + " " + cognome + " " +"0" + "€" + " * " + str(numPartite - partiteDaPagare))
+                    membri.append(
+                        nome + " " + cognome + " " + "3" + "€" + " * " + str(partiteDaPagare))
+                    ControlloreAbbonamento(abbonamento).setPartiteDaPagareAbbonamento(0)
                 else:
-                    importoCliente = 3
+                    if ControlloreAbbonamento(abbonamento).getPagamentoRidotto() is False:
+                        importoCliente = 0
+                        membri.append(nome + " " + cognome + " " + str(importoCliente) + "€" + " * " + str(numPartite))
+                    else:
+                        importoCliente = 3
+                        membri.append(nome + " " + cognome + " " + str(importoCliente) + "€" + " * " + str(numPartite))
 
-            membri.append(nome+" "+cognome+" "+str(importoCliente)+"€" + " * " + str(numPartite))
+
+
+
         # creazione ricevuta
         ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=idGruppo, importo=importo, oraEmissione=datetime.now().time(), membri=membri, tipo = "Partita")
 

@@ -137,7 +137,8 @@ class VistaGestioneClienti(QWidget):
                                                              dataValidazione=data_validazione.strftime("%Y-%m-%d %H:%M"),
                                                              partiteGratuite=15,
                                                              pagamentoRidotto=False,
-                                                             cfCliente=cfCliente)
+                                                             cfCliente=cfCliente,
+                                                             partiteDaPagareAbbonamento=0)
                     ControlloreCliente(clienteSelezionato).setAbbonato(val=True)
                     self.messaggio(tipo=1, titolo="Abbonamento cliente",
                                    mex='<p style=color:white> Cliente abbonato con successo')

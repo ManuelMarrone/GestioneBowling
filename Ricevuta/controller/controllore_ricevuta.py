@@ -37,12 +37,17 @@ class ControlloreRicevuta():
             if ControlloreCliente(membro).getAbbonato() is False:
                 importo += (5*numPartite)
             elif ControlloreCliente(membro).getAbbonato() is True:
-                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(membro).getCodiceFiscale())
-                if ControlloreAbbonamento(abbonamento).getPagamentoRidotto() is False:
+                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(
+                    ControlloreCliente(membro).getCodiceFiscale())
+                partiteDaPagare = ControlloreAbbonamento(abbonamento).getPartiteDaPagareAbbonamento()
+                if partiteDaPagare > 0:
                     importo += 0
+                    importo += (3*partiteDaPagare)
                 else:
-                    importo += (3*numPartite)
-
+                    if ControlloreAbbonamento(abbonamento).getPagamentoRidotto() is False:
+                        importo += 0
+                    else:
+                        importo += (3*numPartite)
         return importo
 
 
