@@ -2,7 +2,7 @@ import os
 import pickle
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtCore import pyqtSignal, QTimer
 from datetime import datetime
 
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
@@ -13,8 +13,7 @@ from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGrupp
 from GruppoClienti.view.vista_gestione_gruppi import VistaGestioneGruppi
 from Partita.controller.controllore_partita import ControllorePartita
 from Partita.view.vista_lista_partite import VistaListaPartite
-from Ricevuta.controller.controllore_ricevuta import ControlloreRicevuta
-
+from CodaPiste.controller.controlloreCodaPiste import ControlloreCodaPiste
 
 class VistaGestionePartite(QWidget):
     closed = pyqtSignal()
@@ -44,6 +43,10 @@ class VistaGestionePartite(QWidget):
         self.listaPartite.clicked.connect(self.goListaPartite)
 
         self.pistaButton.clicked.connect(self.goCercaPista)
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.controllaPiste)
+        self.timer.start(5000)  # Avvia il timer ogni 2 minuti (120000 millisecondi)
 
 
 
@@ -178,6 +181,9 @@ class VistaGestionePartite(QWidget):
         # for pista in ControllorePista().visualizzaPiste():
         #     print(ControllorePista(pista).getId(), "Libera")
         #     ControllorePista(pista).setDisponibilita(occupata=False)
+        # with open('CodaPiste/data/codaPiste.pickle', 'wb') as f:
+        #     pickle.dump([], f, pickle.HIGHEST_PROTOCOL)
+
         clienti_selezionati = self.selectedItems()
         if clienti_selezionati is not None:
             gruppo_clienti = []
@@ -193,15 +199,8 @@ class VistaGestionePartite(QWidget):
                 if numero_partite is not None:
                     for cliente in gruppo_clienti:
                         if ControlloreCliente(cliente).getAbbonato():
-                            partiteDaPagare = 0
                             abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(cliente).getCodiceFiscale())
-                            partiteGratuite = ControlloreAbbonamento(abbonamento).getPartiteGratuite()
-                            if partiteGratuite != 0 and numero_partite > partiteGratuite:
-                                #variabile ausiliaria
-                                partiteDaPagare = numero_partite - partiteGratuite
-                                ControlloreAbbonamento(abbonamento).setPartiteDaPagareAbbonamento(partiteDaPagare)
-
-                            if ControlloreAbbonamento(abbonamento).verificaPartiteMax(numero_partite) is False:
+                            if ControlloreAbbonamento(abbonamento).decrementaPartite(numero_partite) is False:
                                 self.messaggio(tipo=0, titolo="Avviso abbonamento", mex="Il cliente "+ ControlloreCliente(cliente).getCodiceFiscale()+" ha terminato le partite gratutite")
 
 
@@ -217,33 +216,38 @@ class VistaGestionePartite(QWidget):
 
             self.riempiListaPiste()
 
-
-    def messaggioPiste(self, contatore_piste_libere):
-        if contatore_piste_libere > 0:
-            self.messaggioTempo.setText("Ci sono " + str(contatore_piste_libere) + " piste libere")
-        else:
-            self.messaggioTempo.setText("Tutte le piste sono occupate")
-
     def assegnaPista(self, idGruppo):
         listaPiste = ControllorePista().visualizzaPiste()
         if listaPiste is not None:
             pista_disponibile = None
             for pista in listaPiste:
-                print("La pista è ", pista.id, pista.disponibilita)
                 if ControllorePista(pista).getDisponibilita() == False:
                     pista_disponibile = pista
                     break
             print("La prima pista disponibile è ", pista_disponibile)
             if pista_disponibile is not None:
+                if ControlloreCodaPiste().ricercaGruppoInCoda(idGruppo) is not None:
+                    ControlloreCodaPiste().rimuoviDaCoda(idGruppo)
                 ControllorePista(pista_disponibile).setDisponibilita(occupata=True) # DA METTERE SOLO QUANDO
+                self.riempiListaPiste()
                 idPista = ControllorePista(pista_disponibile).getId()
                 print("idPista ", idPista)
                 oraInizio = None
                 ControllorePartita().creaPartita(idGruppo, idPista, oraInizio)
-                self.messaggio(tipo=1, titolo="Partita", mex="Al gruppo clienti "+str(idGruppo)+" è stata asssegnata la pista "+str(idPista))
+                self.messaggio(tipo=1, titolo="Partita", mex="Al gruppo clienti "+str(idGruppo)+" è stata assegnata la pista "+str(idPista))
             else:
-                print("Non c'è nessuna pista disponibile")
-                #Il gruppo va messo in coda
+                if ControlloreCodaPiste().ricercaGruppoInCoda(idGruppo) is None:
+                    oraInizioCoda = datetime.now()
+                    ControlloreCodaPiste().aggiungiInCoda(idGruppo, oraInizioCoda)
+                    self.messaggio(tipo=1, titolo="Partita", mex="Non ci sono piste disponibili, il gruppo è stato aggiunto alla coda")
+                    print("Non c'è nessuna pista disponibile")
+    def controllaPiste(self):
+        if len(ControlloreCodaPiste().visualizzaGruppiCoda()) > 0:
+            for gruppo in ControlloreCodaPiste().visualizzaGruppiCoda(): #lista di gruppi in coda
+                print("In coda : ", ControlloreCodaPiste(gruppo).getIdGruppo())
+                self.assegnaPista(ControlloreCodaPiste(gruppo).getIdGruppo())
+        else:
+            print("la coda è vuota")
 
     def goGestioneGruppi(self):
         VistaGestionePartite.close(self)

@@ -5,6 +5,7 @@ import sys
 from PyQt6.QtWidgets import QApplication
 
 from Backup.controller.controller_backup import Backup
+from Cliente.controller.controllore_cliente import ControlloreCliente
 from Login.view.VistaLogin import VistaLogin
 from Cliente.view.vista_lista_clienti import VistaGestioneClienti
 from Pista.controller.controllore_pista import ControllorePista
@@ -59,13 +60,29 @@ if __name__ == "__main__":
     VistaLogin.show()
     sys.exit(app.exec())
 
+    #SVUOTA I GRUPPI, LE PARTITE E RISETTA I CLIENTI A NON ASSEGNATI (FALSE)
+    # with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
+    #     pickle.dump([], f, pickle.HIGHEST_PROTOCOL)
+    # with open('Partita/data/partite.pickle', 'wb') as f:
+    #     pickle.dump([], f, pickle.HIGHEST_PROTOCOL)
+    # for cliente in ControlloreCliente().visualizzaClienti():
+    #     print(ControlloreCliente(cliente).getCodiceFiscale(), "Settato")
+    #     ControlloreCliente(cliente).setAssegnato(val=False)
+    # for pista in ControllorePista().visualizzaPiste():
+    #     print(ControllorePista(pista).getId(), "Libera")
+    #     ControllorePista(pista).setDisponibilita(occupata=False)
+    # with open('CodaPiste/data/codaPiste.pickle', 'wb') as f:
+    #     pickle.dump([], f, pickle.HIGHEST_PROTOCOL)
 
     #RESET PICKLE DI CLIENTI E GRUPPO CLIENTI
 
-    #with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
+    # with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
     #
     # with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
+    #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
+    #
+    # with open('Abbonamento/data/ListaAbbonamenti.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
 
 
