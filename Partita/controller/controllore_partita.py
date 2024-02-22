@@ -56,3 +56,15 @@ class ControllorePartita():
 
     def visualizzaPartite(self):
         return Partita().getPartite()
+
+    def ricercaIdGruppoPerPista(self, idPista):
+        partite = []
+        if os.path.isfile('Partita/data/partite.pickle'):
+            with open('Partita/data/partite.pickle', 'rb') as f:
+                partite = pickle.load(f)
+        if len(partite) > 0:
+            for partita in partite:
+                if partita.idPista == idPista:
+                    return partita.idGruppo
+        else:
+            return None

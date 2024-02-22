@@ -3,7 +3,7 @@ import pickle
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal, QTimer
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 # ci sono degli import da fare
@@ -44,9 +44,13 @@ class VistaGestionePartite(QWidget):
 
         self.pistaButton.clicked.connect(self.goCercaPista)
 
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.controllaPiste)
-        self.timer.start(5000)  # Avvia il timer ogni 2 minuti (120000 millisecondi)
+        self.timer1 = QTimer(self)
+        self.timer1.timeout.connect(self.controllaPiste)
+        self.timer1.start(120000)  # Avvia il timer ogni 2 minuti (120000 millisecondi)
+
+        self.timer2 = QTimer(self)
+        self.timer2.timeout.connect(self.riempiListaPiste)
+        self.timer2.start(60000)
 
 
 
@@ -83,6 +87,30 @@ class VistaGestionePartite(QWidget):
                 self.messaggio(tipo=1, titolo="Ricerca pista", mex="La pista non è presente")
         else:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
+    def calcolaTempoDiAttesa(self, pista):
+        durata_media = 20 # durata media di una partita
+        ritardo_membro = 3 # ritardo per ogni membro del gruppo
+
+        idGruppo = ControllorePartita().ricercaIdGruppoPerPista(ControllorePista(pista).getId())
+        gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
+        partita = ControllorePartita().ricercaPartitaIdGruppo(idGruppo)
+        if ControllorePartita(partita).getOraInizio() is not None:
+            dataInizioPartita = ControllorePartita(partita).getOraInizio()
+
+            numPartite = ControlloreGruppoClienti(gruppo).getNumeroPartite()
+            numMembri = len(ControlloreGruppoClienti(gruppo).getMembri())
+            tempoDiAttesa = numPartite * durata_media + numMembri * ritardo_membro
+
+            data_e_ora_corrente = datetime.now()
+            nuova_data_e_ora = dataInizioPartita + timedelta(minutes=tempoDiAttesa)
+            if nuova_data_e_ora > data_e_ora_corrente:
+                differenza_in_secondi = (nuova_data_e_ora - data_e_ora_corrente).total_seconds()
+                differenza_in_minuti = int(differenza_in_secondi / 60)
+                return str(differenza_in_minuti) + " minuti"
+            else:
+                return str(0) + " minuti"
+        else:
+            return "Partita non ancora iniziata"
 
     def riempiListaPiste(self):
         listaPiste = []
@@ -93,7 +121,7 @@ class VistaGestionePartite(QWidget):
                 if ControllorePista(pista).getDisponibilita():
                     item = QListWidgetItem()
                     item.setText(
-                        "Pista " + str(ControllorePista(pista).getId()) + " occupata")
+                        "Pista " + str(ControllorePista(pista).getId()) + " occupata    " + str(self.calcolaTempoDiAttesa(pista)))
                     self.pisteList.addItem(item)
                 else:
                     item = QListWidgetItem()
@@ -215,9 +243,10 @@ class VistaGestionePartite(QWidget):
 
                         ControlloreCliente(cliente).setAssegnato(val=True) #DA METTERE SOLO QUANDO SI è SICURI CHE è STATA ASSEGNATA ANCHE LA PISTA
                     ControlloreGruppoClienti().creaGruppoClienti(id_gruppo, gruppo_clienti, numero_partite, counterPartito=False)
-                    self.riempiListaClienti()
-                    self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti creato con successo")
+
+                    #self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti creato con successo")
                     self.assegnaPista(id_gruppo)
+                    self.riempiListaClienti()
                 else:
                     self.messaggio(tipo=1, titolo="Gruppo clienti", mex="Gruppo clienti annullato")
             else:
@@ -238,12 +267,12 @@ class VistaGestionePartite(QWidget):
                 if ControlloreCodaPiste().ricercaGruppoInCoda(idGruppo) is not None:
                     ControlloreCodaPiste().rimuoviDaCoda(idGruppo)
                 ControllorePista(pista_disponibile).setDisponibilita(occupata=True) # DA METTERE SOLO QUANDO
-                self.riempiListaPiste()
                 idPista = ControllorePista(pista_disponibile).getId()
                 print("idPista ", idPista)
                 oraInizio = None
                 ControllorePartita().creaPartita(idGruppo, idPista, oraInizio)
                 self.messaggio(tipo=1, titolo="Partita", mex="Al gruppo clienti "+str(idGruppo)+" è stata assegnata la pista "+str(idPista))
+                self.riempiListaPiste()
             else:
                 if ControlloreCodaPiste().ricercaGruppoInCoda(idGruppo) is None:
                     oraInizioCoda = datetime.now()
