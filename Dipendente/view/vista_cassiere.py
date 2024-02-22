@@ -14,7 +14,9 @@ class VistaCassiere(QWidget):
     def __init__(self, parent=None):
         super(VistaCassiere, self).__init__(parent)
         uic.loadUi('Dipendente/view/cassiereMain.ui', self)
+        self.impostaUI()
 
+    def impostaUI(self):
         self.clientiButton.clicked.connect(self.goGestioneClienti)
         self.partiteButton.clicked.connect(self.goGestionePartite)
         self.ricevuteButton.clicked.connect(self.goGestioneRicevute)

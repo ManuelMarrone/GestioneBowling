@@ -5,7 +5,6 @@ from PyQt6.QtWidgets import *
 from Amministratore.view.vista_gestione_dipendenti import VistaGestioneDipendenti
 from Statistiche.controller.controllore_statistiche import ControlloreStatistiche
 
-"from Statistiche.controller.controllore_statistiche import ControlloreStatistiche"
 
 class VistaAmministratore(QWidget):
     closed = pyqtSignal()
@@ -13,10 +12,10 @@ class VistaAmministratore(QWidget):
         super(VistaAmministratore, self).__init__(parent)
         uic.loadUi('Amministratore/view/amministratoreMain.ui', self)
 
-        # Ottieni le dimensioni dello schermo principale
+        #ottiene le dimensioni dello schermo principale
         desktop = QApplication.primaryScreen().geometry()
 
-        # Imposta il posizionamento al centro dello schermo
+        #imposta il posizionamento al centro dello schermo
         x = (desktop.width() - self.width()) // 2
         y = (desktop.height() - self.height()) // 2-50
         self.move(x, y)

@@ -1,10 +1,8 @@
-from datetime import datetime, timedelta
 import os
 import pickle
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 
-#va creata una partita con gruppo clienti e pista collegati, va aggiornato anche il cliente abbonato, sia la data di validazione dell'abbonamento se è la sua prima partita, sia le sue partite gratuite rimanenti
-#L'idPartita è inutile se ogni gruppo può partecipare a una sola partita
+
 class Partita:
     def __init__(self):
         self.idGruppo = ""
@@ -19,10 +17,13 @@ class Partita:
                 partita.oraInizio = ora
             with open('Partita/data/partite.pickle', 'wb') as f:
                 pickle.dump(partite, f, pickle.HIGHEST_PROTOCOL)
+
     def getOraInizio(self):
         return self.oraInizio
+
     def getIdGruppo(self):
         return self.idGruppo
+
     def getIdPista(self):
         return self.idPista
 
@@ -39,9 +40,6 @@ class Partita:
             pickle.dump(partite, f, pickle.HIGHEST_PROTOCOL)
         return self
 
-
-    def calcolaTempiAttesa(self):
-        GruppoClienti = ControlloreGruppoClienti()
 
     def rimuoviPartita(self):
         if os.path.isfile('Partita/data/partite.pickle'):

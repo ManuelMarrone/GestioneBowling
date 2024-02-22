@@ -1,7 +1,6 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
-from datetime import datetime, timedelta
 
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from CodaScarpe.controller.controllore_coda_scarpe import ControlloreCodaScarpe

@@ -2,6 +2,7 @@ import pickle
 import time
 
 import schedule
+from threading import Thread
 
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 from Amministratore.controller.controllore_amministratore import ControlloreAmministratore
@@ -25,14 +26,19 @@ class Backup:
         self.gestoreScarpe = ControlloreScarpa()
         self.gestoreRicevute = ControlloreRicevuta()
 
-        self.backup_daily()
+
+        schedule.every().day.at("07:00").do(self.eseguiBackup)
+
+        self.thread_schedule = Thread(target=self.schedule_thread)
+        self.thread_schedule.daemon = True
+        self.thread_schedule.start()
 
     def eseguiBackup(self):
         self.abbonamenti = self.gestoreAbbonamenti.visualizzaAbbonamenti()
         self.amministratore = self.gestoreAmministratore.getAmministratore()
         self.clienti = self.gestoreClienti.visualizzaClienti()
         self.dipendenti = self.gestoreDipendenti.visualizzaDipendenti()
-        self.partite = self.gestorePartite
+        self.partite = self.gestorePartite.visualizzaPartite()
         self.piste = self.gestorePiste.visualizzaPiste()
         self.scarpe = self.gestoreScarpe.visualizzaScarpe()
         self.ricevute = self.gestoreRicevute.visualizzaRicevute()
@@ -46,8 +52,9 @@ class Backup:
                             self.piste,
                             self.scarpe,
                             self.ricevute), f)
-    def backup_daily(self):
-        schedule.every().day.at("07:00").do(self.eseguiBackup)
+
+    def schedule_thread(self):
         while True:
             schedule.run_pending()
             time.sleep(1)
+

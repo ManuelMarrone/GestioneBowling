@@ -1,5 +1,4 @@
-#import os
-import pprint
+import os
 import pickle
 import sys
 from PyQt6.QtWidgets import QApplication
@@ -15,31 +14,6 @@ from Dipendente.view.vista_cassiere import VistaCassiere
 from Dipendente.view.vista_magazziniere import VistaMagazziniere
 
 if __name__ == "__main__":
-
-    # pista1 = ControllorePista().creaPista(
-    #      disponibilita=True,
-    #      id=1
-    # )
-    # pista2 = ControllorePista().creaPista(
-    #     disponibilita=True,
-    #     id=2
-    # )
-    # pista3 = ControllorePista().creaPista(
-    #     disponibilita=True,
-    #     id=3
-    # )
-    # pista4 = ControllorePista().creaPista(
-    #     disponibilita=True,
-    #     id=4
-    # )
-    # pista5 = ControllorePista().creaPista(
-    #     disponibilita=True,
-    #     id=5
-    # )
-    # with open('Pista/data/piste.pickle', 'rb') as f:
-    #     piste = pickle.load(f)
-    #
-    # print(piste)
 
     # with open('Pista/data/piste.pickle', 'wb') as f:
     #     pickle.dump([],f,pickle.HIGHEST_PROTOCOL)
@@ -66,10 +40,8 @@ if __name__ == "__main__":
     # with open('Partita/data/partite.pickle', 'wb') as f:
     #     pickle.dump([], f, pickle.HIGHEST_PROTOCOL)
     # for cliente in ControlloreCliente().visualizzaClienti():
-    #     print(ControlloreCliente(cliente).getCodiceFiscale(), "Settato")
     #     ControlloreCliente(cliente).setAssegnato(val=False)
     # for pista in ControllorePista().visualizzaPiste():
-    #     print(ControllorePista(pista).getId(), "Libera")
     #     ControllorePista(pista).setDisponibilita(occupata=False)
     # with open('CodaPiste/data/codaPiste.pickle', 'wb') as f:
     #     pickle.dump([], f, pickle.HIGHEST_PROTOCOL)

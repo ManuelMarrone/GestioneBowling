@@ -42,11 +42,6 @@ class ControllorePartita():
         else:
             return None
 
-
-    #metodo richiamato ciclicamente sul foreach di gruppi che hanno counterPartito == True
-    def calcolaTempiAttesa(self):
-        return self.model.calcolaTempiAttesa()
-
     def rimuoviPartita(self, partita):
         if isinstance(partita, Partita):
             partita.rimuoviPartita()

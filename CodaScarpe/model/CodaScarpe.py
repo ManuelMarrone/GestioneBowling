@@ -22,7 +22,6 @@ class CodaScarpe():
             else:
                 return False
 
-
     def rimuoviDaCoda(self, cliente):
         if os.path.isfile('CodaScarpe/data/codaScarpe.pickle'):
             with open('CodaScarpe/data/codaScarpe.pickle', "rb") as f:
@@ -52,7 +51,6 @@ class CodaScarpe():
             with open('CodaScarpe/data/codaScarpe.pickle', "wb") as f:
                 pickle.dump(self.coda, f, pickle.HIGHEST_PROTOCOL)
                 pickle.dump(self.notifica, f, pickle.HIGHEST_PROTOCOL)
-
 
     def getNotifica(self):
         if os.path.isfile('CodaScarpe/data/codaScarpe.pickle'):

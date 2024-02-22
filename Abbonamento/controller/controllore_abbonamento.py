@@ -15,9 +15,12 @@ class ControlloreAbbonamento():
         # Pianifica l'avvio del controllo delle scadenze ogni giorno alle 00:00
         schedule.every().day.at("00:00").do(self.controllo_scadenze)
 
+
         # Thread per eseguire la pianificazione in background
         self.thread_schedule = Thread(target=self.schedule_thread)
+        self.thread_schedule.daemon = True  # Imposta il thread come daemon per fermarlo automaticamente quando il programma principale termina
         self.thread_schedule.start()
+
 
     def controllo_scadenze(self):
         abbonamenti = []
@@ -87,7 +90,7 @@ class ControlloreAbbonamento():
     def rimuoviAbbonamento(self, abbonamento):
         if isinstance(abbonamento, Abbonamento):
             cliente = ControlloreCliente().ricercaClienteCodiceFiscale(
-                abbonamento.cfCliente)  # cerchiamo il cliente corrispondente con quell'abbonamento tramite il codice fiscale
+                abbonamento.cfCliente)  # cerchiamo il cliente corrispondente a quell'abbonamento tramite il codice fiscale
             ControlloreCliente(cliente).setAbbonato(val=False)
             abbonamento.rimuoviAbbonamento()
             return True

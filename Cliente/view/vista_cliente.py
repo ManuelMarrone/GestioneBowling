@@ -10,7 +10,9 @@ class VistaCliente(QWidget):
 
         uic.loadUi('Cliente/view/vistaCliente.ui', self)
         self.controller = ControlloreCliente(cliente)
+        self.impostaUI()
 
+    def impostaUI(self):
         self.nomeLabel.setText(self.controller.getNome())
         self.cognomeLabel.setText(self.controller.getCognome())
         self.cfLabel.setText(self.controller.getCodiceFiscale())

@@ -7,17 +7,20 @@ from Dipendente.view.vista_cassiere import VistaCassiere
 from Dipendente.view.vista_magazziniere import VistaMagazziniere
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 from Amministratore.controller.controllore_amministratore import ControlloreAmministratore
+from Backup.controller.controller_backup import Backup
 
 
 class VistaLogin(QWidget):
     def __init__(self, parent=None):
         super(VistaLogin, self).__init__(parent)
         uic.loadUi('Login/view/login.ui', self)
+        backup = Backup()
+        ControlloreAbbonamento().controllo_scadenze()
 
         self.loginButton.clicked.connect(self.goAccesso)  # definisce l'operazione al click del pulsante
 
-    # controllo validità email e password e mostra il pannello relativo al tipo di utente
 
+    # controllo validità email e password e mostra il pannello relativo al tipo di utente
     def goAccesso(self):
         VistaLogin.close(self)
 
@@ -27,7 +30,6 @@ class VistaLogin(QWidget):
         admin = ControlloreAmministratore().getAmministratore()
 
         if email == ControlloreAmministratore(admin).getEmail() and password == ControlloreAmministratore(admin).getPassword():
-            ControlloreAbbonamento().controllo_scadenze()
             self.vista_amministratore = VistaAmministratore()
             self.vista_amministratore.closed.connect(self.show)
             self.vista_amministratore.show()
@@ -40,7 +42,6 @@ class VistaLogin(QWidget):
             if dipendente is not None:
                 self.controller = ControlloreDipendente(dipendente)
                 if password == self.controller.getPassword():         #verifica password del dipendente
-                    ControlloreAbbonamento().controllo_scadenze()
                     if self.controller.getRuolo() == "Cassiere":
                         self.vista_cassiere = VistaCassiere()
                         self.vista_cassiere.closed.connect(self.show)

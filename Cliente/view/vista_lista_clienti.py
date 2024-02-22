@@ -29,6 +29,9 @@ class VistaGestioneClienti(QWidget):
         self.move(x, y)
 
         self.itemSelezionato = None
+        self.impostaUI()
+
+    def impostaUI(self):
         self.abbonaButton.clicked.connect(self.goCreaAbbonamento)
         self.abbonamentoButton.clicked.connect(self.goGestisciAbbonamento)
         self.aggiungiButton.clicked.connect(self.goCreaCliente)
@@ -127,11 +130,11 @@ class VistaGestioneClienti(QWidget):
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
 
-            if clienteSelezionato.abbonato is False:
+            if ControlloreCliente(clienteSelezionato).getAbbonato() is False:
                 if self.optTessera(codiceFiscale, clienteSelezionato):
                     cfCliente = ControlloreCliente(clienteSelezionato).getCodiceFiscale()  # Viene preso il codice fiscale del cliente selezionato
 
-                    data_validazione = datetime.now() #DATA CHE GLI DOVRA' ESSERE PASSATA ma per il momento prendiamo quella corrente
+                    data_validazione = datetime.now()
                     data_fine = data_validazione + timedelta(days=30)
                     ControlloreAbbonamento().creaAbbonamento(dataFine=data_fine.strftime("%Y-%m-%d"),
                                                              dataValidazione=data_validazione.strftime("%Y-%m-%d %H:%M"),
@@ -178,8 +181,8 @@ class VistaGestioneClienti(QWidget):
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
 
-            if clienteSelezionato.abbonato is True:
-                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(clienteSelezionato.getCodiceFiscale())  # Preleva l'abbonamento collegato al cliente selezionato tramite l'id
+            if ControlloreCliente(clienteSelezionato).getAbbonato() is True:
+                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(clienteSelezionato.getCodiceFiscale())  # Preleva l'abbonamento collegato al cliente selezionato tramite il cf
                 self.vista_abbonamento = VistaAbbonamento(abbonamento, clienteSelezionato)
                 self.vista_abbonamento.show()
             else:
@@ -216,8 +219,8 @@ class VistaGestioneClienti(QWidget):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
-            if clienteSelezionato.isAssegnato() is False:
-                if clienteSelezionato.getAbbonato() is False:
+            if ControlloreCliente(clienteSelezionato).getAssegnato() is False:
+                if ControlloreCliente(clienteSelezionato).getAbbonato() is False:
                     risultato = ControlloreCliente().rimuoviCliente(clienteSelezionato)
                     if risultato:
                         self.messaggio(tipo=1, titolo="Rimozione cliente", mex="Cliente rimosso con successo")
@@ -235,7 +238,7 @@ class VistaGestioneClienti(QWidget):
         if self.itemSelezionato is not None:
             codiceFiscale = self.itemSelezionato.split("codice fiscale:")[1].split(",")[0].strip()
             clienteSelezionato = ControlloreCliente().ricercaClienteCodiceFiscale(codiceFiscale)
-            if clienteSelezionato.isAssegnato() is False:
+            if ControlloreCliente(clienteSelezionato).getAssegnato() is False:
                 self.vista_modifica = VistaModificaCliente(clienteSelezionato)
                 self.vista_modifica.closed.connect(self.riempiListaClienti)
                 self.vista_modifica.show()

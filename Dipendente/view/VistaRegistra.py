@@ -1,6 +1,5 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
-from PyQt6.uic.properties import QtCore
 from PyQt6.QtCore import pyqtSignal
 
 

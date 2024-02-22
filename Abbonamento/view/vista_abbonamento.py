@@ -13,8 +13,10 @@ class VistaAbbonamento(QWidget):
 
         self.controllerA = ControlloreAbbonamento(abbonamento)
         self.controllerC = ControlloreCliente(cliente)
+        self.abbonamento = abbonamento
+        self.impostaUI()
 
-
+    def impostaUI(self):
         self.textNome.setText(self.controllerC.getNome())
         self.textNome.setReadOnly(True)
         self.textCognome.setText(self.controllerC.getCognome())
@@ -35,7 +37,6 @@ class VistaAbbonamento(QWidget):
         self.radioButtonSi.setEnabled(False)
 
         self.indietroButton.clicked.connect(self.chiudiFinestra)
-        self.abbonamento = abbonamento
         self.eliminaButton.clicked.connect(self.rimuoviAbbonamento)
 
     def chiudiFinestra(self):

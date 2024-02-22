@@ -10,7 +10,9 @@ class VistaDipendente(QWidget):
 
         uic.loadUi('Dipendente/view/vistaDipendente.ui', self)
         self.controller = ControlloreDipendente(dipendente)
+        self.impostaUI()
 
+    def impostaUI(self):
         self.nomeLabel.setText(self.controller.getNome())
         self.cognomeLabel.setText(self.controller.getCognome())
         self.ruoloLabel.setText(self.controller.getRuolo())

@@ -1,10 +1,11 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import pyqtSignal
-from datetime import datetime, timedelta
 
 from GruppoClienti.view.vista_gruppo import VistaGruppo
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
+
+
 class VistaGestioneGruppi(QWidget):
     closed = pyqtSignal()
 
@@ -13,10 +14,10 @@ class VistaGestioneGruppi(QWidget):
 
         uic.loadUi('GruppoClienti/view/lista_gruppo_clienti.ui', self)
 
-        # Ottieni le dimensioni dello schermo principale
+        #ottiene le dimensioni dello schermo principale
         desktop = QApplication.primaryScreen().geometry()
 
-        # Imposta il posizionamento al centro dello schermo
+        #imposta il posizionamento al centro dello schermo
         x = (desktop.width() - self.width()) // 2
         y = (desktop.height() - self.height()) // 2 - 50
         self.move(x, y)
@@ -27,6 +28,7 @@ class VistaGestioneGruppi(QWidget):
         self.visualizzaGruppo.clicked.connect(self.goVisualizzaGruppo)
         self.indietroButton_2.clicked.connect(self.chiudiFinestra)
         self.cercaButton.clicked.connect(self.cercaGruppo)
+
     def cercaGruppo(self):
         idList = self.ricercaText.text().split()
         if len(idList) == 0:
@@ -65,7 +67,7 @@ class VistaGestioneGruppi(QWidget):
             idGruppo = self.itemGruppoSelezionato.split("nome gruppo:")[1].split(",")[0].strip()
             gruppoSelezionato = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
             self.vista_gruppo = VistaGruppo(gruppoSelezionato)
-            self.vista_gruppo.show()                               # vista_gruppo DA CREARE PER VISUALIZZARE I MEMBRI DEL GRUPPO
+            self.vista_gruppo.show()
 
     def gruppoClicked(self, item):
         self.itemGruppoSelezionato = item.text()

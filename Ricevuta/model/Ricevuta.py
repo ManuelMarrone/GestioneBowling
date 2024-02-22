@@ -29,7 +29,7 @@ class Ricevuta():
 
     def creaRicevuta(self, dataEmissione, id, importo, oraEmissione, membri, tipo):
         self.dataEmissione = dataEmissione
-        self.id = id #preferibilimente lo stesso della classe partita
+        self.id = id #lo stesso della classe partita
         self.importo = importo
         self.oraEmissione = oraEmissione
         self.membri = membri

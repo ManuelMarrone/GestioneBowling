@@ -3,8 +3,6 @@ import pickle
 from datetime import datetime
 from collections import Counter
 
-from PyQt6.QtWidgets import QMessageBox
-
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 from Cliente.controller.controllore_cliente import ControlloreCliente
 from Dipendente.controller.controllore_dipendente import ControlloreDipendente

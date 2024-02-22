@@ -62,7 +62,6 @@ class GruppoClienti:
         if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
             with open('GruppoClienti/data/GruppoClienti.pickle', 'rb') as f:
                 gruppi = pickle.load(f)
-                print(gruppi)
             return gruppi
         else:
             return None
@@ -85,11 +84,3 @@ class GruppoClienti:
                 gruppo.numeroPartite -= 1
             with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
                 pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
-
-
-
-    # def __str__(self):
-    #     return "Id: " + str(self.id) + "\n" + \
-    #             "Membri : " + str(self.membri) + "\n" + \
-    #             "Numero Partite: " + str(self.numeroPartite) + "\n" + \
-    #             "Pista occupata: " + str(self.pistaOccupata)

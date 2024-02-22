@@ -3,14 +3,6 @@ import os
 import pickle
 class Abbonamento():
 
-    # def __init__(self, Abbonamenti):
-    #     self.dataFine = Abbonamenti["dataFine"]
-    #     self.dataValidazione = Abbonamenti["dataValidazione"]
-    #     self.id = ""
-    #     self.pagamentoRidotto = ""
-    #     self.partiteGratuite = ""
-    #     self.idCliente = ""
-
     def __init__(self):
         self.dataFine = None
         self.dataValidazione = None
@@ -59,7 +51,7 @@ class Abbonamento():
 
     def getPartiteGratuite(self):
         return self.partiteGratuite
-    # SE QUESTO METODO RITORNA FALSE ALLORA BISOGNA IMPOSTARE IL PAGAMENTO RIDOTTO A TRUE
+
     def getDataFine(self):
         return self.dataFine
     def getDataValidazione(self):

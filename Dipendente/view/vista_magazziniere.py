@@ -1,20 +1,17 @@
-import threading
-import time
-
-import schedule
 from PyQt6 import uic
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import pyqtSignal, QTimer
+from PyQt6.QtCore import pyqtSignal
 from datetime import datetime
 
 from Abbonamento.controller.controllore_abbonamento import ControlloreAbbonamento
 from Cliente.controller.controllore_cliente import ControlloreCliente
-from Pista.controller.controllore_pista import ControllorePista
 from Scarpa.controller.controllore_scarpa import ControlloreScarpa
 from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 from CodaScarpe.controller.controllore_coda_scarpe import ControlloreCodaScarpe
 from Partita.controller.controllore_partita import ControllorePartita
 from Ricevuta.controller.controllore_ricevuta import ControlloreRicevuta
+from CodaPiste.controller.controlloreCodaPiste import ControlloreCodaPiste
+
 
 class VistaMagazziniere(QWidget):
     closed = pyqtSignal()
@@ -29,9 +26,8 @@ class VistaMagazziniere(QWidget):
 
         self.impostaUI()
 
-
     def impostaUI(self):
-        #liste e combobox
+        # liste e combobox
         self.riempiListaScarpe()
         self.riempiBoxGruppi()
         self.riempiListaClienti()
@@ -41,7 +37,7 @@ class VistaMagazziniere(QWidget):
 
         self.scarpeList.itemClicked.connect(self.scarpaClicked)
 
-        #pulsanti
+        # pulsanti
         self.esciButton.clicked.connect(self.chiudiFinestra)
         self.assegnaButton.clicked.connect(self.assegnaScarpa)
 
@@ -64,7 +60,7 @@ class VistaMagazziniere(QWidget):
                     for gruppo in listaGruppi:
                         idGruppo = ControlloreGruppoClienti(gruppo).getId()
                         if idGruppo == self.controller.getId():
-                            if gruppo.getCounterPartito() is False:
+                            if ControlloreGruppoClienti(gruppo).getCounterPartito() is False:
                                 self.gruppiComboBox.addItem(str(idGruppo))
                                 self.riempiListaClienti()
 
@@ -85,11 +81,12 @@ class VistaMagazziniere(QWidget):
             listaScarpe = ControlloreScarpa().visualizzaScarpe()
             if listaScarpe is not None and taglia.isdigit():
                 for scarpa in listaScarpe:
-                    tagliaScarpa = scarpa.getTagliaScarpa()
+                    tagliaScarpa = ControlloreScarpa(scarpa).getTagliaScarpa()
                     if int(taglia) == tagliaScarpa:
-                        if scarpa.getDisponibilitaScarpa() is True:
+                        if ControlloreScarpa(scarpa).getDisponibilitaScarpa() is True:
                             item = QListWidgetItem()
-                            item.setText("Scarpa " + str(scarpa.getTagliaScarpa()) + ", id: " + str(scarpa.getIdScarpa()))
+                            item.setText("Scarpa " + str(ControlloreScarpa(scarpa).getTagliaScarpa()) + ", id: " + str(
+                                ControlloreScarpa(scarpa).getIdScarpa()))
                             self.scarpeList.addItem(item)
                 if len(self.scarpeList) == 0:
                     self.messaggio(tipo=1, titolo="Ricerca scarpa", mex="Nessuna scarpa di quella taglia è disponibile")
@@ -109,10 +106,11 @@ class VistaMagazziniere(QWidget):
         listaScarpe = ControlloreScarpa().visualizzaScarpe()
         if listaScarpe is not None:
             for scarpa in listaScarpe:
-                if scarpa.getDisponibilitaScarpa() is True:
+                if ControlloreScarpa(scarpa).getDisponibilitaScarpa() is True:
                     item = QListWidgetItem()
                     item.setText(
-                        "Scarpa " + str(scarpa.getTagliaScarpa()) + ", id: " + str(scarpa.getIdScarpa()))
+                        "Scarpa " + str(ControlloreScarpa(scarpa).getTagliaScarpa()) + ", id: " + str(
+                            ControlloreScarpa(scarpa).getIdScarpa()))
                     self.scarpeList.addItem(item)
 
     def riempiListaClienti(self):
@@ -125,7 +123,6 @@ class VistaMagazziniere(QWidget):
                 clienteGruppo = ControlloreCliente().ricercaClienteCodiceFiscale(cf)
                 nome = ControlloreCliente(clienteGruppo).getNome()
                 cognome = ControlloreCliente(clienteGruppo).getCognome()
-
 
                 taglia = ControlloreCliente(clienteGruppo).getTagliaScarpe()
                 idScarpa = ControlloreCliente(clienteGruppo).getIdScarpa()
@@ -141,8 +138,10 @@ class VistaMagazziniere(QWidget):
         gruppi = ControlloreGruppoClienti().visualizzaGruppi()
         if gruppi is not None:
             for gruppo in gruppi:
-                if gruppo.getCounterPartito() is False:
-                    self.gruppiComboBox.addItem(str(gruppo.getId()))
+                id = ControlloreGruppoClienti(gruppo).getId()
+                if ControlloreGruppoClienti(
+                        gruppo).getCounterPartito() is False and ControlloreCodaPiste().ricercaGruppoInCoda(id) is None:
+                    self.gruppiComboBox.addItem(str(id))
 
     def assegnaScarpa(self):
         self.avvisiLabel.clear()
@@ -154,7 +153,6 @@ class VistaMagazziniere(QWidget):
 
             # preleva nome e cognome del cliente selezionato
             cf = self.itemClienteSelezionato.split("codice fiscale:")[1].strip()
-
 
             # preleva l'oggetto della scarpa selezionata
             scarpaSelezionata = ControlloreScarpa().ricercaScarpaId(idScarpa)
@@ -196,8 +194,6 @@ class VistaMagazziniere(QWidget):
                 self.messaggio(tipo=1, titolo="Assegnamento scarpa",
                                mex="Taglia non disponibile per il cliente, inserimento in coda")
 
-            print(self.controllerCoda.visualizzaElementi())
-
     def verificaDiponibilitaTaglia(self, tagliaRichiesta):
         scarpePresenti = [self.scarpeList.item(index).text() for index in range(self.scarpeList.count())]
         for scarpa in scarpePresenti:
@@ -211,7 +207,6 @@ class VistaMagazziniere(QWidget):
         if self.clientiList.count() == 0:
             # se ci sono gruppi esistenti
             if self.gruppiComboBox.count() > 0:
-
                 # estraggo l'indice all'interno della comboBox del gruppo soddisfatto
                 currentIndex = self.gruppiComboBox.currentIndex()
 
@@ -247,11 +242,12 @@ class VistaMagazziniere(QWidget):
                 importoCliente = 5
                 membri.append(nome + " " + cognome + " " + str(importoCliente) + "€" + " * " + str(numPartite))
             elif ControlloreCliente(membro).getAbbonato() is True:
-                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(ControlloreCliente(membro).getCodiceFiscale())
+                abbonamento = ControlloreAbbonamento().ricercaAbbonamentoCfCliente(
+                    ControlloreCliente(membro).getCodiceFiscale())
                 partiteDaPagare = ControlloreAbbonamento(abbonamento).getPartiteDaPagareAbbonamento()
                 if partiteDaPagare > 0:
                     membri.append(
-                        nome + " " + cognome + " " +"0" + "€" + " * " + str(numPartite - partiteDaPagare))
+                        nome + " " + cognome + " " + "0" + "€" + " * " + str(numPartite - partiteDaPagare))
                     membri.append(
                         nome + " " + cognome + " " + "3" + "€" + " * " + str(partiteDaPagare))
                     ControlloreAbbonamento(abbonamento).setPartiteDaPagareAbbonamento(0)
@@ -263,11 +259,9 @@ class VistaMagazziniere(QWidget):
                         importoCliente = 3
                         membri.append(nome + " " + cognome + " " + str(importoCliente) + "€" + " * " + str(numPartite))
 
-
-
-
         # creazione ricevuta
-        ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=idGruppo, importo=importo, oraEmissione=datetime.now().time(), membri=membri, tipo = "Partita")
+        ControlloreRicevuta().creaRicevuta(dataEmissione=datetime.now().date(), id=idGruppo, importo=importo,
+                                           oraEmissione=datetime.now().time(), membri=membri, tipo="Partita")
 
     def notifica(self):
         if self.controllerCoda.getNotifica():
@@ -280,7 +274,6 @@ class VistaMagazziniere(QWidget):
 
         self.riempiListaScarpe()
         self.riempiListaClienti()
-
 
     def chiudiFinestra(self):
         self.closed.emit()
