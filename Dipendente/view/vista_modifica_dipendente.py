@@ -23,7 +23,7 @@ class VistaModificaDipendente(QWidget):
         self.CFLabel.setText(self.controller.getCF())
         data = QtCore.QDateTime.fromString(self.controller.getDataNascita(), "dd-MM-yyyy")
         self.textNascita.setDateTime(data)
-        self.textEmail.setText(self.controller.getEmail())
+        self.EmailLabel.setText(self.controller.getEmail())
         self.comboBoxSesso.setCurrentText(self.controller.getSesso())
         self.textTelefono.setText(self.controller.getTelefono())
         self.textVecchiaPassword.setText(self.controller.getPassword())

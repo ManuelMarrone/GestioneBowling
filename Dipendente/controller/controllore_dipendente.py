@@ -68,6 +68,7 @@ class ControlloreDipendente():
         else:
             return None
 
+
     def ricercaDipendenteEmail(self, email):
         dipendenti = []
         if os.path.isfile('Dipendente/data/dipendenti.pickle'):
@@ -106,8 +107,11 @@ class ControlloreDipendente():
         return Dipendente().getDipendenti()
 
     def creaDipendente(self, ruolo, codiceFiscale, cognome, dataNascita, email, nome, password, sesso, telefono):
-        dipendente = self.ricercaDipendenteCodiceFiscale(codiceFiscale)
-        if isinstance(dipendente, Dipendente):  # se il magazziniere già esiste
+        dipendente1 = self.ricercaDipendenteCodiceFiscale(codiceFiscale)
+        dipendente2 = self.ricercaDipendenteEmail(email)
+        if isinstance(dipendente1, Dipendente):  # se il dipendente già esiste
+            return None
+        elif isinstance(dipendente2, Dipendente):
             return None
         else:
             nuovoDipendente = Dipendente().creaDipendente(
