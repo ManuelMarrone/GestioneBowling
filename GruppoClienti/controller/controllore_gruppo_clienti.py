@@ -26,23 +26,12 @@ class ControlloreGruppoClienti():
     def getPistaOccupata(self):
         return self.model.getPistaOccupata()
 
-    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite, nuovoPistaOccupata):
-        GruppoClienti().modificaGruppoClienti(id=id,
-                                              nuovoMembri=nuovoMembri,
-                                              nuovoNumeroPartite=nuovoNumeroPartite,
-                                              nuovoPistaOccupata=nuovoPistaOccupata
-                                              )
-        return True
-
     def rimuoviGruppo(self, id):
         if isinstance(self.model, GruppoClienti):
             self.model.rimuoviGruppoClienti(id)
             return True
         else:
             return False
-
-    def getGruppo(self):
-        return self.model.getGruppo()
 
     def visualizzaGruppi(self):
         return GruppoClienti().getGruppoClienti()

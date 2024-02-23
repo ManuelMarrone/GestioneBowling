@@ -28,7 +28,6 @@ class Dipendente:
     def getDataNascita(self):
         return (self.dataNascita).toString("dd-MM-yyyy")
 
-
     def getEmail(self):
         return self.email
 

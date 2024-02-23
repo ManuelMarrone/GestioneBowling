@@ -1,7 +1,6 @@
 import os
 import pickle
 
-
 class Amministratore():
     def __init__(self):
         self.cognome = ""

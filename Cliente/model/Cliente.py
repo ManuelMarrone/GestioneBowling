@@ -1,5 +1,7 @@
 import os
 import pickle
+
+
 class Cliente():
     def __init__(self):
         self.abbonato = ""
@@ -51,19 +53,19 @@ class Cliente():
                 cliente.nome = nuovoNome
                 cliente.sesso = nuovoSesso
                 cliente.tagliaScarpe = nuovaTagliaScarpe
-            with open('Cliente/data/ListaClienti.pickle', 'wb') as f:  # se ti sovrascriverà cambia wb con ab
+            with open('Cliente/data/ListaClienti.pickle', 'wb') as f:
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
 
     def rimuoviCliente(self):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
-                daRimuovere = next((cliente for cliente in clienti if cliente.codiceFiscale == self.codiceFiscale), None)
+                daRimuovere = next((cliente for cliente in clienti if cliente.codiceFiscale == self.codiceFiscale),
+                                   None)
                 clienti.remove(daRimuovere)
             with open('Cliente/data/ListaClienti.pickle', 'wb') as f:  # riscrive i cassieri sena l'eliminato
                 pickle.dump(clienti, f, pickle.HIGHEST_PROTOCOL)
         del self
-
 
     def getAbbonato(self):
         return self.abbonato
@@ -79,20 +81,26 @@ class Cliente():
 
     def getCognome(self):
         return self.cognome
+
     def getNome(self):
         return self.nome
+
     def getCodiceFiscale(self):
         return self.codiceFiscale
+
     def getEmail(self):
         return self.email
+
     def getSesso(self):
         return self.sesso
+
     def getIdScarpa(self):
         return self.idScarpa
+
     def getTagliaScarpe(self):
         return self.tagliaScarpe
 
-    def setIdScarpa(self, idScarpa, cfCliente):  #da cambiare con il codice fiscale
+    def setIdScarpa(self, idScarpa, cfCliente):
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
                 clienti = pickle.load(f)
@@ -111,7 +119,7 @@ class Cliente():
         clienti = []
         if os.path.isfile('Cliente/data/ListaClienti.pickle'):
             with open('Cliente/data/ListaClienti.pickle', 'rb') as f:
-                    clienti = pickle.load(f)
+                clienti = pickle.load(f)
             return clienti
         else:
             return None

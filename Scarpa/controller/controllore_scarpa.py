@@ -10,15 +10,6 @@ class ControlloreScarpa():
     def __init__(self, scarpa=None):
         self.model = scarpa
 
-    def creaScarpa(self, disponibilita, id, taglia):
-        nuovaScarpa = Scarpa().creaScarpa(
-            disponibilita=disponibilita,
-            id=id,
-            taglia=taglia,
-             )
-
-        return nuovaScarpa
-
     def getIdScarpa(self):
         return self.model.getIdScarpa()
 

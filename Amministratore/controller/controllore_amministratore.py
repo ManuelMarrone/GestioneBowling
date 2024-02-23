@@ -6,10 +6,10 @@ class ControlloreAmministratore:
         self.model = amministratore
 
     def getEmail(self):
-        return self.model.email
+        return self.model.getEmail()
 
     def getPassword(self):
-        return self.model.password
+        return self.model.getPassword()
 
     def getAmministratore(self):
         return Amministratore().getAmministratore()

@@ -30,20 +30,6 @@ class GruppoClienti:
     def getId(self):
         return self.id
 
-    def modificaGruppoClienti(self, id, nuovoMembri, nuovoNumeroPartite):
-        self.nuovoMembri = nuovoMembri
-        self.nuovoNumeroPartite = nuovoNumeroPartite
-
-        if os.path.isfile('GruppoClienti/data/GruppoClienti.pickle'):
-            with open('GruppoClienti/data/GruppoClienti.pickle', 'rb') as f:
-                gruppi = pickle.load(f)
-                gruppo = next((gruppo for gruppo in gruppi if gruppi.id == id), None)
-                gruppo.membri = nuovoMembri
-                gruppo.numeroPartite = nuovoNumeroPartite
-
-            with open('GruppoClienti/data/GruppoClienti.pickle', 'wb') as f:
-                pickle.dump(gruppi, f, pickle.HIGHEST_PROTOCOL)
-
     def creaGruppoClienti(self, id, membri, numeroPartite, counterPartito):
         self.id = id
         self.membri = membri

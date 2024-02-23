@@ -1,6 +1,5 @@
 import os
 import pickle
-from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 
 
 class Partita:

@@ -8,18 +8,6 @@ class Pista():
         self.disponibilita = disponibilita
         self.id = id
 
-    def creaPista(self, disponibilita, id):
-        self.disponibilita = disponibilita
-        self.id = id
-        piste = []
-        if os.path.isfile('Pista/data/piste.pickle'):
-            with open('Pista/data/piste.pickle', "rb") as f:
-                piste = pickle.load(f)
-            piste.append(self)
-            with open('Pista/data/piste.pickle', "wb") as f:
-                pickle.dump(piste, f, pickle.HIGHEST_PROTOCOL)
-        return self
-
     def getPista(self):
         if os.path.isfile('Pista/data/piste.pickle'):
             with open('Pista/data/piste.pickle', 'rb') as f:
