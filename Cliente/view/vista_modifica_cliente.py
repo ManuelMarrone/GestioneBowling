@@ -11,10 +11,6 @@ class VistaModificaCliente(QWidget):
         super(VistaModificaCliente, self).__init__(parent)
         uic.loadUi('Cliente/view/vistaModificaCliente.ui', self)
 
-        icon = QIcon('Data/icon/user.svg')
-        self.setWindowIcon(icon)
-        self.setWindowTitle("Modifica")
-
         self.controller = ControlloreCliente(clienteSelezionato)
         self.loadDataClient()
 
