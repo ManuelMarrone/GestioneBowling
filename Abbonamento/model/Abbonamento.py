@@ -39,10 +39,6 @@ class Abbonamento():
                 pickle.dump(abbonamenti, f, pickle.HIGHEST_PROTOCOL)
         del self
 
-    # def isAbbonamentoScaduto(self):
-    #     timestamp = int(time.time())
-    #     return timestamp > self.getDataFine()
-
     def setPagamentoRidotto(self, bool):
         if os.path.isfile('Abbonamento/data/ListaAbbonamenti.pickle'):
             with open('Abbonamento/data/ListaAbbonamenti.pickle', 'rb') as f:
