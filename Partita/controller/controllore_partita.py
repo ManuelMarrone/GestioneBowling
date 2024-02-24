@@ -1,7 +1,10 @@
 import os
 import pickle
 
+from datetime import datetime, timedelta
+from GruppoClienti.controller.controllore_gruppo_clienti import ControlloreGruppoClienti
 from Partita.model.Partita import Partita
+from Pista.controller.controllore_pista import ControllorePista
 
 
 class ControllorePartita():
@@ -63,3 +66,27 @@ class ControllorePartita():
                     return partita.idGruppo
         else:
             return None
+    def calcolaTempoDiAttesa(self, pista):
+        durata_media = 20  # durata media di una partita
+        ritardo_membro = 3  # ritardo per ogni membro del gruppo
+
+        idGruppo = ControllorePartita().ricercaIdGruppoPerPista(ControllorePista(pista).getId())
+        gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
+        partita = ControllorePartita().ricercaPartitaIdGruppo(idGruppo)
+        if ControllorePartita(partita).getOraInizio() is not None:
+            dataInizioPartita = ControllorePartita(partita).getOraInizio()
+
+            numPartite = ControlloreGruppoClienti(gruppo).getNumeroPartite()
+            numMembri = len(ControlloreGruppoClienti(gruppo).getMembri())
+            tempoDiAttesa = numPartite * durata_media + numMembri * ritardo_membro
+
+            data_e_ora_corrente = datetime.now()
+            nuova_data_e_ora = dataInizioPartita + timedelta(minutes=tempoDiAttesa)
+            if nuova_data_e_ora > data_e_ora_corrente:
+                differenza_in_secondi = (nuova_data_e_ora - data_e_ora_corrente).total_seconds()
+                differenza_in_minuti = int(differenza_in_secondi / 60)
+                return str(differenza_in_minuti) + " minuti"
+            else:
+                return str(0) + " minuti"
+        else:
+            return "Partita non ancora iniziata"

@@ -75,31 +75,6 @@ class VistaGestionePartite(QWidget):
         else:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Ricerca non valida")
 
-    def calcolaTempoDiAttesa(self, pista):
-        durata_media = 20  # durata media di una partita
-        ritardo_membro = 3  # ritardo per ogni membro del gruppo
-
-        idGruppo = ControllorePartita().ricercaIdGruppoPerPista(ControllorePista(pista).getId())
-        gruppo = ControlloreGruppoClienti().ricercaGruppoId(idGruppo)
-        partita = ControllorePartita().ricercaPartitaIdGruppo(idGruppo)
-        if ControllorePartita(partita).getOraInizio() is not None:
-            dataInizioPartita = ControllorePartita(partita).getOraInizio()
-
-            numPartite = ControlloreGruppoClienti(gruppo).getNumeroPartite()
-            numMembri = len(ControlloreGruppoClienti(gruppo).getMembri())
-            tempoDiAttesa = numPartite * durata_media + numMembri * ritardo_membro
-
-            data_e_ora_corrente = datetime.now()
-            nuova_data_e_ora = dataInizioPartita + timedelta(minutes=tempoDiAttesa)
-            if nuova_data_e_ora > data_e_ora_corrente:
-                differenza_in_secondi = (nuova_data_e_ora - data_e_ora_corrente).total_seconds()
-                differenza_in_minuti = int(differenza_in_secondi / 60)
-                return str(differenza_in_minuti) + " minuti"
-            else:
-                return str(0) + " minuti"
-        else:
-            return "Partita non ancora iniziata"
-
     def riempiListaPiste(self):
         listaPiste = []
         self.pisteList.clear()
@@ -107,11 +82,17 @@ class VistaGestionePartite(QWidget):
         if listaPiste is not None:
             for pista in listaPiste:
                 if ControllorePista(pista).getDisponibilita():
-                    item = QListWidgetItem()
-                    item.setText(
-                        "Pista " + str(ControllorePista(pista).getId()) + " occupata    " + str(
-                            self.calcolaTempoDiAttesa(pista)))
-                    self.pisteList.addItem(item)
+                    if len(ControlloreCodaPiste().visualizzaGruppiCoda()) == 0:
+                        item = QListWidgetItem()
+                        item.setText(
+                            "Pista " + str(ControllorePista(pista).getId()) + " occupata    ")
+                        self.pisteList.addItem(item)
+                    else:
+                        item = QListWidgetItem()
+                        item.setText(
+                            "Pista " + str(ControllorePista(pista).getId()) + " occupata    " + str(
+                                ControllorePartita().calcolaTempoDiAttesa(pista)))
+                        self.pisteList.addItem(item)
                 else:
                     item = QListWidgetItem()
                     item.setText(
