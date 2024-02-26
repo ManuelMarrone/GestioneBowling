@@ -227,12 +227,15 @@ class ControlloreStatistiche():
     def partiteAttive(self):
         return len(self.partite)
 
-    #tempo medio di una partita
     def primaPartita(self):
         if len(self.partite) > 0:
             date = []
             for partita in self.partite:
-                date.append((ControllorePartita(partita).getOraInizio()))
-            return min(date).strftime("%H:%M:%S")
+                if ControllorePartita(partita).getOraInizio() is not None:
+                    date.append((ControllorePartita(partita).getOraInizio()))
+            if len(date) != 0:
+                return min(date).strftime("%H:%M:%S")
+            else:
+                return "nessuna partita iniziata"
         else:
             return 0

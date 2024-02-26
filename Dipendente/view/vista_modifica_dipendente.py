@@ -36,7 +36,7 @@ class VistaModificaDipendente(QWidget):
             ruolo = self.comboBoxRuolo.currentText()
             self.CFLabel.setText(self.controller.getCF())
             dataNascita = self.textNascita.dateTime()  # formatta la data
-            email = self.textEmail.text().strip()
+            email = self.EmailLabel.text().strip()
             sesso = self.comboBoxSesso.currentText()
             telefono = self.textTelefono.text().strip()
             password = self.textNuovaPassword.text().strip()
@@ -64,16 +64,17 @@ class VistaModificaDipendente(QWidget):
         # nome e cognome devono avere almeno un carattere
         if len(self.textNome.text()) < 2:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Il nome deve avere almeno 2 caratteri")
+            return False
         elif len(self.textCognome.text()) < 2:
             self.messaggio(tipo=0, titolo="Attenzione", mex="Il cognome deve avere almeno 2 caratteri")
-        # controllo sull'email
-        elif len(self.textEmail.text()) < 1:
-            self.messaggio(tipo=0, titolo="Attenzione", mex="Email almeno 1 carattere")
+            return False
         # numero di telefono solo 10 numeri
         elif len(self.textTelefono.text()) != 10 or not str(self.textTelefono.text()).isnumeric():
             self.messaggio(tipo=0, titolo="Attenzione", mex="Il numero di telefono deve contenere 10 cifre")
+            return False
         if self.textVecchiaPassword.text() != self.controller.getPassword():
             self.messaggio(tipo=1, titolo="Modifica Account",mex="La vecchia password non coincide con quella inserita")
+            return False
         # password minimo 8 caratteri
         elif len(self.textNuovaPassword.text()) < 8 or not any(
                 char.isdigit() for char in self.textNuovaPassword.text()) or not any(
@@ -81,6 +82,7 @@ class VistaModificaDipendente(QWidget):
             char.isupper() for char in self.textNuovaPassword.text()) or not any(
             char in simboliSpeciali for char in self.textNuovaPassword.text()):
             self.messaggio(tipo=0, titolo="Attenzione",mex="La password deve avere almeno 8 caratteri, un numero, una lettera maiuscola e uno dei simboli $@#%")
+            return False
         else:
             return True
 

@@ -1,0 +1,13 @@
+Di seguito alcune credenziali per accedere a tutte le funzionalità offerte dal software
+
+Accesso per il cassiere:
+email->Ema@email
+password->Test001$
+
+Accesso per l'amministratore:
+email->admin
+password->admin1%A
+
+Accesso per il magazziniere:
+email->francoe@email
+password->Test002$
