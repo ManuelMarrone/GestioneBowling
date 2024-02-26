@@ -75,7 +75,11 @@
          <layout class="QHBoxLayout" name="horizontalLayout_3"/>
         </item>
         <item>
-         <widget class="QListWidget" name="clientiList"/>
+         <widget class="QListWidget" name="clientiList">
+          <property name="styleSheet">
+           <string notr="true">color: black</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="selezionaButton">
@@ -309,7 +313,7 @@ background-color: rgb(135, 75, 15);</string>
              <bool>true</bool>
             </property>
             <property name="styleSheet">
-             <string notr="true">background: lightgrey</string>
+             <string notr="true">background: lightgrey;color: black</string>
             </property>
             <property name="inputMask">
              <string/>
@@ -338,7 +342,11 @@ background-color: rgb(135, 75, 15);</string>
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="pisteList"/>
+         <widget class="QListWidget" name="pisteList">
+          <property name="styleSheet">
+           <string notr="true">color: black</string>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer_2">

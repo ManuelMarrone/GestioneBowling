@@ -86,7 +86,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background: lightgrey</string>
+           <string notr="true">background: lightgrey;color: black</string>
           </property>
           <property name="inputMask">
            <string/>
@@ -156,7 +156,11 @@ background-color: rgb(135, 75, 15);</string>
        </layout>
       </item>
       <item>
-       <widget class="QListWidget" name="gruppiList"/>
+       <widget class="QListWidget" name="gruppiList">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">

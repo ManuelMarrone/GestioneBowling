@@ -76,7 +76,7 @@
           <item>
            <widget class="QLineEdit" name="ricercaText">
             <property name="styleSheet">
-             <string notr="true">background: lightgrey</string>
+             <string notr="true">background: lightgrey;color: black</string>
             </property>
             <property name="inputMask">
              <string/>
@@ -105,7 +105,11 @@
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="dipendentiList"/>
+         <widget class="QListWidget" name="dipendentiList">
+          <property name="styleSheet">
+           <string notr="true">color: black</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

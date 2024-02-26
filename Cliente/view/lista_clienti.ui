@@ -75,6 +75,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QComboBox" name="selettoreComboBox">
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <item>
              <property name="text">
               <string>Cerca per nome e cognome</string>
@@ -110,7 +113,7 @@
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background: lightgrey</string>
+             <string notr="true">background: lightgrey;color: black</string>
             </property>
             <property name="inputMask">
              <string/>
@@ -151,7 +154,11 @@
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="clientiList"/>
+         <widget class="QListWidget" name="clientiList">
+          <property name="styleSheet">
+           <string notr="true">color: black</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

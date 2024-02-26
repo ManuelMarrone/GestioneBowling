@@ -46,10 +46,10 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>10</y>
      <width>784</width>
-     <height>681</height>
+     <height>671</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -102,6 +102,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string>Statistiche</string>
             </property>
@@ -120,6 +123,9 @@
               <width>316</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="sizeAdjustPolicy">
              <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -174,6 +180,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -186,6 +195,9 @@
               <width>0</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="text">
              <string/>
@@ -200,6 +212,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -212,6 +227,9 @@
               <width>0</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="text">
              <string/>
@@ -226,6 +244,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -238,6 +259,9 @@
               <width>0</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="text">
              <string/>
@@ -252,6 +276,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -264,6 +291,9 @@
               <width>0</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="text">
              <string/>
@@ -278,6 +308,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -290,6 +323,9 @@
               <width>0</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="text">
              <string/>
@@ -304,6 +340,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -316,6 +355,9 @@
               <width>0</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="text">
              <string/>
@@ -330,6 +372,9 @@
               <height>20</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -342,6 +387,9 @@
               <width>0</width>
               <height>20</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: black</string>
             </property>
             <property name="text">
              <string/>

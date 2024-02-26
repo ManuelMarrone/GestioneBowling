@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>600</height>
+    <height>550</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>600</width>
-    <height>600</height>
+    <height>550</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>600</width>
-    <height>600</height>
+    <height>550</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -90,56 +90,94 @@
       </property>
       <item row="1" column="0">
        <widget class="QLabel" name="label_1">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Nome:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="textNome"/>
+       <widget class="QLineEdit" name="textNome">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_2">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Cognome:</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLineEdit" name="textCognome"/>
+       <widget class="QLineEdit" name="textCognome">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_4">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Data scadenza:</string>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QDateEdit" name="dateScadenza"/>
+       <widget class="QDateEdit" name="dateScadenza">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="6" column="0">
        <widget class="QLabel" name="label_5">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Data validazione:</string>
         </property>
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QDateTimeEdit" name="dateValidazione"/>
+       <widget class="QDateTimeEdit" name="dateValidazione">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="7" column="0">
        <widget class="QLabel" name="label_6">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Partite gratuite rimanenti</string>
         </property>
        </widget>
       </item>
       <item row="7" column="1">
-       <widget class="QLineEdit" name="textPartiteGratuite"/>
+       <widget class="QLineEdit" name="textPartiteGratuite">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="9" column="0">
        <widget class="QLabel" name="label_3">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Pagamento ridotto a 3 euro</string>
         </property>
@@ -162,6 +200,9 @@
         </item>
         <item>
          <widget class="QRadioButton" name="radioButtonSi">
+          <property name="styleSheet">
+           <string notr="true">color: black</string>
+          </property>
           <property name="text">
            <string>SI</string>
           </property>
@@ -184,6 +225,9 @@
          <widget class="QRadioButton" name="radioButtonNo">
           <property name="enabled">
            <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: black</string>
           </property>
           <property name="text">
            <string>NO</string>

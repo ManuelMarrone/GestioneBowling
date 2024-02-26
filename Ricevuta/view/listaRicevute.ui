@@ -91,7 +91,7 @@
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background: lightgrey</string>
+             <string notr="true">background: lightgrey;color: black</string>
             </property>
             <property name="inputMask">
              <string/>
@@ -132,7 +132,11 @@
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="ricevuteList"/>
+         <widget class="QListWidget" name="ricevuteList">
+          <property name="styleSheet">
+           <string notr="true">color: black</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

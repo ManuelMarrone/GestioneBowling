@@ -87,26 +87,43 @@
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Nome:</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="textNome"/>
+       <widget class="QLineEdit" name="textNome">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Cognome:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="textCognome"/>
+       <widget class="QLineEdit" name="textCognome">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Ruolo:</string>
         </property>
@@ -114,6 +131,9 @@
       </item>
       <item row="2" column="1">
        <widget class="QComboBox" name="comboBoxRuolo">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="editable">
          <bool>false</bool>
         </property>
@@ -137,6 +157,9 @@
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_4">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Codice Fiscale:</string>
         </property>
@@ -144,6 +167,9 @@
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_5">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Data di nascita:</string>
         </property>
@@ -151,6 +177,9 @@
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_6">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Email:</string>
         </property>
@@ -158,6 +187,9 @@
       </item>
       <item row="6" column="0">
        <widget class="QLabel" name="label_7">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Sesso:</string>
         </property>
@@ -165,6 +197,9 @@
       </item>
       <item row="6" column="1">
        <widget class="QComboBox" name="comboBoxSesso">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <item>
          <property name="text">
           <string>Uomo</string>
@@ -184,39 +219,67 @@
       </item>
       <item row="7" column="0">
        <widget class="QLabel" name="label_8">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Telefono:</string>
         </property>
        </widget>
       </item>
       <item row="7" column="1">
-       <widget class="QLineEdit" name="textTelefono"/>
+       <widget class="QLineEdit" name="textTelefono">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="9" column="0">
        <widget class="QLabel" name="label_9">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Nuova Password:</string>
         </property>
        </widget>
       </item>
       <item row="9" column="1">
-       <widget class="QLineEdit" name="textNuovaPassword"/>
+       <widget class="QLineEdit" name="textNuovaPassword">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QDateEdit" name="textNascita"/>
+       <widget class="QDateEdit" name="textNascita">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="8" column="0">
        <widget class="QLabel" name="label_10">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string>Vecchia Password</string>
         </property>
        </widget>
       </item>
       <item row="8" column="1">
-       <widget class="QLineEdit" name="textVecchiaPassword"/>
+       <widget class="QLineEdit" name="textVecchiaPassword">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item row="3" column="1">
        <widget class="QLabel" name="CFLabel">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -224,6 +287,9 @@
       </item>
       <item row="5" column="1">
        <widget class="QLabel" name="EmailLabel">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
         <property name="text">
          <string/>
         </property>

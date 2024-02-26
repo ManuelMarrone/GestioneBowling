@@ -87,7 +87,7 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: #b0abab</string>
+         <string notr="true">background-color: #b0abab;color: black</string>
         </property>
         <property name="title">
          <string>Accedi</string>
@@ -110,6 +110,9 @@
            <height>16</height>
           </rect>
          </property>
+         <property name="styleSheet">
+          <string notr="true">color: black</string>
+         </property>
          <property name="text">
           <string>E-mail</string>
          </property>
@@ -122,6 +125,9 @@
            <width>55</width>
            <height>16</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: black</string>
          </property>
          <property name="text">
           <string>Password</string>
@@ -153,7 +159,7 @@
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: lightgrey</string>
+          <string notr="true">background: lightgrey;color: black</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="textPassword">
@@ -166,7 +172,7 @@
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: lightgrey</string>
+          <string notr="true">background: lightgrey;color: black</string>
          </property>
         </widget>
        </widget>

@@ -97,7 +97,11 @@ background-color: rgb(135, 75, 15);</string>
        </layout>
       </item>
       <item>
-       <widget class="QListWidget" name="partiteList"/>
+       <widget class="QListWidget" name="partiteList">
+        <property name="styleSheet">
+         <string notr="true">color: black</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="indietroButton_2">
