@@ -26,7 +26,6 @@ class Backup:
         self.gestoreScarpe = ControlloreScarpa()
         self.gestoreRicevute = ControlloreRicevuta()
 
-
         schedule.every().day.at("07:00").do(self.eseguiBackup)
 
         self.thread_schedule = Thread(target=self.schedule_thread)
@@ -45,16 +44,15 @@ class Backup:
 
         with open('Backup/data/backup.pickle', "wb") as f:
             pickle.dump((self.abbonamenti,
-                            self.amministratore,
-                            self.clienti,
-                            self.dipendenti,
-                            self.partite,
-                            self.piste,
-                            self.scarpe,
-                            self.ricevute), f)
+                         self.amministratore,
+                         self.clienti,
+                         self.dipendenti,
+                         self.partite,
+                         self.piste,
+                         self.scarpe,
+                         self.ricevute), f)
 
     def schedule_thread(self):
         while True:
             schedule.run_pending()
             time.sleep(1)
-

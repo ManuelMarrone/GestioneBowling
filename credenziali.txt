@@ -1,7 +1,7 @@
 Di seguito alcune credenziali per accedere a tutte le funzionalità offerte dal software
 
 Accesso per il cassiere:
-email->Ema@email
+email->ema@email
 password->Test001$
 
 Accesso per l'amministratore:
