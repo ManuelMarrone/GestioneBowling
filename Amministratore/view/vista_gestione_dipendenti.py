@@ -96,9 +96,9 @@ class VistaGestioneDipendenti(QWidget):
             dipendenteSelezionato = ControlloreDipendente().ricercaDipendenteCodiceFiscale(CF)
             risultato = ControlloreDipendente().rimuoviDipendente(dipendenteSelezionato)
             if risultato:
-                self.messaggio(tipo=1, titolo="Rimozione cliente",mex="Cliente rimosso con successo")
+                self.messaggio(tipo=1, titolo="Rimozione Dipendente",mex="Dipendente rimosso con successo")
             else:
-                self.messaggio(tipo=0, titolo="Rimozione cliente",mex= "Errore nella rimozione del cliente!")
+                self.messaggio(tipo=0, titolo="Rimozione Dipendente",mex= "Errore nella rimozione del Dipendente!")
         self.riempiListaDipendenti()
 
     def goModifica(self):
