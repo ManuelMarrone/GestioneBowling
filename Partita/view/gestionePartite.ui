@@ -301,7 +301,7 @@ background-color: rgb(135, 75, 15);</string>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0">
         <property name="sizeConstraint">
          <enum>QLayout::SetFixedSize</enum>
         </property>
@@ -360,28 +360,6 @@ background-color: rgb(135, 75, 15);</string>
            </size>
           </property>
          </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="messaggioTempo">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: white;  background-color: #000000</string>
-          </property>
-          <property name="text">
-           <string> Piste occupate tempo rimanente: </string>
-          </property>
-         </widget>
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
